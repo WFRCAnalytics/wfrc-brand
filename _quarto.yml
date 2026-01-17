@@ -1,0 +1,46 @@
+# currently a quarto project is required for metadata or brand extensions to work
+project:
+  type: website
+  output-dir: docs
+  brand: _extensions/wfrc-brand/brand.yml
+
+website:
+  title: "Analytics"
+  description: The Wasatch Front Regional Council builds consensus and enhances quality of life by developing and implementing visions and plans for a well-functioning multi-modal transportation system, livable communities, a strong economy, and a healthy environment.The Wasatch Front Regional Council builds consensus and enhances quality of life by developing and implementing visions and plans for a well-functioning multi-modal transportation system, livable communities, a strong economy, and a healthy environment.
+  favicon: '_extensions/wfrc-brand/assets/logo/abbreviated/WFRC_logo_abbreviated_color_transparent.png'
+  site-url: 'https://wfrcanalytics.github.io'
+
+  # repo-url: 'https://https://github.com/WFRCAnalytics/wfrcanalytics.github.io'
+  # repo-actions: [source, issue]
+
+  # page-navigation: false
+  # back-to-top-navigation: false
+  # margin-header: subscribe.html
+
+  announcement:
+    icon: info-circle
+    dismissable: true
+    content: "**Alert** - This website currently contains mostly placeholder items and is currently under development."
+    type: primary
+    position: below-navbar
+
+  twitter-card:
+    creator: "@wasatchcouncil"
+    site: "@wasatchcouncil"
+    card-style: summary_large_image
+
+  open-graph: true
+  cookie-consent: false
+
+format:
+  html:
+    axe: true
+    page-layout: full
+    grid:
+      sidebar-width: 350px
+    respect-user-color-scheme: true
+    toc: true
+
+# freeze computational output
+# (see https://quarto.org/docs/projects/code-execution.html#freeze)
+freeze: auto
