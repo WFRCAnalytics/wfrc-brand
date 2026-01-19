@@ -10,14 +10,6 @@ meta:
     facebook: https://www.facebook.com/WasatchFrontRegionalCouncil
     instagram: https://www.instagram.com/wasatchfrontregionalcouncil/
     youtube: https://www.youtube.com/user/wfrcvideo
-  description: |
-    The Wasatch Front Regional Council builds consensus and enhances quality of
-    life by developing and implementing visions and plans for a well-functioning
-    multi-modal transportation system, livable communities, a strong economy,
-    and a healthy environment.
-  founded:
-    aog: 1969
-    mpo: 1973
 
 logo:
   images:
@@ -37,130 +29,59 @@ logo:
     light: abbreviated-color
     dark: abbreviated-white
 
-color:
-  palette:
-    # Primary WFRC Colors
-    wfrc-blue: "#023c5b"
-    wfrc-secondary-blue: "#52b6d5"
-    wfrc-yellow: "#f8b93e"
-    wfrc-gray: "#7f7a76"
-
-    # Core Palette
-    blue: "#036fa8"
-    purple: "#553c8f"
-    red: "#d32f00"
-    orange: "#ea7b00"
-    yellow: "#eab500"
-    green: "#007426"
-
-    # RTP (Regional Transportation Plan) Colors
-    rtp-fuschia: "#9d4879"
-    rtp-maroon: "#6f2d3d"
-    rtp-red: "#c23c33"
-    rtp-pink: "#e28c7f"
-    rtp-mustard: "#c98b3a"
-    rtp-green: "#789d4b"
-    rtp-seafoam: "#597f72"
-    rtp-turquoise: "#608a8f"
-    rtp-blue: "#3f748e"
-    rtp-purple: "#585377"
-
-    # Wasatch Choice Center Colors
-    wc-metro: "#a62966"
-    wc-urban: "#e65937"
-    wc-city: "#f2a03e"
-    wc-neighborhood: "#f8dc26"
-    wc-residential: "#fdf7ca"
-    wc-open-space: "#a3bb93"
-    wc-employment: "#f4c9cd"
-    wc-industrial: "#ded2e8"
-
-    # Wasatch Choice Transit/Line Colors
-    wc-roadways: "#a3423c"
-    wc-brt: "#24949a"
-    wc-light-rail: "#3762ad"
-    wc-commuter-rail: "#24316d"
-    wc-trails: "#799f4c"
-
-    # Unified Plan Colors
-    up-primary-blue: "#083e5f"
-    up-secondary-blue: "#5a85c4"
-    up-gray: "#d3d4d5"
-
-    # Neutral/Standard colors
-    white: "#ffffff"
-    black: "#151515" # Slightly softened black
-
-  # Primary brand colors
-  foreground:
-    light: black
-    dark: white
-  background:
-    light: white
-    dark: "#081b26" # A dark version of your WFRC blue
-
-  # Semantic Mappings (This is how SCSS gets the variables)
-  primary: wfrc-blue
-  secondary: wfrc-secondary-blue
-  success: rtp-green
-  danger: rtp-red
-  warning: wfrc-yellow
-  info: rtp-blue
-
-  light: white
-  dark: wfrc-gray
-
 typography:
   fonts:
     - family: Roboto
       source: google
       weight: [300, 400, 500, 700, 900]
       style: [normal, italic]
-
     - family: Roboto Condensed
       source: google
       weight: [300, 400, 700]
       style: [normal, italic]
-
     - family: Roboto Mono
       source: google
       weight: [400, 500, 700]
       style: [normal, italic]
-
   base:
     family: Roboto
     weight: 400
     size: 16px
     line-height: 1.5
-
   headings:
     family: Roboto Condensed
     weight: 700
     style: normal
     line-height: 1.2
     color: wfrc-blue
-
   monospace:
     family: Roboto Mono
     weight: 400
     size: 0.9em
-
-  monospace-inline:
-    color: wfrc-blue
-    background-color: "#f8f9fa"
-
   link:
-    color: wfrc-secondary-blue # Using the brighter blue for better link visibility
+    color: wfrc-secondary-blue
     decoration: underline
 
-defaults:
-  # Use these only when you can’t achieve the desired look with the above primitives.
-  quarto:
-    format: {} # Add per-format overrides only when necessary
-  shiny:
-    theme:
-      defaults:
-        navbar-bg: $brand-wfrc-blue
-      rules: |
-        // Example: rounded cards and subtle borders
-        .card { border-radius: .75rem; }
+color:
+  palette:
+    wfrc-blue: "#023c5b"
+    wfrc-secondary-blue: "#52b6d5"
+    wfrc-yellow: "#f8b93e"
+    wfrc-gray: "#7f7a76"
+    rtp-green: "#789d4b"
+    rtp-red: "#c23c33"
+    rtp-blue: "#3f748e"
+    white: "#ffffff"
+    black: "#151515"
+  foreground:
+    light: black
+    dark: white
+  background:
+    light: white
+    dark: "#081b26" # Matches darken($wfrc-blue, 5%)
+  primary: wfrc-blue
+  secondary: wfrc-secondary-blue
+  success: rtp-green
+  danger: rtp-red
+  warning: wfrc-yellow
+  info: rtp-blue

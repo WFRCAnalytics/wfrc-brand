@@ -6,17 +6,18 @@ contributes:
   metadata:
     project:
       brand: brand.yml
-    format:
-      html:
-        # This injects your SCSS automatically into any project using the extension
-        light:
-          # - "flatly"
-          - cosmo
-          - assets/theme/index.scss
-          - assets/theme/theme-light.scss
-        dark:
-          # - "darkly"
-          - assets/theme/index.scss
-          - assets/theme/theme-dark.scss
+    # format:
+    #   html:
+    #     # This injects your SCSS automatically into any project using the extension
+    #     light:
+    #       - "flatly"
+    #       # - cosmo
+    #       # - assets/theme/wfrc.scss
+    #       # - assets/theme/wfrc-light.scss
+    #     dark:
+    #       - "darkly"
+    #       # - cosmo
+    #       # - assets/theme/wfrc.scss
+    #       # - assets/theme/wfrc-dark.scss
   resources:
     - assets/
