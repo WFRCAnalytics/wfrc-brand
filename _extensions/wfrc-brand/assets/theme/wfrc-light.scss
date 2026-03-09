@@ -1,52 +1,28 @@
 /*-- scss:defaults --*/
 
 // Import WFRC brand colors and fonts
-@import "_wfrc-colors.scss";
-@import "_wfrc-fonts.scss";
+@import "wfrc-colors";
+@import "wfrc-fonts";
 
-// ===== BRAND COLOR IMPLEMENTATION =====
-// Primary brand colors
-$primary: $wfrc-blue;
-$secondary: $wfrc-secondary-blue;
+// ===== LIGHT MODE SCSS DEFAULTS =====
+// brand.yml already handles via its Bootstrap variable mapping:
+//   primary, secondary, body-color, body-bg, link-color, link-decoration,
+//   success/info/warning/danger, all font families/sizes/weights/line-heights,
+//   headings-color, monospace-inline code-color/code-bg.
+// Only declare what brand.yml cannot express.
 
-// Body colors
-$body-color: $black;
-$body-bg: $white;
+// Body secondary color (brand.yml has no equivalent mapping)
 $body-secondary: $wfrc-gray;
 
-// Link colors - using brand secondary blue
-$link-color: $wfrc-secondary-blue;
-$link-decoration: $link-text-decoration;
+// Link hover states (brand.yml only handles link.color, not hover)
 $link-hover-color: darken($wfrc-secondary-blue, 10%);
 $link-hover-decoration: none;
 
-// Semantic colors from brand
-$success: $rtp-green;
-$info: $rtp-blue;
-$warning: $wfrc-yellow;
-$danger: $rtp-red;
-
-// ===== TYPOGRAPHY IMPLEMENTATION =====
-// Font families from brand
-$font-family-sans-serif: $base-font-family;
-$headings-font-family: $headings-font-family;
-$font-family-monospace: $monospace-font-family;
-
-// Base typography
-$font-size-base: $base-font-size;
-$line-height-base: $base-line-height;
-
-// Headings
-$headings-font-weight: $headings-font-weight;
-$headings-line-height: $headings-line-height;
-$headings-color: $wfrc-blue;
-
-// Code
-$code-color: $wfrc-blue;
-$code-bg: #f8f9fa;
-
-// Code blocks
-$code-block-bg: $white;
+// Code — inline and block share the same bg for visual consistency.
+// !important in CSS rules below bypasses Quarto's $code-block-bg-alpha mixing.
+$code-color: $wfrc-blue; // dark navy — readable on light bg
+$code-bg: #e6ebf1; // soft blue-gray
+$code-block-bg: #e6ebf1; // same as $code-bg
 $code-block-border: lighten($wfrc-gray, 30%);
 
 // Tables
@@ -55,11 +31,11 @@ $table-group-separator-color: lighten($wfrc-blue, 70%);
 $table-caption-color: $body-secondary;
 
 // Table of contents
-$toc-color: $link-color;
+$toc-color: $wfrc-secondary-blue;
 $toc-active-border: $toc-color;
 $toc-inactive-border: lighten($toc-color, 50%);
 
-// Navbar - using brand primary blue
+// Navbar (brand.yml primary/background don't directly map to these Bootstrap navbar vars)
 $navbar-bg: $white;
 $navbar-fg: $wfrc-blue;
 
@@ -67,30 +43,27 @@ $navbar-fg: $wfrc-blue;
 $footer-fg: $wfrc-blue;
 $footer-bg: $white;
 
-// Miscellaneous
+// Gray scale adjustment
 $gray-200: lighten($wfrc-blue, 70%);
 
 /*-- scss:rules --*/
 
 // Light mode specific styles
 
-// Code blocks
-div.sourceCode {
-    background-color: $code-block-bg;
-    border: 1px solid $code-block-border;
-}
-
-// Both should have the same background for consistency
+// !important bypasses Quarto's $code-block-bg-alpha mixing
+// (which blends $code-block-bg against body-bg before emitting CSS).
 div.sourceCode,
 pre.sourceCode {
-    background-color: darken($code-block-bg, 5%);
+    background-color: #e6ebf1 !important;
+    border: 0.6px solid $code-block-border;
+    border-radius: 4px;
 }
 
 // Code with filename
 .code-with-filename .code-with-filename-file {
     color: $code-color;
     background-color: $code-bg;
-    border: 1px solid $code-block-border;
+    border: 0.6px solid $code-block-border;
     border-bottom: none;
 
     pre {
@@ -150,27 +123,30 @@ td code:not(.sourceCode) {
     }
 }
 
-// Navbar background
-.navbar {
-    background-color: $white !important;
-}
-
-// Navbar links - brand secondary blue
+// Navbar links — primary wfrc-blue in light mode.
+// font/size/case handled in wfrc.scss shared rules.
 .navbar-nav .nav-link {
-    color: $wfrc-secondary-blue !important;
-    // text-transform: uppercase;
-    letter-spacing: .1em;
-    font-family: $headings-font-family;
-    font-weight: 400;
+    color: $wfrc-blue !important;
 
     &:hover {
-        color: darken($wfrc-secondary-blue, 10%) !important;
-        border-bottom: 1px solid $wfrc-secondary-blue;
+        color: darken($wfrc-blue, 10%) !important;
+        border-bottom: 1px solid $wfrc-blue !important;
     }
 }
 
-// Dropdown menu items
-.navbar-nav .dropdown-menu .dropdown-item {
+// Dropdown caret — Bootstrap compiles --bs-navbar-color as rgba($navbar-fg, α)
+// under .navbar-light, which outspecifics our .navbar override. The ::after
+// pseudo-element uses border-top:solid (currentColor). Setting color AND
+// border-top-color directly on the pseudo-element bypasses the custom-property
+// resolution chain entirely.
+.navbar-nav .nav-link.dropdown-toggle::after,
+.navbar-nav .nav-item .dropdown-toggle::after {
+    color: $wfrc-blue !important;
+    border-top-color: $wfrc-blue !important;
+}
+
+// Dropdown menu items — broad selector catches navbar menus and tools dropdowns
+.dropdown-menu .dropdown-item {
     &:hover {
         background-color: $wfrc-secondary-blue !important;
         color: $white !important;
@@ -241,7 +217,7 @@ td code:not(.sourceCode) {
 
 // Name highlight
 .name-highlight {
-    color: $brand-primary !important;
+    color: $wfrc-blue !important;
     // background-color: $brand-wfrc-blue !important;
     // padding: 0.1em 0.4em;
     // border-radius: 3px;

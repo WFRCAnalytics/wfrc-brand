@@ -2,6 +2,9 @@
 project:
   type: website
   output-dir: docs
+  # brand.yml is explicitly set here even though _extension.yml also contributes it.
+  # The contributes.metadata mechanism resolves brand: relative to the project root,
+  # not the extension folder. Explicit path guarantees correct resolution.
   brand: _extensions/wfrc-brand/brand.yml
 
 website:
@@ -32,9 +35,38 @@ website:
   open-graph: true
   cookie-consent: false
 
+  page-footer:
+    left: © 2025 [Wasatch Front Regional Council](https://wfrc.utah.gov/)
+    center:
+      - icon: github
+        href: https://github.com/WFRCAnalytics
+        aria-label: GitHub
+      - icon: facebook
+        href: https://www.facebook.com/WasatchFrontRegionalCouncil
+        aria-label: Facebook
+      - icon: twitter-x
+        href: https://twitter.com/wasatchcouncil
+        aria-label: X (Twitter)
+      - icon: instagram
+        href: https://www.instagram.com/wasatchfrontregionalcouncil/
+        aria-label: Instagram
+      - icon: linkedin
+        href: https://www.linkedin.com/company/wasatch-front-regional-council
+        aria-label: LinkedIn
+      - icon: youtube
+        href: https://www.youtube.com/user/wfrcvideo
+        aria-label: YouTube
+    right:
+      - text: Contact
+        aria-label: Contact Form
+        href: contact.qmd
+      - text: License
+        aria-label: License Details
+        href: license.qmd
+
   navbar:
-    # logo: 'assets/logo/horizontal/WFRC_logo_horizontal_color_transparent.png'
-    # logo-alt: 'WFRC site theme-based logo'
+    # logo: '_extensions/wfrc-brand/assets/logo/horizontal/WFRC_logo_horizontal_color_transparent.png'
+    logo-alt: 'Wasatch Front Regional Council'
 
     right:
       - text: Follow Us
@@ -87,7 +119,24 @@ format:
       sidebar-width: 350px
     respect-user-color-scheme: true
     toc: true
+    # Syntax highlighting — separate themes for light/dark give clear token differentiation.
+    # github: blue keywords, green strings, red numbers, gray comments — clean on white bg.
+    # dracula: green comments, pink keywords, yellow variables — clear on dark bg.
+    highlight-style:
+      light: github
+      dark: dracula
+    # Paths are relative to this _quarto.yml (project root).
+    # format.html.theme cannot live in _extension.yml because Quarto resolves
+    # contributes.metadata paths relative to project root, not the extension folder.
+    theme:
+      light:
+        - cosmo
+        - _extensions/wfrc-brand/assets/theme/wfrc.scss
+        - _extensions/wfrc-brand/assets/theme/wfrc-light.scss
+      dark:
+        - _extensions/wfrc-brand/assets/theme/wfrc.scss
+        - _extensions/wfrc-brand/assets/theme/wfrc-dark.scss
 
 # freeze computational output
 # (see https://quarto.org/docs/projects/code-execution.html#freeze)
-freeze: auto
+freeze: false

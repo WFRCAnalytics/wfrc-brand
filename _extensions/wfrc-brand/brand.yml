@@ -31,33 +31,38 @@ logo:
 
 typography:
   fonts:
-    - family: Roboto
+    - family: Poppins
       source: google
-      weight: [300, 400, 500, 700, 900]
+      weight: [300, 400, 500, 600, 700]
       style: [normal, italic]
-    - family: Roboto Condensed
+    - family: Inter
       source: google
-      weight: [300, 400, 700]
+      weight: [300, 400, 500, 600, 700]
       style: [normal, italic]
-    - family: Roboto Mono
+    - family: Fira Code
       source: google
       weight: [400, 500, 700]
       style: [normal, italic]
   base:
-    family: Roboto
+    family: Poppins
     weight: 400
     size: 16px
     line-height: 1.5
   headings:
-    family: Roboto Condensed
+    family: Inter
     weight: 700
     style: normal
     line-height: 1.2
-    color: wfrc-blue
+    color:
+      light: wfrc-blue # dark navy — high contrast on white
+      dark: "#8fcfe3" # lightened wfrc-secondary-blue — high contrast on dark bg
   monospace:
     family: Roboto Mono
     weight: 400
     size: 0.9em
+  monospace-inline:
+    color: wfrc-blue
+    background-color: "#e6ebf1" # matches $code-bg in wfrc-light.scss
   link:
     color: wfrc-secondary-blue
     decoration: underline
@@ -78,7 +83,7 @@ color:
     dark: white
   background:
     light: white
-    dark: "#081b26" # Matches darken($wfrc-blue, 5%)
+    dark: "#081b26" # Deep navy; intentionally richer than a pure darkening of wfrc-blue
   primary: wfrc-blue
   secondary: wfrc-secondary-blue
   success: rtp-green

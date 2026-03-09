@@ -53,23 +53,14 @@ $up-gray: #d3d4d5;
 $white: #ffffff;
 $black: #151515;
 
-// Semantic color mappings (from _brand.yml)
-$brand-foreground: $black;
-$brand-background: $white;
-$brand-primary: $wfrc-blue;
-$brand-secondary: $wfrc-secondary-blue;
-$brand-tertiary: $wfrc-gray;
-
-// Semantic colors
-$brand-success: $rtp-green;
-$brand-info: $rtp-blue;
-$brand-warning: $wfrc-yellow;
-$brand-danger: $rtp-red;
-$brand-light: $white;
-$brand-dark: $wfrc-gray;
-
-// Typography colors
-$brand-heading-color: $wfrc-blue;
-$brand-link-color: $wfrc-secondary-blue;
-$brand-code-inline-color: $wfrc-blue;
-$brand-code-inline-bg: #f8f9fa;
+// =============================================================================
+// NOTE: Quarto auto-generates $brand-{palette-key} Sass variables from every
+// entry in brand.yml's color.palette block. For example:
+//   $brand-wfrc-blue         → #023c5b
+//   $brand-wfrc-secondary-blue → #52b6d5
+//   $brand-rtp-green         → #789d4b
+//   ... and so on for every key defined in brand.yml color.palette
+//
+// Use those auto-generated variables in any custom SCSS you write within
+// projects that install this extension — no manual aliases needed.
+// =============================================================================
