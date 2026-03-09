@@ -3,8 +3,116 @@ author: Pukar Bhandari
 version: 0.0.1
 quarto-required: ">=1.8.0"
 contributes:
+  # ── FORMAT CONTRIBUTIONS ───────────────────────────────────────────────────
+  # contributes.formats.html resolves paths relative to the extension folder.
+  # These are org-wide HTML rendering defaults applied to every WFRC website.
+  formats:
+    html:
+      # Layout defaults — override per-document if needed (e.g. page-layout: article)
+      axe: true
+      page-layout: full
+      grid:
+        sidebar-width: 350px
+      toc: true
+      # Theme, highlighting, and color-scheme switching
+      theme:
+        light:
+          - cosmo
+          - assets/theme/wfrc.scss
+          - assets/theme/wfrc-light.scss
+        dark:
+          - assets/theme/wfrc.scss
+          - assets/theme/wfrc-dark.scss
+      highlight-style:
+        light: github
+        dark: dracula
+      respect-user-color-scheme: true
+
+  # ── METADATA CONTRIBUTIONS ─────────────────────────────────────────────────
+  # contributes.metadata merges YAML into the project config. Paths here are
+  # relative to the project root (not the extension folder), so asset paths
+  # use the installed extension path _extensions/wfrc-brand/...
+  # LIST values (e.g. navbar.right, page-footer.center) REPLACE rather than
+  # append — if a downstream project needs extra navbar items alongside
+  # Follow Us, they must redefine navbar.right in full in their _quarto.yml.
   metadata:
     project:
-      brand: brand.yml
+      type: website
+      output-dir: docs       # org standard for GitHub Pages deployment
+      brand: _extensions/wfrc-brand/brand.yml
+
+    website:
+      # WFRC favicon — abbreviated logo works at small sizes
+      favicon: "_extensions/wfrc-brand/assets/logo/abbreviated/WFRC_logo_abbreviated_color_transparent.png"
+
+      # Social metadata — org accounts are the same for all sites
+      twitter-card:
+        creator: "@wasatchcouncil"
+        site: "@wasatchcouncil"
+        card-style: summary_large_image
+      open-graph: true
+
+      # Cookie consent — org policy: not required
+      cookie-consent: true
+
+      # Footer — left and center are org boilerplate; right (Contact/License)
+      # is per-project because those pages may not exist in every site.
+      page-footer:
+        left: "© 2025 [Wasatch Front Regional Council](https://wfrc.utah.gov/)"
+        center:
+          - icon: github
+            href: https://github.com/WFRCAnalytics
+            aria-label: GitHub
+          - icon: facebook
+            href: https://www.facebook.com/WasatchFrontRegionalCouncil
+            aria-label: Facebook
+          - icon: twitter-x
+            href: https://twitter.com/wasatchcouncil
+            aria-label: X (Twitter)
+          - icon: instagram
+            href: https://www.instagram.com/wasatchfrontregionalcouncil/
+            aria-label: Instagram
+          - icon: linkedin
+            href: https://www.linkedin.com/company/wasatch-front-regional-council
+            aria-label: LinkedIn
+          - icon: youtube
+            href: https://www.youtube.com/user/wfrcvideo
+            aria-label: YouTube
+
+      # Navbar — logo-alt and Follow Us social menu are org-wide.
+      # navbar.tools (GitHub) stays per-project — repo URLs differ per site.
+      # NOTE: if a project defines its own navbar.right, it replaces this list
+      # entirely. Repeat the Follow Us block in that project's _quarto.yml if needed.
+      navbar:
+        logo-alt: "Wasatch Front Regional Council"
+        right:
+          - text: Follow Us
+            menu:
+              - icon: facebook
+                text: Facebook
+                href: https://www.facebook.com/WasatchFrontRegionalCouncil
+                target: _blank
+              - icon: twitter-x
+                text: X (Twitter)
+                href: https://twitter.com/wasatchcouncil
+                target: _blank
+              - icon: instagram
+                text: Instagram
+                href: https://www.instagram.com/wasatchfrontregionalcouncil/
+                target: _blank
+              - icon: linkedin
+                text: LinkedIn
+                href: https://www.linkedin.com/company/wasatch-front-regional-council
+                target: _blank
+              - icon: youtube
+                text: YouTube
+                href: https://www.youtube.com/user/wfrcvideo
+                target: _blank
+
+    # Freeze — org standard: auto freeze outputs (re-execute only if file updated)
+    execute:
+      freeze: auto
+
+  # ── RESOURCES ──────────────────────────────────────────────────────────────
   resources:
     - assets/

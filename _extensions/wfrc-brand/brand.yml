@@ -57,7 +57,7 @@ typography:
       light: wfrc-blue # dark navy — high contrast on white
       dark: "#8fcfe3" # lightened wfrc-secondary-blue — high contrast on dark bg
   monospace:
-    family: Roboto Mono
+    family: Fira Code
     weight: 400
     size: 0.9em
   monospace-inline:

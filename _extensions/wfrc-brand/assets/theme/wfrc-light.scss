@@ -55,7 +55,8 @@ $gray-200: lighten($wfrc-blue, 70%);
 div.sourceCode,
 pre.sourceCode {
     background-color: #e6ebf1 !important;
-    border: 0.6px solid $code-block-border;
+    border: none;
+    // border: 1px solid $code-block-border;
     border-radius: 4px;
 }
 
@@ -63,7 +64,8 @@ pre.sourceCode {
 .code-with-filename .code-with-filename-file {
     color: $code-color;
     background-color: $code-bg;
-    border: 0.6px solid $code-block-border;
+    border: none;
+    // border: 1px solid $code-block-border;
     border-bottom: none;
 
     pre {

@@ -73,7 +73,8 @@ $gray-700: lighten($wfrc-blue, 10%);
 div.sourceCode,
 pre.sourceCode {
     background-color: #0d2d44 !important;
-    border: 0.6px solid $code-block-border;
+    border: none;
+    // border: 1px solid $code-block-border;
     border-radius: 4px;
 }
 
@@ -86,7 +87,8 @@ pre code {
 .code-with-filename .code-with-filename-file {
     color: $code-color;
     background-color: $code-bg !important;
-    border: 0.6px solid $code-block-border;
+    border: none;
+    // border: 1px solid $code-block-border;
     border-bottom: none;
 
     pre {
@@ -147,13 +149,9 @@ td code:not(.sourceCode) {
     }
 }
 
-// Navbar links - lighter brand secondary blue
+// Navbar links — color only; font/weight/spacing from wfrc.scss shared rules.
 .navbar-nav .nav-link {
     color: lighten($wfrc-secondary-blue, 15%) !important;
-    // text-transform: uppercase;
-    letter-spacing: .1em;
-    font-family: $headings-font-family;
-    font-weight: 400;
 
     &:hover {
         color: lighten($wfrc-secondary-blue, 25%) !important;
