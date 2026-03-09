@@ -55,8 +55,9 @@ contributes:
       # Cookie consent — org policy: not required
       cookie-consent: true
 
-      # Footer — left and center are org boilerplate; right (Contact/License)
-      # is per-project because those pages may not exist in every site.
+      # Footer — all three columns are org-wide defaults.
+      # Right column uses absolute URLs to the main analytics site so Contact
+      # and License work from any downstream project without needing local pages.
       page-footer:
         left: "© 2025 [Wasatch Front Regional Council](https://wfrc.utah.gov/)"
         center:
@@ -78,6 +79,13 @@ contributes:
           - icon: youtube
             href: https://www.youtube.com/user/wfrcvideo
             aria-label: YouTube
+        right:
+          - text: Contact
+            aria-label: Contact
+            href: https://wfrcanalytics.github.io/contact
+          - text: License
+            aria-label: License
+            href: https://wfrcanalytics.github.io/license
 
       # Navbar — logo-alt and Follow Us social menu are org-wide.
       # navbar.tools (GitHub) stays per-project — repo URLs differ per site.
