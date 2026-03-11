@@ -39,7 +39,7 @@ contributes:
     project:
       type: website
       output-dir: docs       # org standard for GitHub Pages deployment
-      brand: _extensions/wfrc-brand/brand.yml
+      brand: _extensions/WFRCAnalytics/wfrc-brand/brand.yml
 
     website:
       # WFRC favicon — abbreviated logo works at small sizes
