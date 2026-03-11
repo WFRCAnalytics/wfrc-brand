@@ -1,6 +1,6 @@
 website:
   # Paths in this file must include the _extensions folder path
-  favicon: "_extensions/WFRCAnalytics/wfrc-brand/assets/logo/abbreviated/WFRC_logo_abbreviated_color_transparent.png"
+  # favicon: "_extensions/WFRCAnalytics/wfrc-brand/assets/logo/abbreviated/WFRC_logo_abbreviated_color_transparent.png"
 
   twitter-card:
     creator: "@wasatchcouncil"
@@ -117,4 +117,4 @@ knitr:
     dev: ragg_png
 jupyter: python3
 
-citation: true
+citation: false

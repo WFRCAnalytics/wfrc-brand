@@ -10,15 +10,16 @@ project:
   # dev project also needs this explicit reference for correct resolution.
   brand: _extensions/wfrc-brand/brand.yml
 
+# 1. Import all the repetitive footer/navbar/social stuff
+metadata-files:
+  - _extensions/wfrc-brand/wfrc-shared.yml
+
 website:
   # ── PER-PROJECT: change these for every new site ───────────────────────────
   title: "Analytics"
   description: "The Wasatch Front Regional Council builds consensus and enhances quality of life by developing and implementing visions and plans for a well-functioning multi-modal transportation system, livable communities, a strong economy, and a healthy environment."
   site-url: "https://wfrcanalytics.github.io"
-
-# 1. Import all the repetitive footer/navbar/social stuff
-metadata-files:
-  - _extensions/wfrc-brand/wfrc-shared.yml
+  # favicon: "_extensions/wfrc-brand/assets/logo/abbreviated/WFRC_logo_abbreviated_color_transparent.png"
 
 format:
   html:
