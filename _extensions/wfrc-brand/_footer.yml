@@ -1,0 +1,37 @@
+website:
+  page-footer:
+    left: "© 2025 [Wasatch Front Regional Council](https://wfrc.utah.gov/)"
+    center:
+      - icon: github
+        href: https://github.com/WFRCAnalytics/
+        aria-label: GitHub
+        target: _blank
+      - icon: facebook
+        href: https://www.facebook.com/WasatchFrontRegionalCouncil/
+        aria-label: Facebook
+        target: _blank
+      - icon: twitter-x
+        href: https://twitter.com/wasatchcouncil/
+        aria-label: X (Twitter)
+        target: _blank
+      - icon: instagram
+        href: https://www.instagram.com/wasatchfrontregionalcouncil/
+        aria-label: Instagram
+        target: _blank
+      - icon: linkedin
+        href: https://www.linkedin.com/company/wasatch-front-regional-council/
+        aria-label: LinkedIn
+        target: _blank
+      - icon: youtube
+        href: https://www.youtube.com/user/wfrcvideo/
+        aria-label: YouTube
+        target: _blank
+    right:
+      - text: Contact
+        aria-label: Contact
+        href: https://wfrcanalytics.github.io/contact/
+        target: _blank
+      - text: License
+        aria-label: License
+        href: https://wfrcanalytics.github.io/license/
+        target: _blank
