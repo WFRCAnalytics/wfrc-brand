@@ -16,48 +16,9 @@ website:
   description: "The Wasatch Front Regional Council builds consensus and enhances quality of life by developing and implementing visions and plans for a well-functioning multi-modal transportation system, livable communities, a strong economy, and a healthy environment."
   site-url: "https://wfrcanalytics.github.io"
 
-  # ── PER-PROJECT: remove or update this announcement per deployment ─────────
-  announcement:
-    icon: info-circle
-    dismissable: true
-    content: "**Alert** - This website currently contains mostly placeholder items and is currently under development."
-    type: primary
-    position: below-navbar
-
-  # Footer — all three columns are org-wide defaults.
-  # Right column uses absolute URLs to the main analytics site so Contact
-  # and License work from any downstream project without needing local pages.
-
-
-  # Navbar — logo-alt and Follow Us social menu are org-wide.
-  # navbar.tools (GitHub) stays per-project — repo URLs differ per site.
-  # NOTE: if a project defines its own navbar.right, it replaces this list
-  # entirely. Repeat the Follow Us block in that project's _quarto.yml if needed.
-  navbar:
-    logo-alt: "Wasatch Front Regional Council"
-    right:
-      - text: Follow Us
-        menu:
-          - icon: facebook
-            text: Facebook
-            href: https://www.facebook.com/WasatchFrontRegionalCouncil/
-            target: _blank
-          - icon: twitter-x
-            text: X (Twitter)
-            href: https://twitter.com/wasatchcouncil/
-            target: _blank
-          - icon: instagram
-            text: Instagram
-            href: https://www.instagram.com/wasatchfrontregionalcouncil/
-            target: _blank
-          - icon: linkedin
-            text: LinkedIn
-            href: https://www.linkedin.com/company/wasatch-front-regional-council/
-            target: _blank
-          - icon: youtube
-            text: YouTube
-            href: https://www.youtube.com/user/wfrcvideo/
-            target: _blank
+# 1. Import all the repetitive footer/navbar/social stuff
+metadata-files:
+  - _extensions/wfrc-brand/wfrc-shared.yml
 
 format:
   html:
@@ -81,6 +42,3 @@ format:
       dark:
         - _extensions/wfrc-brand/assets/theme/wfrc.scss
         - _extensions/wfrc-brand/assets/theme/wfrc-dark.scss
-
-metadata-files:
-  - _extensions/wfrc-brand/_footer.yml
