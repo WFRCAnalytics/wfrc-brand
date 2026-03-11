@@ -5,7 +5,6 @@
 
 project:
   type: website
-  output-dir: docs
   # brand.yml path must be explicit here — contributes.metadata resolves paths
   # relative to the project root, which works for downstream installs, but the
   # dev project also needs this explicit reference for correct resolution.
@@ -24,86 +23,6 @@ website:
     content: "**Alert** - This website currently contains mostly placeholder items and is currently under development."
     type: primary
     position: below-navbar
-
-  # ── PAGE FOOTER ────────────────────────────────────────────────────────────
-  # IMPORTANT: page-footer is a YAML map. Quarto replaces the entire block
-  # when the project defines ANY key under it — it does not merge key-by-key
-  # with the extension's contribution. So left and center must be repeated
-  # here even though they also live in the extension's contributes.metadata.
-  # Downstream sites that define no page-footer at all get left+center
-  # from the extension automatically.
-  page-footer:
-    left: "© 2025 [Wasatch Front Regional Council](https://wfrc.utah.gov/)"
-    center:
-      - icon: github
-        href: https://github.com/WFRCAnalytics
-        aria-label: GitHub
-      - icon: facebook
-        href: https://www.facebook.com/WasatchFrontRegionalCouncil
-        aria-label: Facebook
-      - icon: twitter-x
-        href: https://twitter.com/wasatchcouncil
-        aria-label: X (Twitter)
-      - icon: instagram
-        href: https://www.instagram.com/wasatchfrontregionalcouncil/
-        aria-label: Instagram
-      - icon: linkedin
-        href: https://www.linkedin.com/company/wasatch-front-regional-council
-        aria-label: LinkedIn
-      - icon: youtube
-        href: https://www.youtube.com/user/wfrcvideo
-        aria-label: YouTube
-    # Per-project: links to local pages that may not exist in every site
-    right:
-      - text: Contact
-        aria-label: Contact Form
-        href: contact.qmd
-      - text: License
-        aria-label: License Details
-        href: license.qmd
-
-  # ── NAVBAR ─────────────────────────────────────────────────────────────────
-  # navbar.right (Follow Us) is also contributed by the extension, but since
-  # navbar.tools is defined here, the full navbar block must be explicit.
-  # Same list-replacement rule as page-footer: define everything you need.
-  navbar:
-    logo-alt: "Wasatch Front Regional Council"
-    right:
-      - text: Follow Us
-        menu:
-          - icon: facebook
-            text: Facebook
-            href: https://www.facebook.com/WasatchFrontRegionalCouncil
-            target: _blank
-          - icon: twitter-x
-            text: X (Twitter)
-            href: https://twitter.com/wasatchcouncil
-            target: _blank
-          - icon: instagram
-            text: Instagram
-            href: https://www.instagram.com/wasatchfrontregionalcouncil/
-            target: _blank
-          - icon: linkedin
-            text: LinkedIn
-            href: https://www.linkedin.com/company/wasatch-front-regional-council
-            target: _blank
-          - icon: youtube
-            text: YouTube
-            href: https://www.youtube.com/user/wfrcvideo
-            target: _blank
-    # Per-project: repo URLs differ per site
-    tools:
-      - icon: github
-        menu:
-          - text: Source Code
-            href: https://github.com/WFRCAnalytics/wfrcanalytics.github.io
-            target: _blank
-          - text: Report a Bug
-            href: https://github.com/WFRCAnalytics/wfrcanalytics.github.io/issues/new
-            target: _blank
-          - text: Ask a Question
-            href: https://github.com/WFRCAnalytics/wfrcanalytics.github.io/discussions/new/choose
-            target: _blank
 
 format:
   html:
