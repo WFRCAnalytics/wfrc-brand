@@ -7,7 +7,7 @@ website:
     site: "@wasatchcouncil"
     card-style: summary_large_image
   open-graph: true
-  cookie-consent: true
+  cookie-consent: false
 
   # ── PER-PROJECT: remove or update this announcement per deployment ─────────
   announcement:
@@ -20,8 +20,8 @@ website:
   # repo-url: "https://github.com/WFRCAnalytics/wfrc-brand"
   # repo-actions: [source, issue]
 
-  page-navigation: true
-  back-to-top-navigation: true
+  page-navigation: false
+  back-to-top-navigation: false
   # margin-header: subscribe.html
 
   # Navbar — logo-alt and Follow Us social menu are org-wide.
@@ -115,5 +115,6 @@ engine: knitr
 knitr:
   opts_chunk:
     dev: ragg_png
+jupyter: python3
 
 citation: true
