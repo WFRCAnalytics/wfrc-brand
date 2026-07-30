@@ -282,11 +282,35 @@ a {
     background-color: lighten($body-bg, 5%) !important;
 }
 
-// Panel tabset selected tab
+// Panel tabset — border/background themed everywhere, not just the active tab
+.panel-tabset .nav-tabs,
+.panel-tabset .nav-tabs .nav-link,
+.panel-tabset .tab-content {
+    border-color: lighten($wfrc-blue, 15%);
+}
+
+// Active tab and content pane share one background, reading as a single surface
+.panel-tabset .nav-tabs .nav-link.active,
+.panel-tabset .tab-content {
+    background-color: lighten($body-bg, 5%);
+}
+
+// border-bottom-color must match the active tab's own background (not the
+// themed border-color above) to preserve Bootstrap's "fused to the content
+// pane" illusion — the border-color shorthand above overwrites all four
+// sides uniformly, including bottom, which breaks that illusion.
 .panel-tabset .nav-tabs .nav-link.active {
     color: darken($white, 5%) !important;
-    background-color: lighten($body-bg, 5%);
-    border-color: lighten($wfrc-blue, 15%);
+    border-bottom-color: lighten($body-bg, 5%);
+}
+
+// Bootstrap's own hover/focus rule sets border-bottom-color from
+// $nav-tabs-border-color, which neither theme remaps — left at Bootstrap's
+// raw default it shows as an unthemed line on hover. :not(.active) keeps
+// this from winning the specificity tie against the active-tab rule above.
+.panel-tabset .nav-tabs .nav-link:not(.active):hover,
+.panel-tabset .nav-tabs .nav-link:not(.active):focus {
+    border-bottom-color: lighten($wfrc-blue, 15%);
 }
 
 // WebR cell background

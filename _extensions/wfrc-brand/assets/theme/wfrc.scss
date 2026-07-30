@@ -158,6 +158,21 @@ $breadcrumb-divider: quote(">") !default;
     border-radius: 4px 4px 0px 0px;
 }
 
+// Panel tabset — structural only; border/background colors set per-mode.
+// border-bottom-style: none removes .nav-tabs's own full-width bottom border
+// so it doesn't draw a trailing line past the last tab; the themed per-mode
+// border-color set on individual .nav-link elements still draws a line under
+// the tabs themselves.
+.panel-tabset .nav-tabs {
+    border-bottom-style: none;
+}
+
+// Bootstrap's default top-corner radius looks out of place once the border
+// is themed with a vivid brand color instead of the near-invisible default.
+.panel-tabset .nav-tabs .nav-link {
+    border-radius: 0;
+}
+
 // Featured image overlay — uses hardcoded wfrc-blue rgba; acceptable as a
 // brand-permanent value (this overlay is intentional on both modes)
 .featured-image {

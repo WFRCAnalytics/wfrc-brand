@@ -249,3 +249,23 @@ a {
     text-decoration: $link-text-decoration;
     text-underline-offset: $link-text-underline-offset;
 }
+
+// Panel tabset — border themed everywhere, not just the active tab
+.panel-tabset .nav-tabs,
+.panel-tabset .nav-tabs .nav-link,
+.panel-tabset .tab-content {
+    border-color: lighten($wfrc-blue, 60%);
+}
+
+// Subtle contrast between the tabset (active tab + content pane) and the
+// page background. border-bottom-color must move with background-color —
+// Bootstrap's default active-tab rule ties both to the same variable, so
+// changing only the background reintroduces the header/content seam.
+.panel-tabset .nav-tabs .nav-link.active,
+.panel-tabset .tab-content {
+    background-color: darken($white, 5%);
+}
+
+.panel-tabset .nav-tabs .nav-link.active {
+    border-bottom-color: darken($white, 5%);
+}
