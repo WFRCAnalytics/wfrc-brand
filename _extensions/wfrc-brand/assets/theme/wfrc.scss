@@ -159,16 +159,10 @@ $breadcrumb-divider: quote(">") !default;
 }
 
 // Panel tabset — structural only; border/background colors set per-mode.
-// border-bottom-style: none removes .nav-tabs's own full-width bottom border
-// so it doesn't draw a trailing line past the last tab; the themed per-mode
-// border-color set on individual .nav-link elements still draws a line under
-// the tabs themselves.
-.panel-tabset .nav-tabs {
-    border-bottom-style: none;
-}
-
-// Bootstrap's default top-corner radius looks out of place once the border
-// is themed with a vivid brand color instead of the near-invisible default.
+// Only the active tab (and an inactive tab on hover) ever shows an
+// individual border, so corner-squaring is the only thing that belongs
+// here at the bare .nav-link level — border-color does NOT, since that
+// would theme every tab's border permanently regardless of state.
 .panel-tabset .nav-tabs .nav-link {
     border-radius: 0;
 }

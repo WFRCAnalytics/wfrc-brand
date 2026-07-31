@@ -24,3 +24,21 @@ fibonacci <- function(n) {
   }
 }
 ```
+
+Here is a panel tabset:
+
+::: {.panel-tabset}
+
+## Tab One
+
+Content for tab one.
+
+## Tab Two
+
+Content for tab two.
+
+## Tab Three
+
+Content for tab three.
+
+:::
