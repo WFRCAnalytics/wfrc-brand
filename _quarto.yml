@@ -31,6 +31,8 @@ format:
     grid:
       sidebar-width: 350px
     toc: true
+    toc-expand: 2  # show ## + ### by default instead of Quarto's default depth-1-until-scrolled
+    smooth-scroll: true  # animate the jump on TOC/anchor clicks
     respect-user-color-scheme: true
     highlight-style:
       light: github

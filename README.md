@@ -39,7 +39,7 @@ When a project installs this extension, the following are contributed automatica
 | **Output directory** | `docs/` (GitHub Pages standard) |
 | **Project type** | `website` |
 | **Freeze** | `auto` (only re-execute if file changed) |
-| **Layout** | `page-layout: full`, `toc: true`, `grid.sidebar-width: 350px` |
+| **Layout** | `page-layout: full`, `toc: true`, `toc-expand: 2`, `smooth-scroll: true`, `grid.sidebar-width: 350px` |
 | **Accessibility** | `axe: true` (automated accessibility checking) |
 
 ---
