@@ -42,3 +42,13 @@ Content for tab two.
 Content for tab three.
 
 :::
+
+Here is a panel input:
+
+```{ojs}
+//| panel: input
+//| echo: true
+viewof fruit = Inputs.select(["Apple", "Banana", "Cherry"], {label: "Pick a fruit"})
+```
+
+Selected fruit: `{ojs} fruit`
