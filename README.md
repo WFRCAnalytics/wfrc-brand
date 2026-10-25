@@ -1,258 +1,258 @@
-# `wfrc-brand` Quarto Brand Extension for Wasatch Front Regional Council
+# `wfrc-brand` — Quarto brand extension for WFRC Analytics
 
-A [Quarto brand extension](https://quarto.org/docs/extensions/brand.html) that applies the Wasatch Front Regional Council (WFRC) visual identity — colors, typography, logos, light/dark theming, and org-wide site defaults — to any WFRC Quarto website with a single command.
+One design system for every WFRC Analytics Quarto site: colors, type, logos, light and dark mode, and styling for every Quarto component (navbar, callouts, code, tabsets, cards, tables, dashboards, footer). It is built on Posit's [`brand.yml`](https://posit-dev.github.io/brand-yml/) and Quarto's own theming, so it only uses what Quarto can render. There is no JavaScript.
 
----
+The look is WFRC's marketing site brought to analytics density: Inter headings with Poppins body text, flat navy, blue and brick color blocks, pill buttons, 10px cards, and a ridge line above the footer. Hex codes come from the live wfrc.utah.gov site.
 
-## Why This Extension Exists
-
-Every WFRC analytics website needs the same foundation: brand colors, fonts, logos, footer, social links, and dark/light mode support. Without a shared extension, each project manually duplicates all of this — and any brand update has to be applied to every repo individually.
-
-This extension solves that by centralizing the brand layer in one place. Benefits:
-
-- **Install once, stay consistent.** One `quarto add` command applies the full WFRC identity to any project — no copying SCSS files or pasting footer YAML between repos.
-- **Light and dark mode out of the box.** The theme automatically switches between modes based on the visitor's system preference using [`respect-user-color-scheme`](https://quarto.org/docs/output-formats/html-themes.html#dark-mode). Light mode uses the GitHub syntax highlighting theme; dark mode uses Dracula.
-- **Brand-managed logos.** The [`brand.yml` logo spec](https://posit-dev.github.io/brand-yml/brand/logo.html) serves the correct logo variant (horizontal color, horizontal white, stacked, abbreviated) for each context and color mode automatically — no manual `logo:` path in each project.
-- **Centralized updates.** Fix a color, update a font, or add a new social link in this repo and every downstream project picks it up on the next `quarto update`.
-- **Quarto-native approach.** Built on the official [Quarto extensions system](https://quarto.org/docs/extensions/) and [brand.yml spec](https://posit-dev.github.io/brand-yml/) — not a workaround. Fully supported and forward-compatible.
+Requires [Quarto](https://quarto.org/docs/get-started/) 1.8 or later (tested on 1.10).
 
 ---
 
-## What Gets Applied Automatically
+## Install
 
-When a project installs this extension, the following are contributed automatically via [`_extension.yml`](https://quarto.org/docs/extensions/creating.html) — no configuration needed in the project's `_quarto.yml`:
-
-| Category | What's applied |
-|---|---|
-| **Theme** | Cosmo base + WFRC SCSS (light and dark) |
-| **Syntax highlighting** | GitHub (light) / Dracula (dark) |
-| **Color scheme** | Respects system dark/light preference |
-| **Brand colors** | `wfrc-blue`, `wfrc-secondary-blue`, `wfrc-yellow`, `wfrc-gray`, RTP colors, Wasatch Choice colors |
-| **Typography** | Poppins (body), Inter (headings/navbar), Fira Code (monospace) — loaded from Google Fonts |
-| **Logos** | Light/dark variants auto-selected per context |
-| **Favicon** | WFRC abbreviated logo |
-| **Footer left** | © WFRC copyright with link to wfrc.utah.gov |
-| **Footer center** | Social icons: GitHub, Facebook, X, Instagram, LinkedIn, YouTube |
-| **Footer right** | Contact and License links → `wfrcanalytics.github.io` (absolute URLs, no local pages required) |
-| **Navbar** | Follow Us social dropdown menu |
-| **Twitter/OG card** | `@wasatchcouncil` metadata for social sharing |
-| **Output directory** | `docs/` (GitHub Pages standard) |
-| **Project type** | `website` |
-| **Freeze** | `auto` (only re-execute if file changed) |
-| **Layout** | `page-layout: full`, `toc: true`, `toc-expand: 2`, `smooth-scroll: true`, `grid.sidebar-width: 350px` |
-| **Accessibility** | `axe: true` (automated accessibility checking) |
-
----
-
-## Installation
-
-Requires [Quarto](https://quarto.org/docs/get-started/) ≥ 1.8.0.
-
-In the terminal, from the root of your Quarto project:
+From the root of a Quarto project:
 
 ```bash
 quarto add WFRCAnalytics/wfrc-brand
 ```
 
-This installs the extension into `_extensions/wfrc-brand/`. The full brand is immediately active — no further configuration required for a basic site.
-
----
-
-## Minimal Project Setup
-
-After installation, your project's `_quarto.yml` only needs the things that differ per site:
+Then your `_quarto.yml` needs these lines, plus whatever is specific to your site:
 
 ```yaml
 project:
   type: website
-  output-dir: docs
-  brand: _extensions/wfrc-brand/brand.yml  # explicit path for dev correctness
+  brand: _extensions/wfrc-brand/brand.yml      # required; Quarto does not discover brand.yml inside an extension
+
+metadata-files:
+  - _extensions/wfrc-brand/wfrc-shared.yml     # theme, highlight style, layout, navbar social menu, footer
 
 website:
-  title: "Your Site Title"
+  title: "Your Site"
   site-url: "https://wfrcanalytics.github.io/your-site"
-
-  # Optional: per-deployment announcement banner
-  announcement:
-    icon: info-circle
-    dismissable: true
-    content: "Site under development."
-    type: primary
-    position: below-navbar
-
-  # The full footer (left, center, right) is contributed by the extension.
-  # Contact → wfrcanalytics.github.io/contact
-  # License → wfrcanalytics.github.io/license
-  # Only define page-footer here if this site needs different right-column links.
-  # IMPORTANT: defining any page-footer key replaces the entire block —
-  # you must repeat left and center alongside any custom right entries.
-  # page-footer:
-  #   left: "© 2025 [Wasatch Front Regional Council](https://wfrc.utah.gov/)"
-  #   center: [ ...social icons... ]
-  #   right:
-  #     - text: Custom Page
-  #       href: custom.qmd
-  # Navbar tools: per-site GitHub repo links
-  # IMPORTANT: defining navbar.tools here means you must also repeat
-  # logo-alt and navbar.right (Follow Us) — Quarto replaces the entire
-  # navbar block, not individual keys.
-  navbar:
-    logo-alt: "Wasatch Front Regional Council"
-    right:
-      - text: Follow Us
-        menu:
-          - icon: facebook
-            text: Facebook
-            href: https://www.facebook.com/WasatchFrontRegionalCouncil
-            target: _blank
-          - icon: twitter-x
-            text: X (Twitter)
-            href: https://twitter.com/wasatchcouncil
-            target: _blank
-          - icon: instagram
-            text: Instagram
-            href: https://www.instagram.com/wasatchfrontregionalcouncil/
-            target: _blank
-          - icon: linkedin
-            text: LinkedIn
-            href: https://www.linkedin.com/company/wasatch-front-regional-council
-            target: _blank
-          - icon: youtube
-            text: YouTube
-            href: https://www.youtube.com/user/wfrcvideo
-            target: _blank
-    tools:
-      - icon: github
-        menu:
-          - text: Source Code
-            href: https://github.com/WFRCAnalytics/your-repo
-            target: _blank
-          - text: Report a Bug
-            href: https://github.com/WFRCAnalytics/your-repo/issues/new
-            target: _blank
-
-format:
-  html:
-    # Repeat theme here with full paths so the dev project resolves correctly.
-    # Downstream installs get this from the extension automatically.
-    axe: true
-    page-layout: full
-    grid:
-      sidebar-width: 350px
-    toc: true
-    respect-user-color-scheme: true
-    highlight-style:
-      light: github
-      dark: dracula
-    theme:
-      light:
-        - cosmo
-        - _extensions/wfrc-brand/assets/theme/wfrc.scss
-        - _extensions/wfrc-brand/assets/theme/wfrc-light.scss
-      dark:
-        - _extensions/wfrc-brand/assets/theme/wfrc.scss
-        - _extensions/wfrc-brand/assets/theme/wfrc-dark.scss
 ```
 
-> **Note on `brand.yml`:** The `project.brand` line is needed in the dev project (`_quarto.yml`) because Quarto's `contributes.metadata` mechanism resolves paths relative to the project root, not the extension folder. Downstream installs resolve this correctly without it — but it doesn't hurt to include it.
+That is the whole setup: this repo's own [`_quarto.yml`](_quarto.yml) is the reference.
+
+For a **dashboard** page, use the extension's dashboard format:
+
+```yaml
+---
+title: "Transit ridership"
+format: wfrc-brand-dashboard
+---
+```
+
+For a standalone document outside a website, `format: wfrc-brand-html` (adds numbered sections, KaTeX, code links) and `format: wfrc-brand-typst` are also available.
+
+> **Why dashboards use their own format name.** Quarto only applies an extension's `contributes.formats.*` to the extension's own named formats, never to plain `html`. That is why HTML defaults live in `wfrc-shared.yml` (loaded with `metadata-files`) and dashboards use `wfrc-brand-dashboard`. Do not add a `dashboard:` key to `wfrc-shared.yml` or a project-level metadata file: in Quarto 1.10 it breaks the announcement banner render on every HTML page.
 
 ---
 
-## Important: YAML Merge Behavior
+## What you get automatically
 
-Quarto merges extension metadata into your project config, but **lists and maps replace rather than append**. This has two practical consequences:
-
-**`navbar`** — If you define `navbar.tools` in your project, Quarto replaces the entire `navbar` block from the extension. You must also repeat `logo-alt` and `navbar.right` (the Follow Us menu) in your project's `_quarto.yml`.
-
-**`page-footer`** — If you define any key under `page-footer` (e.g. `right`), Quarto replaces the entire `page-footer` block. You must repeat `left` and `center` alongside your `right` entries.
-
-Projects that define **neither** `navbar` nor `page-footer` in their `_quarto.yml` get the full extension contribution automatically with no repetition needed.
-
----
-
-## Repository Structure
-
-```
-wfrc-brand/
-├── _quarto.yml                          # Dev project config (not shipped with extension)
-├── example.qmd                          # Preview page for testing the theme
-│
-└── _extensions/
-    └── wfrc-brand/
-        ├── _extension.yml               # Extension metadata and contributions
-        ├── brand.yml                    # Brand spec: colors, typography, logos
-        └── assets/
-            ├── logo/
-            │   ├── horizontal/          # WFRC_logo_horizontal_color/white_transparent.png
-            │   ├── stacked/             # WFRC_logo_stacked_color/white_transparent.png
-            │   └── abbreviated/         # WFRC_logo_abbreviated_color/white_transparent.png
-            └── theme/
-                ├── _wfrc-colors.scss    # Brand color variables
-                ├── _wfrc-fonts.scss     # Typography variables
-                ├── wfrc.scss            # Shared structural SCSS (both modes)
-                ├── wfrc-light.scss      # Light mode overrides
-                └── wfrc-dark.scss       # Dark mode overrides
-```
+| Area | Result |
+|---|---|
+| **Theme** | One Bootstrap base for both modes. Light and dark are separate designs, not an inversion. Follows the visitor's OS setting, with a toggle in the navbar. |
+| **Type** | Poppins body 16px/1.6, Inter headings and navbar, Fira Code for code. All from Google Fonts. |
+| **Logos** | The brand logo set switches by mode (color on light, white on dark) and carries alt text. |
+| **Navbar** | Page-colored with a hairline, Inter 600 links, uppercase site title, bright-blue underline on hover and for the current page. |
+| **Buttons** | Pill shaped. `.btn-primary` is the AA-safe action blue. |
+| **Cards** | Listings, dashboards and bslib cards: 10px radius, hairline border, soft shadow, Inter header row. |
+| **Callouts** | Five types with a 4px colored edge and a tinted title strip. Text stays in the ink color. |
+| **Code** | Cool-tinted blocks, no ligatures, custom syntax palette (`wfrc-light.theme`, `wfrc-dark.theme`) that holds AA contrast. |
+| **Tabsets** | The active tab and its pane share one surface. |
+| **Tables** | No vertical rules, bright-blue header rule, tabular numerals, scroll inside their own box on phones. |
+| **TOC and sidebar** | Active item marked with a bright-blue edge. |
+| **Footer** | Navy with a ridge line. The ridge is a CSS mask, so it follows each mode's color. |
+| **Dashboards** | Flat navy, mid-blue, teal and brick value boxes in both modes; transparent Observable Plot charts. |
+| **Org defaults** | Social menu, footer, `axe` accessibility checking, `page-layout: full`, TOC, smooth scroll, freeze `auto`, knitr and jupyter engines. |
 
 ---
 
-## Updating the Extension in Downstream Projects
+## Landing-page components
 
-When this repo is updated (new colors, font changes, logo updates, etc.), downstream projects pull the latest version by running:
+Quarto has no hero or color-block component, so the extension adds a few classes. Use them with Pandoc divs. Full-bleed sections need Quarto's `.column-screen`, and because a full-width hero covers the right-hand TOC, **use them on pages with `toc: false`**. The full example is [`example-landing.qmd`](example-landing.qmd).
 
-```bash
-quarto update WFRCAnalytics/wfrc-brand
+```markdown
+::: {.wfrc-hero .column-screen}
+# Finding the gaps in the Wasatch Front [bike network.]{.accent}
+
+Short supporting paragraph.
+
+[Open the dashboard](#){.btn .btn-light} [Read the methods](#){.btn .btn-outline-light}
+:::
+
+::: {.wfrc-band .column-screen}
+## What's in this project
+
+::: {.wfrc-blocks}
+::: {.wfrc-block}
+### Dashboard
+Description.
+
+[Open](#){.btn .btn-sm}
+:::
+::: {.wfrc-block .mid}
+...
+:::
+::: {.wfrc-block .brick}
+...
+:::
+:::
+:::
 ```
+
+| Class | Purpose |
+|---|---|
+| `.wfrc-hero` | Navy gradient hero with faint contour lines. `[text]{.accent}` makes a gold highlight. |
+| `.wfrc-band`, `.wfrc-band-alt` | Full-width bright-blue band, and a quiet taupe band. |
+| `.wfrc-blocks` + `.wfrc-block` (`.mid`, `.teal`, `.brick`) | A row of flat color blocks. |
+| `.wfrc-keyfacts` | One bordered strip of key numbers. Each child div holds a bold number and a label. |
+| `.wfrc-updates` + `[Oct 21]{.wfrc-date}` | A dated update list with brick date tiles. |
+| `.wfrc-chip` | Small pill label. |
 
 ---
 
-## Maintaining This Repo
+## Charts
 
-### Color changes
+The categorical chart palette has **five colors** in a fixed order (blue, orange, violet, gold, teal). It passes lightness, chroma and color-vision checks. Never cycle past five: facet, or group the rest as "Other". Gold is below 3:1 on white, so always label series directly instead of relying on a legend.
 
-Edit `_extensions/wfrc-brand/assets/theme/_wfrc-colors.scss` for SCSS variables and `_extensions/wfrc-brand/brand.yml` under `color.palette` for brand-level tokens. Both must stay in sync — the SCSS variables are used in the theme files, and the `brand.yml` palette generates `$brand-*` Sass variables automatically in downstream projects.
+All three helpers read colors from `brand.yml` or the theme's CSS variables, so nothing is duplicated.
 
-### Typography changes
+**R** (ggplot2):
 
-Edit `_extensions/wfrc-brand/assets/theme/_wfrc-fonts.scss` for SCSS font variables and `_extensions/wfrc-brand/brand.yml` under `typography` for brand-level font declarations. Both must be kept consistent — `brand.yml` declares what fonts to load (Google Fonts), `_wfrc-fonts.scss` declares the SCSS variables used throughout the theme.
-
-### Light / dark mode styles
-
-- **Structural rules** (layout, spacing, border-radius, font properties) → `wfrc.scss`
-- **Light mode colors and overrides** → `wfrc-light.scss`
-- **Dark mode colors and overrides** → `wfrc-dark.scss`
-
-### Logo updates
-
-Replace files in `_extensions/wfrc-brand/assets/logo/`. The `brand.yml` logo block references them by filename — as long as filenames stay the same, no YAML changes are needed.
-
-### Adding a new org-wide default
-
-Add it under `contributes.metadata` in `_extension.yml` if it's a project/website config property, or under `contributes.formats.html` if it's an HTML format property. Then mirror it in the dev project's `_quarto.yml` with full `_extensions/wfrc-brand/` paths.
-
-### Clearing the Sass cache
-
-Quarto caches compiled SCSS in `.quarto/`. After any SCSS change that doesn't seem to render, delete this folder before re-rendering:
-
-```bash
-# Windows
-rmdir /s /q .quarto
-
-# macOS / Linux
-rm -rf .quarto
+```r
+source("_extensions/wfrc-brand/assets/charts/wfrc-charts.R")
+ggplot(df, aes(date, value, color = mode)) +
+  geom_line() + theme_wfrc() + scale_color_wfrc()      # mode = "dark" for dark pages
 ```
 
-### Versioning
+**Python** (matplotlib, plotly):
 
-Bump the `version` field in `_extension.yml` on every meaningful change so downstream projects can track what they have installed.
+```python
+import sys; sys.path.append("_extensions/wfrc-brand/assets/charts")
+import wfrc_charts as wfrc
+wfrc.use_style()                                         # matplotlib
+fig.update_layout(template=wfrc.plotly_template())       # plotly
+```
+
+**Observable JS** (follows light and dark automatically):
+
+```js
+// inside an OJS code cell
+import {wfrcPlot} from "./_extensions/wfrc-brand/assets/charts/wfrc-charts.js"
+wfrcPlot({Plot, marks: [Plot.lineY(data, {x: "date", y: "value", stroke: "mode"})]})
+```
+
+The CSS variables `--wfrc-chart-1` to `--wfrc-chart-5` are available to any custom JavaScript.
 
 ---
 
-## Reference Documentation
+## How it is built
 
-- [Quarto Extensions](https://quarto.org/docs/extensions/) — overview of the extension system
-- [Creating Extensions](https://quarto.org/docs/extensions/creating.html) — `_extension.yml` spec and `contributes` keys
-- [Brand Extensions](https://quarto.org/docs/extensions/brand.html) — how brand extensions work in Quarto
-- [brand.yml spec](https://posit-dev.github.io/brand-yml/) — full reference for `brand.yml` color, typography, and logo fields
-- [HTML Theming](https://quarto.org/docs/output-formats/html-themes.html) — Quarto SCSS theming, dark mode, Bootstrap variables
-- [Sass Variables](https://quarto.org/docs/output-formats/html-themes.html#sass-variables) — Quarto's exposed Bootstrap/Quarto SCSS variables
+```
+_extensions/wfrc-brand/
+├── _extension.yml        wfrc-brand-html / -dashboard / -typst formats (same theme list as wfrc-shared.yml)
+├── brand.yml             the ONLY place hex codes are written (palette, type, logos, light/dark roles)
+├── wfrc-shared.yml       org defaults loaded with metadata-files: theme, layout, navbar, footer, freeze
+└── assets/
+    ├── theme/
+    │   ├── wfrc.scss             shared structure: layout and sizing, no color
+    │   ├── wfrc-light.scss       role map for light: each role points at a brand.yml palette name
+    │   ├── wfrc-dark.scss        role map for dark
+    │   ├── wfrc-overrides.scss   every Quarto component rule, written once for both modes
+    │   └── wfrc-{light,dark}.theme   syntax highlighting palettes (Pandoc format)
+    ├── charts/                   R, Python and Observable JS helpers
+    └── logo/
+```
+
+**Theme layers**, low to high priority: `wfrc.scss`, `wfrc-light|dark.scss`, `wfrc-overrides.scss`, then the `brand` keyword. Putting `brand` last is what makes `$brand-*` Sass variables (and `$primary`, `$background`) available in the files above it, so the SCSS never writes a hex code.
+
+**One source for colors.** `brand.yml` defines the palette. Quarto turns every entry into `$brand-<name>` for Sass and `--brand-<name>` for CSS. The mode files map *roles* (surface, line, heading, link, action, callout colors) to those names. `wfrc-overrides.scss` uses only roles, which is why it has almost no light/dark branching.
+
+The two exceptions are the Pandoc syntax themes (`.theme` JSON cannot reference `brand.yml`) and the helpers' small role lookups. When you change a palette color used there, update both.
+
+### Design tokens
+
+| Role | Light | Dark |
+|---|---|---|
+| Page | `#FFFFFF` | `#0A1F2E` |
+| Alternate band / raised surface | `#F4F2EF` / `#EAF0F4` | `#0E2738` / `#17384F` |
+| Card | `#FFFFFF` | `#122E46` |
+| Text / secondary text | `#16232C` / `#4F5E69` | `#E8EEF2` / `#A3B8C6` |
+| Hairline | `#D9E0E5` | `#264A63` |
+| Heading 1 / headings 2–6 | `#00395B` / `#2C6788` | `#BFE6F5` / `#8FCBE6` |
+| Link / hover | `#00395B` / `#00799F` | `#5CC4E8` / `#A6E0F3` |
+| Action (buttons) | `#00799F` | `#5CC4E8` |
+| Bright blue (rules, focus rings, large fills) | `#0093C5` | `#0093C5` |
+| Brick accent / brick that holds white text | `#C85327` / `#B4461F` | `#E06A3A` / `#8F3A1C` |
+| Gold | `#FEBC46` | `#FEBC46` |
+
+**Contrast rules the system follows.** The live site's bright blue `#0093C5` is 3.51:1 against white, below AA for text. It is used only for rules, focus rings and large fills. Buttons and interactive fills use `#00799F` (4.96:1). Brick `#C85327` is 4.45:1, so any brick fill that carries small white text uses `#B4461F` (5.47:1).
+
+---
+
+## Migrating an existing site
+
+Use the [wfrcanalytics.github.io](https://github.com/WFRCAnalytics/wfrcanalytics.github.io) site as the model.
+
+1. `quarto add WFRCAnalytics/wfrc-brand`, then add the `brand` and `metadata-files` lines from **Install**.
+2. Delete the site's own `_brand.yml`, custom theme SCSS, `format.html.theme`, `css:` and `include-in-header` font preloads.
+3. **Remove anything `wfrc-shared.yml` already supplies.** Quarto lists *append* across config levels, so a site that also defines its own "Follow Us" menu, GitHub tools menu or footer links shows them twice.
+4. Keep what is yours: `website.title`, `site-url`, `navbar.left`, the sidebars, announcements, and per-site GitHub links.
+5. Pages that used the old `index.scss` classes (`#bio`, `#landing-icons`, `.name-highlight`) still work. New pages can use the `.wfrc-*` components above.
+6. Render, then clear the cache if styles look stale (see below).
+
+### Accessibility checklist
+
+The extension keeps `axe: true` on. In a pass over the preview pages and real site pages, everything the theme controls passes WCAG 2 AA contrast in both modes. These items depend on your content and config:
+
+- **Logo alt text** is set in `brand.yml`. If you override the navbar logo, give it an `alt`.
+- **Icon-only tools menus** need `text:` (it becomes the `aria-label`), as in `wfrc-shared.yml`.
+- **Images** on about pages and elsewhere need `alt` text.
+- Observable Plot's `<g aria-label>` and Quarto's collapsed-callout `aria-expanded` are reported by axe but come from those libraries.
+
+---
+
+## Known limits
+
+- **Hero and band sections cover the TOC.** Use them on `toc: false` pages.
+- **Dashboards** need `format: wfrc-brand-dashboard`; setting `format: dashboard` gives Quarto's default look.
+- **RevealJS** is not themed by this extension. **Typst and Word** pick up brand colors and fonts through `brand.yml` only. The Typst render was checked for errors, not for appearance.
+- **R helpers.** The palette lookup is tested; the ggplot2 theme was written but not run in the environment used to build this release (ggplot2 was not installed).
+- **No numbered sections by default** in websites. Set `number-sections: true` per site, or use `wfrc-brand-html`.
+
+---
+
+## Maintaining this repo
+
+| To change | Edit |
+|---|---|
+| A color, logo or font | `brand.yml` (and the `.theme` files if it is a syntax color) |
+| Which palette name a role uses | `wfrc-light.scss`, `wfrc-dark.scss` |
+| How a Quarto component looks | `wfrc-overrides.scss` (sections are numbered at the top) |
+| Layout or sizing that is the same in both modes | `wfrc.scss` |
+| Org-wide site defaults | `wfrc-shared.yml` (and keep `_extension.yml`'s theme list in step) |
+
+Preview: `quarto preview` renders [`example.qmd`](example.qmd) (every component), [`example-landing.qmd`](example-landing.qmd) and [`example-dashboard.qmd`](example-dashboard.qmd). Check each in light and dark, and at phone width.
+
+**Clearing the Sass cache.** Quarto caches compiled SCSS in `.quarto/`. If a style change does not show, delete that folder and render again (`rmdir /s /q .quarto` on Windows, `rm -rf .quarto` elsewhere).
+
+**Versioning.** Bump `version` in `_extension.yml` on every meaningful change. Downstream sites update with `quarto update WFRCAnalytics/wfrc-brand`.
+
+### Changelog
+
+**0.1.0** — Redesign.
+- New palette from the live wfrc.utah.gov tokens: navy `#00395B`, bright blue `#0093C5`, brick `#C85327`, gold `#FEBC46`. Legacy names (`wfrc-blue`, `wfrc-secondary-blue`, `wfrc-yellow`) are kept as aliases. **`wfrc-secondary-blue` changed from `#52b6d5` to `#0093C5`.**
+- Dark mode is now a designed palette, not a lightened copy.
+- `brand.yml` is the single source for hex codes; the SCSS no longer repeats them (`_wfrc-colors.scss` and `_wfrc-fonts.scss` removed).
+- Light and dark SCSS shrank to role maps; all component rules moved to one file, `wfrc-overrides.scss`.
+- Cosmo is no longer the light-mode base, so both modes share one Bootstrap base.
+- Fixed: org defaults now apply to plain `format: html` through `wfrc-shared.yml`.
+- Added: `wfrc-brand-dashboard` format, dashboard value-box and card styling, custom syntax themes, landing-page components, chart helpers, logo alt text, and phone-width fixes for tables and plots.
+
+---
+
+## References
+
+- [Quarto brand extensions](https://quarto.org/docs/extensions/brand.html) · [`brand.yml` spec](https://posit-dev.github.io/brand-yml/) · [HTML themes and Sass variables](https://quarto.org/docs/output-formats/html-themes.html) · [Dashboards](https://quarto.org/docs/dashboards/)

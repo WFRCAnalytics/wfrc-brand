@@ -1,54 +1,149 @@
 ---
-title: your brand extension
+title: "WFRC brand preview"
+subtitle: "Every component the theme styles, on one page"
+title-block-banner: true
+toc: true
+# Full-bleed hero and band sections live in example-landing.qmd: they cover the TOC.
 ---
 
-# brand.yml extension
+# Typography and links
 
-Here is some inline code: `def foo(x): return x`{.python} and `y`{.python} and `z`{.python}.
+Body text is Poppins at 16px with a 1.6 line height. Headings are Inter. Here is [a standard link](https://example.com), some `inline code`, and a footnote.[^1]
 
-Here is [a link](https://example.com).
+## Second-level heading
 
-Here is a code block:
+### Third-level heading
 
-```{.r}
-# | echo: true
-fibonacci <- function(n) {
-  if (n <= 0) {
-    return(NULL)
-  } else if (n == 1) {
-    return(0)
-  } else if (n == 2) {
-    return(1)
-  } else {
-    return(fibonacci(n - 1) + fibonacci(n - 2))
-  }
-}
+#### Fourth-level heading
+
+> Blockquotes carry a 4px rule in the bright blue and softer text.
+
+[^1]: Footnotes use the same body type at a smaller size.
+
+# Buttons and chips
+
+[Primary action](#){.btn .btn-primary} [Outline](#){.btn .btn-outline-primary} [Small](#){.btn .btn-primary .btn-sm}
+
+[Active transportation]{.wfrc-chip} [Equity]{.wfrc-chip} [Data]{.wfrc-chip}
+
+# Callouts
+
+::: {.callout-note}
+## Note
+PTI is unitless. A value of 1.5 means a 20-minute free-flow trip needs 30 minutes of budget.
+:::
+
+::: {.callout-tip}
+## Tip
+Filter to non-holiday weekdays before computing percentiles.
+:::
+
+::: {.callout-important}
+## Important
+Segments with fewer than 200 valid observations are excluded rather than imputed.
+:::
+
+::: {.callout-warning}
+## Warning
+Do not compare PTI across periods with different free-flow baselines.
+:::
+
+::: {.callout-caution collapse="true"}
+## Caution (collapsible)
+Rebuilding the network invalidates cached segment IDs. Re-run `make segments` first.
+:::
+
+# Code
+
+```{.r filename="R/score-gaps.R"}
+# People within 400 m of either end of a gap
+gaps <- read_sf("data/gaps.gpkg") |>
+  mutate(
+    reach = st_reach(geometry, pop, 400),
+    score = rescale(reach) * 0.6 + rescale(jobs) * 0.4
+  ) |>
+  arrange(desc(score))
 ```
 
-Here is a panel tabset:
+```{.python filename="py/reliability.py"}
+import pandas as pd
+
+df = speeds.query("~is_holiday and period == 'am_peak'")
+pti = (df.groupby("segment_id")
+         .agg(tt_95=("tt", lambda s: s.quantile(0.95)),
+              tt_ff=("tt_ff", "first"))
+         .assign(pti=lambda d: d.tt_95 / d.tt_ff))
+```
 
 ::: {.panel-tabset}
 
-## Tab One
+## R
 
-Content for tab one.
+```{.r}
+library(dplyr)
+pti <- speeds |> group_by(segment_id) |> summarise(pti = quantile(tt, 0.95) / first(tt_ff))
+```
 
-## Tab Two
+## Python
 
-Content for tab two.
+```{.python}
+pti = df.groupby("segment_id").tt.quantile(0.95) / df.groupby("segment_id").tt_ff.first()
+```
 
-## Tab Three
+## SQL
 
-Content for tab three.
+```{.sql}
+SELECT segment_id, PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY tt) / MIN(tt_ff) AS pti
+FROM speeds GROUP BY segment_id;
+```
 
 :::
 
-Here is a panel input:
+# Tables
+
+| Route               | Mode          | Weekday boardings | Change vs 2023 |
+|:--------------------|:--------------|------------------:|---------------:|
+| Route 200 · State St | Bus           |            14,820 |           +6.2% |
+| Red Line            | Light rail    |            12,950 |           +3.1% |
+| Route 830 · 3500 S  | Bus           |             9,410 |           −1.4% |
+| FrontRunner         | Commuter rail |             7,640 |           +8.9% |
+
+: Sample weekday boardings. Prototype data. {.striped .hover}
+
+# Charts
+
+```{ojs}
+//| echo: false
+import {wfrcColors, wfrcPlot} from "./_extensions/wfrc-brand/assets/charts/wfrc-charts.js"
+data = [
+  {county: "Salt Lake", share: 58.4}, {county: "Utah", share: 17.2},
+  {county: "Davis", share: 9.1}, {county: "Weber", share: 6.3},
+  {county: "Tooele", share: 1.1}, {county: "Box Elder", share: 0.6}
+]
+wfrcPlot({
+  Plot,
+  marginLeft: 80, width: 640,
+  x: {label: "Share of boardings (%)", grid: true},
+  y: {label: null},
+  marks: [
+    Plot.barX(data, {x: "share", y: "county", sort: {y: "-x"}, fill: wfrcColors()[0], rx: 4}),
+    Plot.text(data, {x: "share", y: "county", text: d => d.share.toFixed(1) + "%", dx: 6, textAnchor: "start", fill: "currentColor"})
+  ]
+})
+```
+
+# Inputs
 
 ```{ojs}
 //| panel: input
-//| echo: true
 viewof fruit = Inputs.select(["Apple", "Banana", "Cherry"], {label: "Pick a fruit"})
 ```
 
-Selected fruit: `{ojs} fruit`
+Selected: `{ojs} fruit`
+
+<details>
+<summary>Show the validation checks</summary>
+
+Rank correlation with the 2023 floating-car runs was 0.91 on the sample corridors.
+
+</details>

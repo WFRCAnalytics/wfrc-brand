@@ -1,0 +1,91 @@
+---
+title: "Transit ridership"
+format: wfrc-brand-dashboard
+---
+
+## Row {height=22%}
+
+::: {.valuebox color="primary" icon="bus-front"}
+Avg weekday boardings
+
+412,880
+:::
+
+::: {.valuebox color="secondary" icon="train-front"}
+Share on rail
+
+38.1%
+:::
+
+::: {.valuebox color="danger" icon="exclamation-triangle"}
+Routes below target
+
+17
+:::
+
+::: {.valuebox color="info" icon="bicycle"}
+Bike-share trips
+
+1.9M
+:::
+
+## Row {height=45%}
+
+```{ojs}
+//| echo: false
+//| output: false
+months = d3.range(24).map(i => new Date(2023, i, 1))
+series = ["Bus", "Light rail", "Commuter rail", "Bike share", "Vanpool"]
+base = [1820, 610, 215, 38, 24]
+rows = series.flatMap((s, k) => months.map((m, i) => ({
+  month: m, mode: s,
+  value: Math.round(base[k] * (1 + 0.012 * i) * (1 + 0.05 * Math.sin((i % 12 - 2) / 12 * 2 * Math.PI)))
+})))
+chart = n => getComputedStyle(document.documentElement).getPropertyValue(`--wfrc-chart-${n}`).trim()
+```
+
+### Column {width=65%}
+
+::: {.card title="Average weekday boardings by mode"}
+```{ojs}
+//| echo: false
+Plot.plot({
+  width: 760, height: 320, marginRight: 90,
+  y: {grid: true, label: "Boardings (thousands)"},
+  color: {domain: series, range: [1,2,3,4,5].map(chart), legend: true},
+  marks: [
+    Plot.line(rows, {x: "month", y: "value", stroke: "mode", strokeWidth: 2}),
+    Plot.text(rows.filter(d => +d.month === +months[23]), {x: "month", y: "value", text: "mode", dx: 8, textAnchor: "start", fill: "currentColor"})
+  ]
+})
+```
+:::
+
+### Column {width=35%}
+
+::: {.card title="Share of boardings by county"}
+```{ojs}
+//| echo: false
+Plot.plot({
+  marginLeft: 80, height: 320,
+  x: {label: "%", grid: true}, y: {label: null},
+  marks: [Plot.barX([
+    {c: "Salt Lake", v: 58.4}, {c: "Utah", v: 17.2}, {c: "Davis", v: 9.1},
+    {c: "Weber", v: 6.3}, {c: "Tooele", v: 1.1}, {c: "Box Elder", v: 0.6}
+  ], {x: "v", y: "c", sort: {y: "-x"}, fill: chart(1), rx: 4})]
+})
+```
+:::
+
+## Row {height=33%}
+
+::: {.card title="Route performance"}
+
+| Route | Mode | Weekday boardings | Change vs 2023 |
+|:--|:--|--:|--:|
+| Route 200 · State St | Bus | 14,820 | +6.2% |
+| Red Line | Light rail | 12,950 | +3.1% |
+| Route 830 · 3500 S | Bus | 9,410 | −1.4% |
+| FrontRunner | Commuter rail | 7,640 | +8.9% |
+
+:::

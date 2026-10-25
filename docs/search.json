@@ -1,9 +1,65 @@
 [
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "WFRC Analytics brand",
+    "section": "",
+    "text": "This site renders the wfrc-brand extension on three pages. Each one is checked in light and dark mode and at phone width."
+  },
+  {
+    "objectID": "index.html#use-it",
+    "href": "index.html#use-it",
+    "title": "WFRC Analytics brand",
+    "section": "Use it",
+    "text": "Use it\nquarto add WFRCAnalytics/wfrc-brand\nSetup, design tokens, component classes and the migration checklist are in the README."
+  },
+  {
+    "objectID": "example-landing.html",
+    "href": "example-landing.html",
+    "title": "WFRC landing page preview",
+    "section": "",
+    "text": "A data-driven look at where protected bike facilities end, who lives beyond them, and which short connections would link the most people to jobs and transit.\nOpen the dashboard Read the methods\nActive transportation R Python Updated Oct 2026"
+  },
+  {
+    "objectID": "example-landing.html#whats-in-this-project",
+    "href": "example-landing.html#whats-in-this-project",
+    "title": "WFRC landing page preview",
+    "section": "What’s in this project",
+    "text": "What’s in this project\n\n\nDashboard\nFilter gaps by county and facility type. Rank connections by people reached.\nOpen dashboard\n\n\nTechnical documentation\nNetwork build, gap definition, scoring weights and validation.\nRead the docs\n\n\nData and code\nGeoPackage and CSV downloads, plus the Quarto source for every figure.\nGet the data"
+  },
+  {
+    "objectID": "example-landing.html#the-question-this-answers",
+    "href": "example-landing.html#the-question-this-answers",
+    "title": "WFRC landing page preview",
+    "section": "The question this answers",
+    "text": "The question this answers\nMost of the region’s bike lanes are short. A rider who starts on a protected lane often meets a gap within a mile.\n\n\n412 gaps scored\n\n\n38 priority links\n\n\n6 counties"
+  },
+  {
+    "objectID": "example-landing.html#recent-updates",
+    "href": "example-landing.html#recent-updates",
+    "title": "WFRC landing page preview",
+    "section": "Recent updates",
+    "text": "Recent updates\n\nOct 21 Gap scores rebuilt with 2025 parcel data\nOct 02 Equity-priority overlay added to the dashboard\nSep 11 Methods page now documents scoring weights"
+  },
+  {
     "objectID": "example.html",
     "href": "example.html",
-    "title": "your brand extension",
+    "title": "WFRC brand preview",
     "section": "",
-    "text": "brand.yml extension\nHere is some inline code: def foo(x): return x and y and z.\nHere is a link.\nHere is a code block:\n# | echo: true\nfibonacci &lt;- function(n) {\n  if (n &lt;= 0) {\n    return(NULL)\n  } else if (n == 1) {\n    return(0)\n  } else if (n == 2) {\n    return(1)\n  } else {\n    return(fibonacci(n - 1) + fibonacci(n - 2))\n  }\n}"
+    "text": "Body text is Poppins at 16px with a 1.6 line height. Headings are Inter. Here is a standard link, some inline code, and a footnote.1\n\n\n\n\n\n\n\nBlockquotes carry a 4px rule in the bright blue and softer text."
+  },
+  {
+    "objectID": "example.html#second-level-heading",
+    "href": "example.html#second-level-heading",
+    "title": "WFRC brand preview",
+    "section": "",
+    "text": "Blockquotes carry a 4px rule in the bright blue and softer text."
+  },
+  {
+    "objectID": "example.html#footnotes",
+    "href": "example.html#footnotes",
+    "title": "WFRC brand preview",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nFootnotes use the same body type at a smaller size.↩︎"
   }
 ]

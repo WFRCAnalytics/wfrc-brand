@@ -56,6 +56,7 @@ website:
             target: _blank
     tools:
       - icon: github
+        text: GitHub
         menu:
           - text: Source Code
             href: https://github.com/WFRCAnalytics/wfrcanalytics.github.io
@@ -106,6 +107,38 @@ website:
         aria-label: License
         href: https://wfrcanalytics.github.io/license/
         target: _blank
+
+# ── HTML format defaults ──────────────────────────────────────────────────────
+# These live here (not only in _extension.yml) because Quarto applies
+# contributes.formats.html only to the extension's own format (wfrc-brand-html),
+# never to plain `format: html`. Paths are relative to the project root.
+# Do not add a `dashboard:` key here: in a project-level metadata file it breaks
+# the announcement render for every HTML page (Quarto 1.10). Dashboards use
+# `format: wfrc-brand-dashboard` instead.
+format:
+  html:
+    theme:
+      light:
+        - _extensions/wfrc-brand/assets/theme/wfrc.scss
+        - _extensions/wfrc-brand/assets/theme/wfrc-light.scss
+        - _extensions/wfrc-brand/assets/theme/wfrc-overrides.scss
+        - brand
+      dark:
+        - _extensions/wfrc-brand/assets/theme/wfrc.scss
+        - _extensions/wfrc-brand/assets/theme/wfrc-dark.scss
+        - _extensions/wfrc-brand/assets/theme/wfrc-overrides.scss
+        - brand
+    highlight-style:
+      light: _extensions/wfrc-brand/assets/theme/wfrc-light.theme
+      dark: _extensions/wfrc-brand/assets/theme/wfrc-dark.theme
+    respect-user-color-scheme: true
+    axe: true
+    page-layout: full
+    toc: true
+    toc-expand: 2
+    smooth-scroll: true
+    grid:
+      sidebar-width: 350px
 
 # Freeze — org standard: auto freeze outputs (re-execute only if file updated)
 # (see https://quarto.org/docs/projects/code-execution.html#freeze)

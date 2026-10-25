@@ -1,0 +1,80 @@
+---
+title: "WFRC landing page preview"
+pagetitle: "Landing preview"
+toc: false
+title-block-banner: false
+---
+
+::: {.wfrc-hero .column-screen}
+# Finding the gaps in the Wasatch Front [bike network.]{.accent}
+
+A data-driven look at where protected bike facilities end, who lives beyond them, and which short connections would link the most people to jobs and transit.
+
+[Open the dashboard](#){.btn .btn-light} [Read the methods](#){.btn .btn-outline-light}
+
+[Active transportation]{.wfrc-chip} [R]{.wfrc-chip} [Python]{.wfrc-chip} [Updated Oct 2026]{.wfrc-chip}
+:::
+
+::: {.wfrc-band .column-screen}
+## What's in this project
+
+::: {.wfrc-blocks}
+::: {.wfrc-block}
+### Dashboard
+
+Filter gaps by county and facility type. Rank connections by people reached.
+
+[Open dashboard](#){.btn .btn-sm}
+:::
+
+::: {.wfrc-block .mid}
+### Technical documentation
+
+Network build, gap definition, scoring weights and validation.
+
+[Read the docs](#){.btn .btn-sm}
+:::
+
+::: {.wfrc-block .brick}
+### Data and code
+
+GeoPackage and CSV downloads, plus the Quarto source for every figure.
+
+[Get the data](#){.btn .btn-sm}
+:::
+:::
+:::
+
+
+::: {.wfrc-band-alt .column-screen}
+## The question this answers
+
+Most of the region's bike lanes are short. A rider who starts on a protected lane often meets a gap within a mile.
+
+::: {.wfrc-keyfacts}
+::: {}
+**412**
+gaps scored
+:::
+::: {}
+**38**
+priority links
+:::
+::: {}
+**6**
+counties
+:::
+:::
+
+
+## Recent updates
+
+::: {.wfrc-updates}
+[Oct 21]{.wfrc-date} Gap scores rebuilt with 2025 parcel data
+
+[Oct 02]{.wfrc-date} Equity-priority overlay added to the dashboard
+
+[Sep 11]{.wfrc-date} Methods page now documents scoring weights
+:::
+
+:::

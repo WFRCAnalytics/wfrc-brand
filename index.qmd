@@ -1,0 +1,41 @@
+---
+title: "WFRC Analytics brand"
+subtitle: "Quarto brand extension: preview site"
+toc: false
+---
+
+This site renders the `wfrc-brand` extension on three pages. Each one is checked in light and dark mode and at phone width.
+
+::: {.wfrc-blocks}
+::: {.wfrc-block}
+### Components
+
+Every element the theme styles: headings, callouts, code, tabsets, tables, charts and inputs.
+
+[Open the preview](example.qmd){.btn .btn-sm}
+:::
+
+::: {.wfrc-block .mid}
+### Landing page
+
+The hero, color blocks, key facts and update list, built from `.wfrc-*` classes.
+
+[Open the preview](example-landing.qmd){.btn .btn-sm}
+:::
+
+::: {.wfrc-block .brick}
+### Dashboard
+
+Value boxes, cards and charts with `format: wfrc-brand-dashboard`.
+
+[Open the preview](example-dashboard.qmd){.btn .btn-sm}
+:::
+:::
+
+## Use it
+
+```bash
+quarto add WFRCAnalytics/wfrc-brand
+```
+
+Setup, design tokens, component classes and the migration checklist are in the [README](https://github.com/WFRCAnalytics/wfrc-brand#readme).

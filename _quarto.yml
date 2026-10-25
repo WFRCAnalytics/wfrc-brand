@@ -1,47 +1,34 @@
-# _quarto.yml — per-project configuration only.
-# Org-wide defaults (theme, highlight-style, favicon, twitter-card, open-graph,
-# cookie-consent, footer left/center, navbar Follow Us, output-dir, freeze)
-# are contributed automatically by _extensions/wfrc-brand/_extension.yml.
+# _quarto.yml — dev project for the wfrc-brand extension (the preview site in docs/).
+#
+# This is also the smallest correct downstream setup. Everything org-wide (theme,
+# highlight style, layout defaults, navbar social menu, footer, freeze) comes from
+# wfrc-shared.yml, so a project only states what is its own.
 
 project:
   type: website
-  # brand.yml path must be explicit here — contributes.metadata resolves paths
-  # relative to the project root, which works for downstream installs, but the
-  # dev project also needs this explicit reference for correct resolution.
+  output-dir: docs
+  # The brand file path must be explicit: Quarto does not discover brand.yml inside an extension.
   brand: _extensions/wfrc-brand/brand.yml
 
-# 1. Import all the repetitive footer/navbar/social stuff
 metadata-files:
   - _extensions/wfrc-brand/wfrc-shared.yml
 
 website:
-  # ── PER-PROJECT: change these for every new site ───────────────────────────
   title: "Analytics"
   description: "The Wasatch Front Regional Council builds consensus and enhances quality of life by developing and implementing visions and plans for a well-functioning multi-modal transportation system, livable communities, a strong economy, and a healthy environment."
   site-url: "https://wfrcanalytics.github.io"
-  # favicon: "_extensions/wfrc-brand/assets/logo/abbreviated/WFRC_logo_abbreviated_color_transparent.png"
+  navbar:
+    left:
+      - href: example.qmd
+        text: Components
+      - href: example-landing.qmd
+        text: Landing page
+      - href: example-dashboard.qmd
+        text: Dashboard
+      - href: https://github.com/WFRCAnalytics/wfrc-brand#readme
+        text: README
+        target: _blank
 
-format:
-  html:
-    # Theme, highlight-style, respect-user-color-scheme, axe, page-layout,
-    # grid, and toc are contributed by the extension. Repeated here with full
-    # _extensions/wfrc-brand/ paths so the dev project resolves them correctly.
-    axe: true
-    page-layout: full
-    grid:
-      sidebar-width: 350px
-    toc: true
-    toc-expand: 2  # show ## + ### by default instead of Quarto's default depth-1-until-scrolled
-    smooth-scroll: true  # animate the jump on TOC/anchor clicks
-    respect-user-color-scheme: true
-    highlight-style:
-      light: github
-      dark: dracula
-    theme:
-      light:
-        - cosmo
-        - _extensions/wfrc-brand/assets/theme/wfrc.scss
-        - _extensions/wfrc-brand/assets/theme/wfrc-light.scss
-      dark:
-        - _extensions/wfrc-brand/assets/theme/wfrc.scss
-        - _extensions/wfrc-brand/assets/theme/wfrc-dark.scss
+# Quarto lists (navbar items, footer links) append across config levels instead of replacing.
+# Do not repeat the navbar `right`/`tools` or `page-footer` lists that wfrc-shared.yml already
+# supplies, or they appear twice.
