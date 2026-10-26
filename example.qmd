@@ -91,7 +91,7 @@ Rebuilding the network invalidates cached segment IDs. Re-run `make segments` fi
 
 # Listings
 
-Grid listings get a tinted card, a banner and a hover lift. Banners are `assets/cards/{navy,mid,teal,bright,brick}.svg` with `image-height: 84px`; the decorative-image script gives them an empty `alt`.
+Grid listings get the card surface (`--wfrc-card-bg`, a light blue that differs from the page and from `.wfrc-band-alt`), a banner and a hover lift. Banners are `assets/cards/{navy,mid,teal,bright,brick}.svg` with `image-height: 84px`; the decorative-image script gives them an empty `alt`. A site must list the banners under `project.resources` (see the README).
 
 ::: {#demo-grid}
 :::

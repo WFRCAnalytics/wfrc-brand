@@ -7,6 +7,9 @@
 project:
   type: website
   output-dir: docs
+  # Quarto does not copy extension files into the output; the card banners must be listed.
+  resources:
+    - _extensions/wfrc-brand/assets/cards/*.svg
   # The brand file path must be explicit: Quarto does not discover brand.yml inside an extension.
   brand: _extensions/wfrc-brand/brand.yml
 

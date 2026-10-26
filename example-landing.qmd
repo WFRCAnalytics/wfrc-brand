@@ -94,11 +94,13 @@ counties
 [Sep 11]{.wfrc-date} Methods page now documents scoring weights
 :::
 
-:::
-
 ## Related work
 
+The cards below sit on the `.wfrc-band-alt` band; the card surface (`--wfrc-card-bg`) keeps them apart from it in both modes.
+
 ::: {#related}
+:::
+
 :::
 
 ::: {.callout-note}

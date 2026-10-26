@@ -57,7 +57,7 @@ For a standalone document outside a website, `format: wfrc-brand-html` (adds num
 | **Logos** | The brand logo set switches by mode (color on light, white on dark) and carries alt text. |
 | **Navbar** | Page-colored with a hairline, Inter 600 links, uppercase site title, bright-blue underline on hover and for the current page. |
 | **Buttons** | Pill shaped. `.btn-primary` is the AA-safe action blue. |
-| **Cards** | Listings, dashboards and bslib cards: 10px radius, hairline border, soft shadow, Inter header row. Grid listing cards get a tinted surface, a banner image and a hover lift (see **Card banners**). |
+| **Cards** | Listings, dashboards and bslib cards: 10px radius, hairline border, soft shadow, Inter header row. All cards share one light-blue (dark: raised-navy) surface, set apart from the page and from `.wfrc-band-alt`. Grid listing cards add a banner image and a hover lift (see **Card banners**). |
 | **Callouts** | Five types: a 4px bar in the type color, a 9% tinted body, a 16% title strip, 8px radius on the right, and a filled-circle icon with the glyph cut out in the page color. Text stays in the ink color. |
 | **Code** | Cool-tinted blocks, no ligatures, custom syntax palette (`wfrc-light.theme`, `wfrc-dark.theme`) that holds AA contrast. |
 | **Tabsets** | The active tab and its pane share one surface. |
@@ -71,7 +71,7 @@ For a standalone document outside a website, `format: wfrc-brand-html` (adds num
 
 ## Card banners
 
-Grid listings (`type: grid`) get a tinted card surface, a hairline border and a hover lift (disabled under `prefers-reduced-motion`). Five banner images with contour lines echoing `.wfrc-hero` ship in `assets/cards/`: `navy`, `mid`, `teal`, `bright` and `brick`. Use them as the listing `image:` and set a short `image-height`:
+Grid listings (`type: grid`) get the card surface (`wfrc-card` / `wfrc-night-card`), a hairline border and a hover lift (disabled under `prefers-reduced-motion`). Five banner images with contour lines echoing `.wfrc-hero` ship in `assets/cards/`: `navy`, `mid`, `teal`, `bright` and `brick`. Use them as the listing `image:` and set a short `image-height`:
 
 ```yaml
 listing:
@@ -84,7 +84,43 @@ listing:
       categories: [Live, App]
 ```
 
+**Quarto does not copy extension files into the output**, so a site must publish the banners itself. Add this to `_quarto.yml`, or the images 404 where the page does not resolve them (CSS `url()`, previews, pages that reference them directly):
+
+```yaml
+project:
+  resources:
+    - _extensions/wfrc-brand/assets/cards/*.svg
+```
+
+The `image:` path in a listing is relative to the page. For a page in a subfolder, go up to the project root: `../_extensions/wfrc-brand/assets/cards/navy.svg`.
+
+> In a test render with `site-url` set, Quarto 1.10 rewrote listing images to `<site-url>/site_libs/quarto-contrib/...` and copied the files there, so listings worked even without `resources`. That URL points at the live site, which is why images 404 locally or before the first deploy. `resources` is the reliable fix.
+
+**Card colors.** `brand.yml` defines `wfrc-card` (`#E8F5FA`, bright blue 9% over white) and `wfrc-night-card` (`#17384F`), with the card border `wfrc-night-card-line` (`#2F6286`) on dark; on light the border is bright blue mixed 24% into the hairline. The theme exposes them as CSS variables, `--wfrc-card-bg` and `--wfrc-card-line`, so a site's own cards can match:
+
+```css
+.my-tile { background: var(--wfrc-card-bg); border: 1px solid var(--wfrc-card-line); }
+```
+
+Outline buttons inside `.card` use the link color, because the action blue falls below AA on the light card surface.
+
 Banners are decorative. Quarto drops `image-alt: ""`, so the bundled script (`assets/js/a11y-fixes.html`, included through `wfrc-shared.yml`) sets an empty `alt` on them after render. Table listings keep titles at body size, and category chips use the body color at full opacity so they pass AA in both modes.
+
+---
+
+## Site scripts
+
+`wfrc-shared.yml` sets `format.html.include-after-body` to the accessibility script. Quarto does not merge two `include-after-body` values here: when a site sets its own in `_quarto.yml`, only one applies (in a test render the extension's script won and the site's was dropped).
+
+**Sites should add their own scripts with `include-in-header` or `include-before-body`, not `include-after-body`.** A site that sets both `include-in-header` and `include-before-body` alongside the shared defaults keeps both, and the accessibility script still loads (verified in a Quarto 1.10 test render).
+
+---
+
+## Footer links
+
+The shared footer (`wfrc-shared.yml`) links to `contact/index.qmd` and `license/index.qmd` with site-relative paths. The pages are expected to exist: copy `_extensions/wfrc-brand/templates/contact.qmd` and `license.qmd` to `contact/index.qmd` and `license/index.qmd` (the templates are meant to be edited per site). A site without them gets dead links.
+
+A site that does not want them must override the footer, but **setting `website.page-footer.right` in `_quarto.yml` does not replace the list**: Quarto appends it, so the site's links appear next to Contact and License (verified in a Quarto 1.10 test render). To drop the two links, keep a local copy of `wfrc-shared.yml` with the `right:` block edited and point `metadata-files` at the copy.
 
 ---
 
@@ -197,7 +233,7 @@ The two exceptions are the Pandoc syntax themes (`.theme` JSON cannot reference 
 |---|---|---|
 | Page | `#FFFFFF` | `#0A1F2E` |
 | Alternate band / raised surface | `#F4F2EF` / `#EAF0F4` | `#0E2738` / `#17384F` |
-| Card | `#FFFFFF` | `#122E46` |
+| Card (`--wfrc-card-bg`) / card border (`--wfrc-card-line`) | `#E8F5FA` / `#A5CEDD` | `#17384F` / `#2F6286` |
 | Text / secondary text | `#16232C` / `#4F5E69` | `#E8EEF2` / `#A3B8C6` |
 | Hairline | `#D9E0E5` | `#264A63` |
 | Heading 1 / headings 2–6 | `#00395B` / `#2C6788` | `#BFE6F5` / `#8FCBE6` |
@@ -262,6 +298,13 @@ Preview: `quarto preview` renders [`example.qmd`](example.qmd) (every component)
 **Versioning.** Bump `version` in `_extension.yml` on every meaningful change. Downstream sites update with `quarto update WFRCAnalytics/wfrc-brand`.
 
 ### Changelog
+
+**0.3.0** — Card surface tokens and documentation.
+- New brand colors `wfrc-card` (`#E8F5FA`), `wfrc-night-card` (`#17384F`) and `wfrc-night-card-line` (`#2F6286`); roles `$wfrc-card` and `$wfrc-card-line` in the light and dark role maps. Cards were the same tone as `.wfrc-band-alt`, so they vanished on landing pages.
+- Grid listing cards, dashboard cards and bslib cards (headers, toolbars, footers) use the card surface and border. CSS variables `--wfrc-card-bg` and `--wfrc-card-line` are exposed for site components.
+- Outline buttons inside cards use the link color to hold AA contrast on the light card surface.
+- README: card banners need `project.resources` and a page-relative `image:` path; sites should add scripts with `include-in-header` or `include-before-body` (a site `include-after-body` is dropped); new **Footer links** section.
+- No `_quarto.yml` change is required. Sites that defined their own card surface (for example `--wfrc-card-bg` in site CSS) can delete it.
 
 **0.2.0** — Callouts, listing cards and shared fixes, moved up from the wfrcanalytics.github.io redesign.
 - Callouts now match the design reference: 4px type-color bar, 9% body tint and 16% title strip over the page color, square left and 8px right corners, Inter 700 0.9rem title with 8px 14px padding, body 0.93rem, and a **filled-circle icon** in the type color with the glyph in the page color (replaces Quarto's outline icon).

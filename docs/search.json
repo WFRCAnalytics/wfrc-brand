@@ -74,7 +74,7 @@
     "href": "example-landing.html#related-work",
     "title": "WFRC landing page preview",
     "section": "Related work",
-    "text": "Related work\n\n\n\n\n\n\n\n\n\n\nDashboard\n\n\n\nApp\n\n\n\nGap scores by corridor with equity overlays.\n\n\n\n\n\n\n\n\n\n\n\n\nTechnical documentation\n\n\n\nDocs\n\n\n\nScoring weights, data sources and validation.\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\nNoteFooter links\n\n\n\nThe footer’s Contact and License links are site-relative. Copy _extensions/wfrc-brand/templates/contact.qmd and license.qmd to contact/index.qmd and license/index.qmd."
+    "text": "Related work\nThe cards below sit on the .wfrc-band-alt band; the card surface (--wfrc-card-bg) keeps them apart from it in both modes.\n\n\n\n\n\n\n\n\n\n\nDashboard\n\n\n\nApp\n\n\n\nGap scores by corridor with equity overlays.\n\n\n\n\n\n\n\n\n\n\n\n\nTechnical documentation\n\n\n\nDocs\n\n\n\nScoring weights, data sources and validation.\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
