@@ -1,10 +1,52 @@
 [
   {
-    "objectID": "license/index.html",
-    "href": "license/index.html",
-    "title": "License",
+    "objectID": "terms/index.html",
+    "href": "terms/index.html",
+    "title": "Terms of use",
     "section": "",
-    "text": "Content on this website is released under a Creative Commons Attribution-ShareAlike 4.0 International License. Please share and reuse anything you find valuable, with appropriate citation.\nCC BY-SA 4.0\nSource code in this site’s repository is covered by the license file in the repository root."
+    "text": "The Wasatch Front Regional Council (WFRC) is a public agency. This site and the tools on it are published for public use, and no license or fee is attached to what the team produces. Data from other organizations is different: it keeps its original terms."
+  },
+  {
+    "objectID": "terms/index.html#material-made-by-team-name",
+    "href": "terms/index.html#material-made-by-team-name",
+    "title": "Terms of use",
+    "section": "Material made by [team name]",
+    "text": "Material made by [team name]\nYou may read, share, link to and build on the pages, charts, maps and apps this team created. There is no license to request and no fee. Because WFRC is a public agency, its data and methods must not be misrepresented, so reuse comes with three conditions:\n\nCredit the work and link to the source. For example: Wasatch Front Regional Council. (2026). [Tool name] [Online tool]. https://example.org/tool/\nIf you modify, adapt or build on our work, you must say clearly what you changed. Describe the changes to the data, the method, the settings or the presentation, and name who made them. A changed version must never be presented as WFRC’s own. For example: “Based on WFRC’s [Tool name] (2026). Modified by [organization]: [what changed].”\nDo not imply that WFRC endorses your version, your conclusions or your product. Do not use the WFRC name or logo in a way that suggests it does.\n\nThese conditions apply to results from our tools and models as well as to the pages and maps themselves."
+  },
+  {
+    "objectID": "terms/index.html#data-from-other-sources",
+    "href": "terms/index.html#data-from-other-sources",
+    "title": "Terms of use",
+    "section": "Data from other sources",
+    "text": "Data from other sources\nMany tools combine WFRC’s work with data from other organizations. That data keeps its original copyright and terms, and you must follow them if you reuse it. Check the provider before you republish, redistribute or build a product on it.\n\n\n\nSource\nUsed for\n\n\n\n\nExample data provider\nReplace with what this site uses the data for\n\n\nAnother data provider\nReplace with what this site uses the data for"
+  },
+  {
+    "objectID": "terms/index.html#models",
+    "href": "terms/index.html#models",
+    "title": "Terms of use",
+    "section": "Models",
+    "text": "Models\n\nDescribe how models are shared, for example by request under a release letter, and link to that page."
+  },
+  {
+    "objectID": "terms/index.html#source-code",
+    "href": "terms/index.html#source-code",
+    "title": "Terms of use",
+    "section": "Source code",
+    "text": "Source code\n\nThe source code for this site is in its GitHub repository. Libraries and data used inside it keep their own licenses and terms."
+  },
+  {
+    "objectID": "terms/index.html#no-warranty",
+    "href": "terms/index.html#no-warranty",
+    "title": "Terms of use",
+    "section": "No warranty",
+    "text": "No warranty\nTools and data are provided in good faith as best-effort planning products. You are responsible for how you apply them and interpret their results."
+  },
+  {
+    "objectID": "terms/index.html#questions",
+    "href": "terms/index.html#questions",
+    "title": "Terms of use",
+    "section": "Questions",
+    "text": "Questions\nIf you are unsure whether you may reuse something, contact the team."
   },
   {
     "objectID": "example.html",

@@ -105,5 +105,5 @@ The cards below sit on the `.wfrc-band-alt` band; the card surface (`--wfrc-card
 
 ::: {.callout-note}
 ## Footer links
-The footer's Contact and License links are site-relative. Copy `_extensions/wfrc-brand/templates/contact.qmd` and `license.qmd` to `contact/index.qmd` and `license/index.qmd`.
+The footer's Contact and Terms of use links are site-relative. Copy `_extensions/wfrc-brand/templates/contact.qmd` and `terms.qmd` to `contact/index.qmd` and `terms/index.qmd`.
 :::

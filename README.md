@@ -118,9 +118,9 @@ Banners are decorative. Quarto drops `image-alt: ""`, so the bundled script (`as
 
 ## Footer links
 
-The shared footer (`wfrc-shared.yml`) links to `contact/index.qmd` and `license/index.qmd` with site-relative paths. The pages are expected to exist: copy `_extensions/wfrc-brand/templates/contact.qmd` and `license.qmd` to `contact/index.qmd` and `license/index.qmd` (the templates are meant to be edited per site). A site without them gets dead links.
+The shared footer (`wfrc-shared.yml`) links to `contact/index.qmd` (label "Contact") and `terms/index.qmd` (label "Terms of use") with site-relative paths. The pages are expected to exist: copy `_extensions/wfrc-brand/templates/contact.qmd` and `terms.qmd` to `contact/index.qmd` and `terms/index.qmd`. The templates are meant to be edited per site; the terms wording is a draft that WFRC communications or legal should confirm before a site publishes it. A site without these pages gets dead links.
 
-A site that does not want them must override the footer, but **setting `website.page-footer.right` in `_quarto.yml` does not replace the list**: Quarto appends it, so the site's links appear next to Contact and License (verified in a Quarto 1.10 test render). To drop the two links, keep a local copy of `wfrc-shared.yml` with the `right:` block edited and point `metadata-files` at the copy.
+A site that does not want them must override the footer, but **setting `website.page-footer.right` in `_quarto.yml` does not replace the list**: Quarto appends it, so the site's links appear next to Contact and Terms of use (verified in a Quarto 1.10 test render). To drop the two links, keep a local copy of `wfrc-shared.yml` with the `right:` block edited and point `metadata-files` at the copy.
 
 ---
 
@@ -255,7 +255,7 @@ Use the [wfrcanalytics.github.io](https://github.com/WFRCAnalytics/wfrcanalytics
 2. Delete the site's own `_brand.yml`, custom theme SCSS, `format.html.theme`, `css:` and `include-in-header` font preloads.
 3. **Remove anything `wfrc-shared.yml` already supplies.** Quarto lists *append* across config levels, so a site that also defines its own "Follow Us" menu, GitHub tools menu or footer links shows them twice.
 4. Keep what is yours: `website.title`, `site-url`, `navbar.left`, the sidebars, announcements, and per-site GitHub links.
-5. **Add `contact/index.qmd` and `license/index.qmd`.** The shared footer links to them with site-relative paths (so previews stay local). Start from `_extensions/wfrc-brand/templates/contact.qmd` and `license.qmd`.
+5. **Add `contact/index.qmd` and `terms/index.qmd`.** The shared footer links to them with site-relative paths (so previews stay local). Start from `_extensions/wfrc-brand/templates/contact.qmd` and `terms.qmd`. A site that already has `license/index.qmd` should move it (see the 0.4.0 migration).
 6. Remove what is now shared: `link-external-newwindow: true`, any copy of `decorative-images.html` in `include-after-body`, and site CSS for listing cards, table-listing titles and category chips.
 7. Pages that used the old `index.scss` classes (`#bio`, `#landing-icons`, `.name-highlight`) still work. New pages can use the `.wfrc-*` components above.
 8. Render, then clear the cache if styles look stale (see below).
@@ -298,6 +298,11 @@ Preview: `quarto preview` renders [`example.qmd`](example.qmd) (every component)
 **Versioning.** Bump `version` in `_extension.yml` on every meaningful change. Downstream sites update with `quarto update WFRCAnalytics/wfrc-brand`.
 
 ### Changelog
+
+**0.4.0** — The footer's "License" link becomes "Terms of use".
+- WFRC is a public agency and attaches no license to its material, so the footer label, path and template changed: `wfrc-shared.yml` now links `Terms of use` to `terms/index.qmd`. `templates/license.qmd` (which claimed CC BY-SA 4.0) is replaced by `templates/terms.qmd`: public use, credit and link, a required statement of what you changed, no implied endorsement, third-party data under its own terms, optional Models and Source code sections, no warranty. The wording is a draft for WFRC communications or legal to confirm.
+- **Migration.** A site that has `license/index.qmd`: move it to `terms/index.qmd`, add `aliases: [/license/]` to its front matter so old links keep working, and review the text against `templates/terms.qmd` (remove any CC BY-SA statement). Until a site has `terms/index.qmd`, its footer link is dead. Run `quarto update WFRCAnalytics/wfrc-brand`, then render.
+- Only the footer changes; no `_quarto.yml` edits are needed.
 
 **0.3.1** — The footer copyright year is no longer hardcoded.
 - Added the `{{< year >}}` shortcode (`shortcodes/year.lua`); `wfrc-shared.yml` uses it, so the footer shows the year of the build. Pages rebuild with a full `quarto render`; a page skipped by `freeze` keeps the year it was last rendered with. Sites can use `{{< year >}}` in their own text.
