@@ -3,6 +3,42 @@ title: "WFRC brand preview"
 subtitle: "Every component the theme styles, on one page"
 title-block-banner: true
 toc: true
+listing:
+  - id: demo-grid
+    type: grid
+    image-height: 84px
+    categories: false
+    fields: [image, title, description, categories]
+    contents:
+      - title: Reliability atlas
+        description: Planning Time Index by corridor and period.
+        path: example-dashboard.qmd
+        image: _extensions/wfrc-brand/assets/cards/navy.svg
+        categories: [Live, App]
+      - title: Gap scoring model
+        description: Pedestrian network gaps ranked by people reached.
+        path: example-landing.qmd
+        image: _extensions/wfrc-brand/assets/cards/brick.svg
+        categories: [Archive, Model]
+      - title: Boardings explorer
+        description: Weekday boardings by route and mode.
+        path: example.qmd
+        image: _extensions/wfrc-brand/assets/cards/teal.svg
+        categories: [Live, Data]
+  - id: demo-table
+    type: table
+    fields: [title, description, categories]
+    sort-ui: false
+    filter-ui: false
+    contents:
+      - title: Reliability atlas
+        description: Planning Time Index by corridor and period.
+        path: example-dashboard.qmd
+        categories: [Live, App]
+      - title: Gap scoring model
+        description: Pedestrian network gaps ranked by people reached.
+        path: example-landing.qmd
+        categories: [Archive, Model]
 # Full-bleed hero and band sections live in example-landing.qmd: they cover the TOC.
 ---
 
@@ -51,6 +87,18 @@ Do not compare PTI across periods with different free-flow baselines.
 ::: {.callout-caution collapse="true"}
 ## Caution (collapsible)
 Rebuilding the network invalidates cached segment IDs. Re-run `make segments` first.
+:::
+
+# Listings
+
+Grid listings get a tinted card, a banner and a hover lift. Banners are `assets/cards/{navy,mid,teal,bright,brick}.svg` with `image-height: 84px`; the decorative-image script gives them an empty `alt`.
+
+::: {#demo-grid}
+:::
+
+Table listings keep titles at body size, and category chips keep AA contrast.
+
+::: {#demo-table}
 :::
 
 # Code

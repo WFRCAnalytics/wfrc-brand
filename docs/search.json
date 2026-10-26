@@ -1,17 +1,45 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "WFRC Analytics brand",
+    "objectID": "license/index.html",
+    "href": "license/index.html",
+    "title": "License",
     "section": "",
-    "text": "This site renders the wfrc-brand extension on three pages. Each one is checked in light and dark mode and at phone width."
+    "text": "Content on this website is released under a Creative Commons Attribution-ShareAlike 4.0 International License. Please share and reuse anything you find valuable, with appropriate citation.\nCC BY-SA 4.0\nSource code in this site’s repository is covered by the license file in the repository root."
   },
   {
-    "objectID": "index.html#use-it",
-    "href": "index.html#use-it",
-    "title": "WFRC Analytics brand",
-    "section": "Use it",
-    "text": "Use it\nquarto add WFRCAnalytics/wfrc-brand\nSetup, design tokens, component classes and the migration checklist are in the README."
+    "objectID": "example.html",
+    "href": "example.html",
+    "title": "WFRC brand preview",
+    "section": "",
+    "text": "Body text is Poppins at 16px with a 1.6 line height. Headings are Inter. Here is a standard link, some inline code, and a footnote.1\n\n\n\n\n\n\n\nBlockquotes carry a 4px rule in the bright blue and softer text."
+  },
+  {
+    "objectID": "example.html#second-level-heading",
+    "href": "example.html#second-level-heading",
+    "title": "WFRC brand preview",
+    "section": "",
+    "text": "Blockquotes carry a 4px rule in the bright blue and softer text."
+  },
+  {
+    "objectID": "example.html#footnotes",
+    "href": "example.html#footnotes",
+    "title": "WFRC brand preview",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nFootnotes use the same body type at a smaller size.↩︎"
+  },
+  {
+    "objectID": "contact/index.html",
+    "href": "contact/index.html",
+    "title": "Contact",
+    "section": "",
+    "text": "Questions, data requests, or help applying our tools? Reach the Analytics team directly."
+  },
+  {
+    "objectID": "contact/index.html#found-a-problem-with-this-site",
+    "href": "contact/index.html#found-a-problem-with-this-site",
+    "title": "Contact",
+    "section": "Found a problem with this site?",
+    "text": "Found a problem with this site?\nOpen an issue in this site’s GitHub repository (use the GitHub menu in the navigation bar). For general information about WFRC programs and services, visit wfrc.utah.gov."
   },
   {
     "objectID": "example-landing.html",
@@ -42,24 +70,24 @@
     "text": "Recent updates\n\nOct 21 Gap scores rebuilt with 2025 parcel data\nOct 02 Equity-priority overlay added to the dashboard\nSep 11 Methods page now documents scoring weights"
   },
   {
-    "objectID": "example.html",
-    "href": "example.html",
-    "title": "WFRC brand preview",
-    "section": "",
-    "text": "Body text is Poppins at 16px with a 1.6 line height. Headings are Inter. Here is a standard link, some inline code, and a footnote.1\n\n\n\n\n\n\n\nBlockquotes carry a 4px rule in the bright blue and softer text."
+    "objectID": "example-landing.html#related-work",
+    "href": "example-landing.html#related-work",
+    "title": "WFRC landing page preview",
+    "section": "Related work",
+    "text": "Related work\n\n\n\n\n\n\n\n\n\n\nDashboard\n\n\n\nApp\n\n\n\nGap scores by corridor with equity overlays.\n\n\n\n\n\n\n\n\n\n\n\n\nTechnical documentation\n\n\n\nDocs\n\n\n\nScoring weights, data sources and validation.\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\nNoteFooter links\n\n\n\nThe footer’s Contact and License links are site-relative. Copy _extensions/wfrc-brand/templates/contact.qmd and license.qmd to contact/index.qmd and license/index.qmd."
   },
   {
-    "objectID": "example.html#second-level-heading",
-    "href": "example.html#second-level-heading",
-    "title": "WFRC brand preview",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "WFRC Analytics brand",
     "section": "",
-    "text": "Blockquotes carry a 4px rule in the bright blue and softer text."
+    "text": "This site renders the wfrc-brand extension on three pages. Each one is checked in light and dark mode and at phone width."
   },
   {
-    "objectID": "example.html#footnotes",
-    "href": "example.html#footnotes",
-    "title": "WFRC brand preview",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nFootnotes use the same body type at a smaller size.↩︎"
+    "objectID": "index.html#use-it",
+    "href": "index.html#use-it",
+    "title": "WFRC Analytics brand",
+    "section": "Use it",
+    "text": "Use it\nquarto add WFRCAnalytics/wfrc-brand\nSetup, design tokens, component classes and the migration checklist are in the README."
   }
 ]

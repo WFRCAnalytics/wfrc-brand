@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://wfrcanalytics.github.io/index.html</loc>
-    <lastmod>2026-10-25T20:40:56.568Z</lastmod>
+    <loc>https://wfrcanalytics.github.io/license/index.html</loc>
+    <lastmod>2026-10-26T02:08:20.987Z</lastmod>
   </url>
   <url>
-    <loc>https://wfrcanalytics.github.io/example-landing.html</loc>
-    <lastmod>2026-10-25T20:28:06.546Z</lastmod>
+    <loc>https://wfrcanalytics.github.io/example.html</loc>
+    <lastmod>2026-10-26T02:08:30.280Z</lastmod>
   </url>
   <url>
     <loc>https://wfrcanalytics.github.io/example-dashboard.html</loc>
     <lastmod>2026-10-25T20:29:09.974Z</lastmod>
   </url>
   <url>
-    <loc>https://wfrcanalytics.github.io/example.html</loc>
-    <lastmod>2026-10-25T20:40:26.109Z</lastmod>
+    <loc>https://wfrcanalytics.github.io/contact/index.html</loc>
+    <lastmod>2026-10-26T02:08:20.966Z</lastmod>
+  </url>
+  <url>
+    <loc>https://wfrcanalytics.github.io/example-landing.html</loc>
+    <lastmod>2026-10-26T02:08:41.488Z</lastmod>
+  </url>
+  <url>
+    <loc>https://wfrcanalytics.github.io/index.html</loc>
+    <lastmod>2026-10-25T20:40:56.568Z</lastmod>
   </url>
 </urlset>

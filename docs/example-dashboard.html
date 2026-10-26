@@ -83,9 +83,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-b81cf0d8b620db449052b3f2608d3c06.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b9be9a965257f15bbea262fb5029c6a3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-05fe7b6ef665f4053a22fbaee03a128a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-b9be9a965257f15bbea262fb5029c6a3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-bf313c3068a10a60d8be1a2475a9e849.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-7092e92811f02b47377b6f87ed0edb3f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-bf313c3068a10a60d8be1a2475a9e849.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-dashboard/quarto-dashboard.js"></script>
 <script src="site_libs/quarto-dashboard/stickythead.js"></script>
 
@@ -656,6 +656,100 @@ Route performance
 </div>
 
 
+<script>
+
+// Accessibility fixes for things Quarto and its libraries render but cannot configure.
+
+// Included on every page through wfrc-shared.yml (format.html.include-after-body).
+
+(function () {
+
+  function fix(root) {
+
+    // Listing banners are decorative; Quarto drops an empty `image-alt`.
+
+    root.querySelectorAll('img.thumbnail-image:not([alt])').forEach(function (img) {
+
+      img.setAttribute('alt', '');
+
+    });
+
+    // Quarto only sets `title` on the color-scheme toggle: add an accessible name and a clearer tooltip.
+
+    root.querySelectorAll('.quarto-color-scheme-toggle:not([aria-label])').forEach(function (a) {
+
+      a.setAttribute('aria-label', 'Toggle light and dark mode');
+
+      a.setAttribute('title', 'Toggle light / dark');
+
+    });
+
+    // Collapsible callouts put aria-expanded on a plain div: make it a real, keyboard-operable button.
+
+    root.querySelectorAll('.callout-header[aria-expanded]:not([role])').forEach(function (h) {
+
+      h.setAttribute('role', 'button');
+
+      h.setAttribute('tabindex', '0');
+
+      h.addEventListener('keydown', function (e) {
+
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); h.click(); }
+
+      });
+
+    });
+
+    // Observable Plot labels bare <g> marks; aria-label is not allowed on a role-less element.
+
+    root.querySelectorAll('[class^="plot-"] g[aria-label]:not([role])').forEach(function (g) {
+
+      g.removeAttribute('aria-label');
+
+    });
+
+    // Scrollable regions must be reachable by keyboard.
+
+    root.querySelectorAll('pre, div.sourceCode, .card, .card-body, .table-striped, table, .cell-output-display').forEach(function (el) {
+
+      if (el.hasAttribute('tabindex') || el.matches('a, button, input, select, textarea')) return;
+
+      var o = getComputedStyle(el);
+
+      var scrolls = /(auto|scroll)/.test(o.overflowX + o.overflowY) &&
+
+        (el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1);
+
+      if (scrolls) el.setAttribute('tabindex', '0');
+
+    });
+
+  }
+
+  var queued = false;
+
+  function schedule() {
+
+    if (queued) return;
+
+    queued = true;
+
+    requestAnimationFrame(function () { queued = false; fix(document); });
+
+  }
+
+  fix(document);
+
+  new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true });
+
+  window.addEventListener('resize', schedule);
+
+  window.addEventListener('load', function () { setTimeout(schedule, 800); setTimeout(schedule, 2500); });
+
+})();
+
+</script>
+
 <script type="ojs-module-contents">
 eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Im1vbnRocyA9IGQzLnJhbmdlKDI0KS5tYXAoaSA9PiBuZXcgRGF0ZSgyMDIzLCBpLCAxKSlcclxuc2VyaWVzID0gW1wiQnVzXCIsIFwiTGlnaHQgcmFpbFwiLCBcIkNvbW11dGVyIHJhaWxcIiwgXCJCaWtlIHNoYXJlXCIsIFwiVmFucG9vbFwiXVxyXG5iYXNlID0gWzE4MjAsIDYxMCwgMjE1LCAzOCwgMjRdXHJcbnJvd3MgPSBzZXJpZXMuZmxhdE1hcCgocywgaykgPT4gbW9udGhzLm1hcCgobSwgaSkgPT4gKHtcclxuICBtb250aDogbSwgbW9kZTogcyxcclxuICB2YWx1ZTogTWF0aC5yb3VuZChiYXNlW2tdICogKDEgKyAwLjAxMiAqIGkpICogKDEgKyAwLjA1ICogTWF0aC5zaW4oKGkgJSAxMiAtIDIpIC8gMTIgKiAyICogTWF0aC5QSSkpKVxyXG59KSkpXHJcbmNoYXJ0ID0gbiA9PiBnZXRDb21wdXRlZFN0eWxlKGRvY3VtZW50LmRvY3VtZW50RWxlbWVudCkuZ2V0UHJvcGVydHlWYWx1ZShgLS13ZnJjLWNoYXJ0LSR7bn1gKS50cmltKClcclxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC0yIiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiUGxvdC5wbG90KHtcclxuICB3aWR0aDogNzYwLCBoZWlnaHQ6IDMyMCwgbWFyZ2luUmlnaHQ6IDkwLFxyXG4gIHk6IHtncmlkOiB0cnVlLCBsYWJlbDogXCJCb2FyZGluZ3MgKHRob3VzYW5kcylcIn0sXHJcbiAgY29sb3I6IHtkb21haW46IHNlcmllcywgcmFuZ2U6IFsxLDIsMyw0LDVdLm1hcChjaGFydCksIGxlZ2VuZDogdHJ1ZX0sXHJcbiAgbWFya3M6IFtcclxuICAgIFBsb3QubGluZShyb3dzLCB7eDogXCJtb250aFwiLCB5OiBcInZhbHVlXCIsIHN0cm9rZTogXCJtb2RlXCIsIHN0cm9rZVdpZHRoOiAyfSksXHJcbiAgICBQbG90LnRleHQocm93cy5maWx0ZXIoZCA9PiArZC5tb250aCA9PT0gK21vbnRoc1syM10pLCB7eDogXCJtb250aFwiLCB5OiBcInZhbHVlXCIsIHRleHQ6IFwibW9kZVwiLCBkeDogOCwgdGV4dEFuY2hvcjogXCJzdGFydFwiLCBmaWxsOiBcImN1cnJlbnRDb2xvclwifSlcclxuICBdXHJcbn0pXHJcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlBsb3QucGxvdCh7XHJcbiAgbWFyZ2luTGVmdDogODAsIGhlaWdodDogMzIwLFxyXG4gIHg6IHtsYWJlbDogXCIlXCIsIGdyaWQ6IHRydWV9LCB5OiB7bGFiZWw6IG51bGx9LFxyXG4gIG1hcmtzOiBbUGxvdC5iYXJYKFtcclxuICAgIHtjOiBcIlNhbHQgTGFrZVwiLCB2OiA1OC40fSwge2M6IFwiVXRhaFwiLCB2OiAxNy4yfSwge2M6IFwiRGF2aXNcIiwgdjogOS4xfSxcclxuICAgIHtjOiBcIldlYmVyXCIsIHY6IDYuM30sIHtjOiBcIlRvb2VsZVwiLCB2OiAxLjF9LCB7YzogXCJCb3ggRWxkZXJcIiwgdjogMC42fVxyXG4gIF0sIHt4OiBcInZcIiwgeTogXCJjXCIsIHNvcnQ6IHt5OiBcIi14XCJ9LCBmaWxsOiBjaGFydCgxKSwgcng6IDR9KV1cclxufSlcclxuIn1dfQ==
 </script>
@@ -767,6 +861,11 @@ window._ojs.runtime.interpretFromScriptTags();
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
@@ -1129,12 +1228,12 @@ window._ojs.runtime.interpretFromScriptTags();
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="https://wfrcanalytics.github.io/contact/" target="_blank">
+    <a class="nav-link" href="./contact/index.html">
 <p>Contact</p>
 </a>
   </li>  
     <li class="nav-item">
-    <a class="nav-link" href="https://wfrcanalytics.github.io/license/" target="_blank">
+    <a class="nav-link" href="./license/index.html">
 <p>License</p>
 </a>
   </li>  

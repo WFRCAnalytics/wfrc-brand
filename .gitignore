@@ -1,4 +1,5 @@
 *.html
+!_extensions/wfrc-brand/assets/js/*.html
 *.pdf
 *_files/
 /.quarto/

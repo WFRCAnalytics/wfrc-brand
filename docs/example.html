@@ -72,6 +72,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="site_libs\quarto-contrib\quarto-project\wfrc-brand\assets\logo\abbreviated\WFRC_logo_abbreviated_color_transparent.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -86,9 +88,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script id="quarto-axe-checker-options" type="text/plain">dHJ1ZQ==</script>
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bef0853a024fe3ec583b80aa77f09aa8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-327c816e93ba5d1fcb49e5f96acb4a99.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-bef0853a024fe3ec583b80aa77f09aa8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0756f8518ec0967a70b41786b4745d2c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-72597b3082f95eb44c4d1a7ce3261060.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-0756f8518ec0967a70b41786b4745d2c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -116,16 +118,104 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script>
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-demo-grid .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-image','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-demo-grid'] = new List('listing-demo-grid', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-demo-table .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-demo-table'] = new List('listing-demo-table', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
 <link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <meta property="og:title" content="WFRC brand preview – Analytics">
 <meta property="og:description" content="Every component the theme styles, on one page">
+<meta property="og:image" content="https://wfrcanalytics.github.io/site_libs/quarto-contrib/quarto-project/wfrc-brand/assets/cards/teal.svg">
 <meta property="og:site_name" content="Analytics">
 <meta name="twitter:title" content="WFRC brand preview – Analytics">
 <meta name="twitter:description" content="Every component the theme styles, on one page">
+<meta name="twitter:image" content="https://wfrcanalytics.github.io/site_libs/quarto-contrib/quarto-project/wfrc-brand/assets/cards/teal.svg">
 <meta name="twitter:creator" content="@wasatchcouncil">
 <meta name="twitter:site" content="@wasatchcouncil">
 <meta name="twitter:card" content="summary_large_image">
@@ -436,6 +526,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#buttons-and-chips" id="toc-buttons-and-chips" class="nav-link" data-scroll-target="#buttons-and-chips">Buttons and chips</a></li>
   <li><a href="#callouts" id="toc-callouts" class="nav-link" data-scroll-target="#callouts">Callouts</a></li>
+  <li><a href="#listings" id="toc-listings" class="nav-link" data-scroll-target="#listings">Listings</a></li>
   <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code">Code</a></li>
   <li><a href="#tables" id="toc-tables" class="nav-link" data-scroll-target="#tables">Tables</a></li>
   <li><a href="#charts" id="toc-charts" class="nav-link" data-scroll-target="#charts">Charts</a></li>
@@ -543,6 +634,136 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
+<section id="listings" class="level1">
+<h1>Listings</h1>
+<p>Grid listings get a tinted card, a banner and a hover lift. Banners are <code>assets/cards/{navy,mid,teal,bright,brick}.svg</code> with <code>image-height: 84px</code>; the decorative-image script gives them an empty <code>alt</code>.</p>
+<div id="listing-demo-grid" class="quarto-listing quarto-listing-container-grid">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="TGl2ZSUyQ0RhdGE=" data-listing-file-modified-sort="1792980510280" data-listing-reading-time-sort="4" data-listing-word-count-sort="640">
+<a href="./example.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="site_libs\quarto-contrib\quarto-project\wfrc-brand\assets\cards\teal.svg" class="thumbnail-image card-img" style="height: 84px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title" data-anchor-id="listings">
+Boardings explorer
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('TGl2ZQ=='); return false;">Live</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('RGF0YQ=='); return false;">Data</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Weekday boardings by route and mode.</p>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="QXJjaGl2ZSUyQ01vZGVs" data-listing-file-modified-sort="1792980521488" data-listing-reading-time-sort="1" data-listing-word-count-sort="175">
+<a href="./example-landing.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="site_libs\quarto-contrib\quarto-project\wfrc-brand\assets\cards\brick.svg" class="thumbnail-image card-img" style="height: 84px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Gap scoring model
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('QXJjaGl2ZQ=='); return false;">Archive</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('TW9kZWw='); return false;">Model</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Pedestrian network gaps ranked by people reached.</p>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="2" data-categories="TGl2ZSUyQ0FwcA==" data-listing-file-modified-sort="1792960149974" data-listing-reading-time-sort="2" data-listing-word-count-sort="290">
+<a href="./example-dashboard.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="site_libs\quarto-contrib\quarto-project\wfrc-brand\assets\cards\navy.svg" class="thumbnail-image card-img" style="height: 84px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Reliability atlas
+</h5>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('TGl2ZQ=='); return false;">Live</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('QXBw'); return false;">App</div>
+
+</div>
+<div class="card-text listing-description delink">
+<p>Planning Time Index by corridor and period.</p>
+</div>
+</div>
+</div></a>
+</div>
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
+</div>
+<p>Table listings keep titles at body size, and category chips keep AA contrast.</p>
+<div id="listing-demo-table" class="quarto-listing quarto-listing-container-table">
+<table class="quarto-listing-table table">
+<thead>
+<tr>
+
+<th>
+Title
+</th>
+
+<th>
+Description
+</th>
+
+<th>
+Categories
+</th>
+
+</tr>
+</thead>
+<tbody class="list">
+
+<tr data-index="0" data-categories="QXJjaGl2ZSUyQ01vZGVs" data-listing-file-modified-sort="1792980521488" data-listing-reading-time-sort="1" data-listing-word-count-sort="175" data-listing-title-sort="Gap scoring model" data-listing-filename-sort="example-landing.qmd">
+<td>
+<a href="./example-landing.html" class="title listing-title">Gap scoring model</a>
+</td>
+<td>
+<span class="listing-description">Pedestrian network gaps ranked by people reached.</span>
+</td>
+<td>
+<span class="listing-categories">Archive, Model</span>
+</td>
+
+</tr>
+
+<tr data-index="1" data-categories="TGl2ZSUyQ0FwcA==" data-listing-file-modified-sort="1792960149974" data-listing-reading-time-sort="2" data-listing-word-count-sort="290" data-listing-title-sort="Reliability atlas" data-listing-filename-sort="example-dashboard.qmd">
+<td>
+<a href="./example-dashboard.html" class="title listing-title">Reliability atlas</a>
+</td>
+<td>
+<span class="listing-description">Planning Time Index by corridor and period.</span>
+</td>
+<td>
+<span class="listing-categories">Live, App</span>
+</td>
+
+</tr>
+
+</tbody>
+</table>
+<div class="listing-no-matching d-none">No matching items</div>
+</div>
+</section>
 <section id="code" class="level1">
 <h1>Code</h1>
 <div class="code-with-filename">
@@ -635,22 +856,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="charts" class="level1">
 <h1>Charts</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="117" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 116;"><span id="cb6-117"><a href="#cb6-117" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> {wfrcColors<span class="op">,</span> wfrcPlot} <span class="im">from</span> <span class="st">"./_extensions/wfrc-brand/assets/charts/wfrc-charts.js"</span></span>
-<span id="cb6-118"><a href="#cb6-118" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
-<span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">county</span><span class="op">:</span> <span class="st">"Salt Lake"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="fl">58.4</span>}<span class="op">,</span> {<span class="dt">county</span><span class="op">:</span> <span class="st">"Utah"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="fl">17.2</span>}<span class="op">,</span></span>
-<span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">county</span><span class="op">:</span> <span class="st">"Davis"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="fl">9.1</span>}<span class="op">,</span> {<span class="dt">county</span><span class="op">:</span> <span class="st">"Weber"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="fl">6.3</span>}<span class="op">,</span></span>
-<span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">county</span><span class="op">:</span> <span class="st">"Tooele"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="fl">1.1</span>}<span class="op">,</span> {<span class="dt">county</span><span class="op">:</span> <span class="st">"Box Elder"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="fl">0.6</span>}</span>
-<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a><span class="fu">wfrcPlot</span>({</span>
-<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a>  Plot<span class="op">,</span></span>
-<span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">80</span><span class="op">,</span> <span class="dt">width</span><span class="op">:</span> <span class="dv">640</span><span class="op">,</span></span>
-<span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Share of boardings (%)"</span><span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span>}<span class="op">,</span></span>
-<span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="kw">null</span>}<span class="op">,</span></span>
-<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
-<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">barX</span>(data<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"share"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"county"</span><span class="op">,</span> <span class="dt">sort</span><span class="op">:</span> {<span class="dt">y</span><span class="op">:</span> <span class="st">"-x"</span>}<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="fu">wfrcColors</span>()[<span class="dv">0</span>]<span class="op">,</span> <span class="dt">rx</span><span class="op">:</span> <span class="dv">4</span>})<span class="op">,</span></span>
-<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">text</span>(data<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"share"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"county"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">share</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>) <span class="op">+</span> <span class="st">"%"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"start"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"currentColor"</span>})</span>
-<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a>  ]</span>
-<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="165" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 164;"><span id="cb6-165"><a href="#cb6-165" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> {wfrcColors<span class="op">,</span> wfrcPlot} <span class="im">from</span> <span class="st">"./_extensions/wfrc-brand/assets/charts/wfrc-charts.js"</span></span>
+<span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
+<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">county</span><span class="op">:</span> <span class="st">"Salt Lake"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="fl">58.4</span>}<span class="op">,</span> {<span class="dt">county</span><span class="op">:</span> <span class="st">"Utah"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="fl">17.2</span>}<span class="op">,</span></span>
+<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">county</span><span class="op">:</span> <span class="st">"Davis"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="fl">9.1</span>}<span class="op">,</span> {<span class="dt">county</span><span class="op">:</span> <span class="st">"Weber"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="fl">6.3</span>}<span class="op">,</span></span>
+<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">county</span><span class="op">:</span> <span class="st">"Tooele"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="fl">1.1</span>}<span class="op">,</span> {<span class="dt">county</span><span class="op">:</span> <span class="st">"Box Elder"</span><span class="op">,</span> <span class="dt">share</span><span class="op">:</span> <span class="fl">0.6</span>}</span>
+<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a><span class="fu">wfrcPlot</span>({</span>
+<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a>  Plot<span class="op">,</span></span>
+<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">80</span><span class="op">,</span> <span class="dt">width</span><span class="op">:</span> <span class="dv">640</span><span class="op">,</span></span>
+<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a>  <span class="dt">x</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Share of boardings (%)"</span><span class="op">,</span> <span class="dt">grid</span><span class="op">:</span> <span class="kw">true</span>}<span class="op">,</span></span>
+<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a>  <span class="dt">y</span><span class="op">:</span> {<span class="dt">label</span><span class="op">:</span> <span class="kw">null</span>}<span class="op">,</span></span>
+<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a>  <span class="dt">marks</span><span class="op">:</span> [</span>
+<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">barX</span>(data<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"share"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"county"</span><span class="op">,</span> <span class="dt">sort</span><span class="op">:</span> {<span class="dt">y</span><span class="op">:</span> <span class="st">"-x"</span>}<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="fu">wfrcColors</span>()[<span class="dv">0</span>]<span class="op">,</span> <span class="dt">rx</span><span class="op">:</span> <span class="dv">4</span>})<span class="op">,</span></span>
+<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a>    Plot<span class="op">.</span><span class="fu">text</span>(data<span class="op">,</span> {<span class="dt">x</span><span class="op">:</span> <span class="st">"share"</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="st">"county"</span><span class="op">,</span> <span class="dt">text</span><span class="op">:</span> d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">share</span><span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">1</span>) <span class="op">+</span> <span class="st">"%"</span><span class="op">,</span> <span class="dt">dx</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span> <span class="dt">textAnchor</span><span class="op">:</span> <span class="st">"start"</span><span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> <span class="st">"currentColor"</span>})</span>
+<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-1-1" data-nodetype="declaration">
@@ -677,7 +898,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="inputs" class="level1">
 <h1>Inputs</h1>
 <div class="cell panel-input card bg-light p-2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" data-startfrom="138" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 137;"><span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a>viewof fruit <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>([<span class="st">"Apple"</span><span class="op">,</span> <span class="st">"Banana"</span><span class="op">,</span> <span class="st">"Cherry"</span>]<span class="op">,</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Pick a fruit"</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" data-startfrom="186" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 185;"><span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a>viewof fruit <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>([<span class="st">"Apple"</span><span class="op">,</span> <span class="st">"Banana"</span><span class="op">,</span> <span class="st">"Cherry"</span>]<span class="op">,</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Pick a fruit"</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-2" data-nodetype="declaration">
 
@@ -691,6 +912,7 @@ Show the validation checks
 </summary>
 <p>Rank correlation with the 2023 floating-car runs was 0.91 on the sample corridors.</p>
 </details>
+
 
 
 <div class="ojs-auto-generated hidden">
@@ -707,6 +929,100 @@ eyJjb250ZW50cyI6WyAgeyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiaW5saW5lIjoidHJ1ZSIsInNv
 <li id="fn1"><p>Footnotes use the same body type at a smaller size.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
+<script>
+
+// Accessibility fixes for things Quarto and its libraries render but cannot configure.
+
+// Included on every page through wfrc-shared.yml (format.html.include-after-body).
+
+(function () {
+
+  function fix(root) {
+
+    // Listing banners are decorative; Quarto drops an empty `image-alt`.
+
+    root.querySelectorAll('img.thumbnail-image:not([alt])').forEach(function (img) {
+
+      img.setAttribute('alt', '');
+
+    });
+
+    // Quarto only sets `title` on the color-scheme toggle: add an accessible name and a clearer tooltip.
+
+    root.querySelectorAll('.quarto-color-scheme-toggle:not([aria-label])').forEach(function (a) {
+
+      a.setAttribute('aria-label', 'Toggle light and dark mode');
+
+      a.setAttribute('title', 'Toggle light / dark');
+
+    });
+
+    // Collapsible callouts put aria-expanded on a plain div: make it a real, keyboard-operable button.
+
+    root.querySelectorAll('.callout-header[aria-expanded]:not([role])').forEach(function (h) {
+
+      h.setAttribute('role', 'button');
+
+      h.setAttribute('tabindex', '0');
+
+      h.addEventListener('keydown', function (e) {
+
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); h.click(); }
+
+      });
+
+    });
+
+    // Observable Plot labels bare <g> marks; aria-label is not allowed on a role-less element.
+
+    root.querySelectorAll('[class^="plot-"] g[aria-label]:not([role])').forEach(function (g) {
+
+      g.removeAttribute('aria-label');
+
+    });
+
+    // Scrollable regions must be reachable by keyboard.
+
+    root.querySelectorAll('pre, div.sourceCode, .card, .card-body, .table-striped, table, .cell-output-display').forEach(function (el) {
+
+      if (el.hasAttribute('tabindex') || el.matches('a, button, input, select, textarea')) return;
+
+      var o = getComputedStyle(el);
+
+      var scrolls = /(auto|scroll)/.test(o.overflowX + o.overflowY) &&
+
+        (el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1);
+
+      if (scrolls) el.setAttribute('tabindex', '0');
+
+    });
+
+  }
+
+  var queued = false;
+
+  function schedule() {
+
+    if (queued) return;
+
+    queued = true;
+
+    requestAnimationFrame(function () { queued = false; fix(document); });
+
+  }
+
+  fix(document);
+
+  new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true });
+
+  window.addEventListener('resize', schedule);
+
+  window.addEventListener('load', function () { setTimeout(schedule, 800); setTimeout(schedule, 2500); });
+
+})();
+
+</script>
+
 <script type="ojs-module-contents">
 eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImltcG9ydCB7d2ZyY0NvbG9ycywgd2ZyY1Bsb3R9IGZyb20gXCIuL19leHRlbnNpb25zL3dmcmMtYnJhbmQvYXNzZXRzL2NoYXJ0cy93ZnJjLWNoYXJ0cy5qc1wiXHJcbmRhdGEgPSBbXHJcbiAge2NvdW50eTogXCJTYWx0IExha2VcIiwgc2hhcmU6IDU4LjR9LCB7Y291bnR5OiBcIlV0YWhcIiwgc2hhcmU6IDE3LjJ9LFxyXG4gIHtjb3VudHk6IFwiRGF2aXNcIiwgc2hhcmU6IDkuMX0sIHtjb3VudHk6IFwiV2ViZXJcIiwgc2hhcmU6IDYuM30sXHJcbiAge2NvdW50eTogXCJUb29lbGVcIiwgc2hhcmU6IDEuMX0sIHtjb3VudHk6IFwiQm94IEVsZGVyXCIsIHNoYXJlOiAwLjZ9XHJcbl1cclxud2ZyY1Bsb3Qoe1xyXG4gIFBsb3QsXHJcbiAgbWFyZ2luTGVmdDogODAsIHdpZHRoOiA2NDAsXHJcbiAgeDoge2xhYmVsOiBcIlNoYXJlIG9mIGJvYXJkaW5ncyAoJSlcIiwgZ3JpZDogdHJ1ZX0sXHJcbiAgeToge2xhYmVsOiBudWxsfSxcclxuICBtYXJrczogW1xyXG4gICAgUGxvdC5iYXJYKGRhdGEsIHt4OiBcInNoYXJlXCIsIHk6IFwiY291bnR5XCIsIHNvcnQ6IHt5OiBcIi14XCJ9LCBmaWxsOiB3ZnJjQ29sb3JzKClbMF0sIHJ4OiA0fSksXHJcbiAgICBQbG90LnRleHQoZGF0YSwge3g6IFwic2hhcmVcIiwgeTogXCJjb3VudHlcIiwgdGV4dDogZCA9PiBkLnNoYXJlLnRvRml4ZWQoMSkgKyBcIiVcIiwgZHg6IDYsIHRleHRBbmNob3I6IFwic3RhcnRcIiwgZmlsbDogXCJjdXJyZW50Q29sb3JcIn0pXHJcbiAgXVxyXG59KVxyXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJ2aWV3b2YgZnJ1aXQgPSBJbnB1dHMuc2VsZWN0KFtcIkFwcGxlXCIsIFwiQmFuYW5hXCIsIFwiQ2hlcnJ5XCJdLCB7bGFiZWw6IFwiUGljayBhIGZydWl0XCJ9KVxyXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ2ZydWl0JykifV19
 </script>
@@ -818,6 +1134,11 @@ window._ojs.runtime.interpretFromScriptTags();
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
@@ -1180,12 +1501,12 @@ window._ojs.runtime.interpretFromScriptTags();
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="https://wfrcanalytics.github.io/contact/" target="_blank">
+    <a class="nav-link" href="./contact/index.html">
 <p>Contact</p>
 </a>
   </li>  
     <li class="nav-item">
-    <a class="nav-link" href="https://wfrcanalytics.github.io/license/" target="_blank">
+    <a class="nav-link" href="./license/index.html">
 <p>License</p>
 </a>
   </li>  

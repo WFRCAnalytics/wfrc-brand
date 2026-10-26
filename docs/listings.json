@@ -1,0 +1,17 @@
+[
+  {
+    "listing": "/example.html",
+    "items": [
+      "/example.html",
+      "/example-landing.html",
+      "/example-dashboard.html"
+    ]
+  },
+  {
+    "listing": "/example-landing.html",
+    "items": [
+      "/example-dashboard.html",
+      "/example.html"
+    ]
+  }
+]

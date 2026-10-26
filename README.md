@@ -57,15 +57,34 @@ For a standalone document outside a website, `format: wfrc-brand-html` (adds num
 | **Logos** | The brand logo set switches by mode (color on light, white on dark) and carries alt text. |
 | **Navbar** | Page-colored with a hairline, Inter 600 links, uppercase site title, bright-blue underline on hover and for the current page. |
 | **Buttons** | Pill shaped. `.btn-primary` is the AA-safe action blue. |
-| **Cards** | Listings, dashboards and bslib cards: 10px radius, hairline border, soft shadow, Inter header row. |
-| **Callouts** | Five types with a 4px colored edge and a tinted title strip. Text stays in the ink color. |
+| **Cards** | Listings, dashboards and bslib cards: 10px radius, hairline border, soft shadow, Inter header row. Grid listing cards get a tinted surface, a banner image and a hover lift (see **Card banners**). |
+| **Callouts** | Five types: a 4px bar in the type color, a 9% tinted body, a 16% title strip, 8px radius on the right, and a filled-circle icon with the glyph cut out in the page color. Text stays in the ink color. |
 | **Code** | Cool-tinted blocks, no ligatures, custom syntax palette (`wfrc-light.theme`, `wfrc-dark.theme`) that holds AA contrast. |
 | **Tabsets** | The active tab and its pane share one surface. |
 | **Tables** | No vertical rules, bright-blue header rule, tabular numerals, scroll inside their own box on phones. |
 | **TOC and sidebar** | Active item marked with a bright-blue edge. |
 | **Footer** | Navy with a ridge line. The ridge is a CSS mask, so it follows each mode's color. |
 | **Dashboards** | Flat navy, mid-blue, teal and brick value boxes in both modes; transparent Observable Plot charts. |
-| **Org defaults** | Social menu, footer, `axe` accessibility checking, `page-layout: full`, TOC, smooth scroll, freeze `auto`, knitr and jupyter engines. |
+| **Org defaults** | Social menu, footer, external links open in a new tab, `axe` accessibility checking, an accessibility script (decorative listing banners, toggle name, Plot and collapsed-callout ARIA, keyboard-reachable scroll regions), `page-layout: full`, TOC, smooth scroll, freeze `auto`, knitr and jupyter engines. |
+
+---
+
+## Card banners
+
+Grid listings (`type: grid`) get a tinted card surface, a hairline border and a hover lift (disabled under `prefers-reduced-motion`). Five banner images with contour lines echoing `.wfrc-hero` ship in `assets/cards/`: `navy`, `mid`, `teal`, `bright` and `brick`. Use them as the listing `image:` and set a short `image-height`:
+
+```yaml
+listing:
+  type: grid
+  image-height: 84px
+  contents:
+    - title: Reliability atlas
+      path: atlas/index.qmd
+      image: _extensions/wfrc-brand/assets/cards/navy.svg
+      categories: [Live, App]
+```
+
+Banners are decorative. Quarto drops `image-alt: ""`, so the bundled script (`assets/js/a11y-fixes.html`, included through `wfrc-shared.yml`) sets an empty `alt` on them after render. Table listings keep titles at body size, and category chips use the body color at full opacity so they pass AA in both modes.
 
 ---
 
@@ -200,8 +219,10 @@ Use the [wfrcanalytics.github.io](https://github.com/WFRCAnalytics/wfrcanalytics
 2. Delete the site's own `_brand.yml`, custom theme SCSS, `format.html.theme`, `css:` and `include-in-header` font preloads.
 3. **Remove anything `wfrc-shared.yml` already supplies.** Quarto lists *append* across config levels, so a site that also defines its own "Follow Us" menu, GitHub tools menu or footer links shows them twice.
 4. Keep what is yours: `website.title`, `site-url`, `navbar.left`, the sidebars, announcements, and per-site GitHub links.
-5. Pages that used the old `index.scss` classes (`#bio`, `#landing-icons`, `.name-highlight`) still work. New pages can use the `.wfrc-*` components above.
-6. Render, then clear the cache if styles look stale (see below).
+5. **Add `contact/index.qmd` and `license/index.qmd`.** The shared footer links to them with site-relative paths (so previews stay local). Start from `_extensions/wfrc-brand/templates/contact.qmd` and `license.qmd`.
+6. Remove what is now shared: `link-external-newwindow: true`, any copy of `decorative-images.html` in `include-after-body`, and site CSS for listing cards, table-listing titles and category chips.
+7. Pages that used the old `index.scss` classes (`#bio`, `#landing-icons`, `.name-highlight`) still work. New pages can use the `.wfrc-*` components above.
+8. Render, then clear the cache if styles look stale (see below).
 
 ### Accessibility checklist
 
@@ -210,7 +231,7 @@ The extension keeps `axe: true` on. In a pass over the preview pages and real si
 - **Logo alt text** is set in `brand.yml`. If you override the navbar logo, give it an `alt`.
 - **Icon-only tools menus** need `text:` (it becomes the `aria-label`), as in `wfrc-shared.yml`.
 - **Images** on about pages and elsewhere need `alt` text.
-- Observable Plot's `<g aria-label>` and Quarto's collapsed-callout `aria-expanded` are reported by axe but come from those libraries.
+- Observable Plot's `<g aria-label>`, Quarto's collapsed-callout `aria-expanded` and scrollable regions are reported by axe but come from those libraries; `assets/js/a11y-fixes.html` repairs them at load, so axe runs clean on the preview pages.
 
 ---
 
@@ -241,6 +262,17 @@ Preview: `quarto preview` renders [`example.qmd`](example.qmd) (every component)
 **Versioning.** Bump `version` in `_extension.yml` on every meaningful change. Downstream sites update with `quarto update WFRCAnalytics/wfrc-brand`.
 
 ### Changelog
+
+**0.2.0** — Callouts, listing cards and shared fixes, moved up from the wfrcanalytics.github.io redesign.
+- Callouts now match the design reference: 4px type-color bar, 9% body tint and 16% title strip over the page color, square left and 8px right corners, Inter 700 0.9rem title with 8px 14px padding, body 0.93rem, and a **filled-circle icon** in the type color with the glyph in the page color (replaces Quarto's outline icon).
+- Grid listing cards: tinted surface (visible against the page in dark mode), hairline border, overflow hidden, hover lift with shadow (off under reduced motion), `object-fit: cover` images.
+- Added `assets/cards/{navy,mid,teal,bright,brick}.svg` banners (use with `image-height: 84px`).
+- Added `assets/js/a11y-fixes.html`, included on every page: empty `alt` for listing banners (axe `image-alt`), accessible name and tooltip on the color-scheme toggle, `role="button"` on collapsible callout headers, removal of Plot's invalid `aria-label` on `<g>`, and `tabindex` on scrollable regions.
+- Table listings: titles at body size, line-height 1.4, no margin.
+- Category chips (`.listing-category`, `.quarto-category`): body color, full opacity, in both modes. Hover now changes the border only, so text keeps its contrast.
+- `wfrc-shared.yml`: footer Contact and License links are now site-relative (`contact/index.qmd`, `license/index.qmd`) and no longer open a new tab; added `link-external-newwindow: true` and the accessibility include to `format.html`. Also set on the extension's own `html` and `dashboard` formats.
+- Added `templates/contact.qmd` and `templates/license.qmd`.
+- **Sites must update their `_quarto.yml`:** delete `link-external-newwindow: true` and their own `decorative-images.html` include (now supplied; leaving them is harmless but redundant); add `contact/index.qmd` and `license/index.qmd` or the footer links 404; and drop site CSS that duplicates the card, table-listing and chip rules.
 
 **0.1.0** — Redesign.
 - New palette from the live wfrc.utah.gov tokens: navy `#00395B`, bright blue `#0093C5`, brick `#C85327`, gold `#FEBC46`. Legacy names (`wfrc-blue`, `wfrc-secondary-blue`, `wfrc-yellow`) are kept as aliases. **`wfrc-secondary-blue` changed from `#52b6d5` to `#0093C5`.**

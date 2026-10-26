@@ -3,6 +3,23 @@ title: "WFRC landing page preview"
 pagetitle: "Landing preview"
 toc: false
 title-block-banner: false
+listing:
+  id: related
+  type: grid
+  image-height: 84px
+  categories: false
+  fields: [image, title, description, categories]
+  contents:
+    - title: Technical documentation
+      description: Scoring weights, data sources and validation.
+      path: example.qmd
+      image: _extensions/wfrc-brand/assets/cards/mid.svg
+      categories: [Docs]
+    - title: Dashboard
+      description: Gap scores by corridor with equity overlays.
+      path: example-dashboard.qmd
+      image: _extensions/wfrc-brand/assets/cards/bright.svg
+      categories: [App]
 ---
 
 ::: {.wfrc-hero .column-screen}
@@ -77,4 +94,14 @@ counties
 [Sep 11]{.wfrc-date} Methods page now documents scoring weights
 :::
 
+:::
+
+## Related work
+
+::: {#related}
+:::
+
+::: {.callout-note}
+## Footer links
+The footer's Contact and License links are site-relative. Copy `_extensions/wfrc-brand/templates/contact.qmd` and `license.qmd` to `contact/index.qmd` and `license/index.qmd`.
 :::
