@@ -63,7 +63,7 @@ For a standalone document outside a website, `format: wfrc-brand-html` (adds num
 | **Tabsets** | The active tab and its pane share one surface. |
 | **Tables** | No vertical rules, bright-blue header rule, tabular numerals, scroll inside their own box on phones. |
 | **TOC and sidebar** | Active item marked with a bright-blue edge. |
-| **Footer** | Navy with a ridge line. The ridge is a CSS mask, so it follows each mode's color. |
+| **Footer** | Navy with the Wasatch Front skyline. The ridge is a CSS mask, so it follows each mode's color. |
 | **Dashboards** | Flat navy, mid-blue, teal and brick value boxes in both modes; transparent Observable Plot charts. |
 | **Org defaults** | Social menu, footer, external links open in a new tab, `axe` accessibility checking, an accessibility script (decorative listing banners, toggle name, Plot and collapsed-callout ARIA, keyboard-reachable scroll regions), `page-layout: full`, TOC, smooth scroll, freeze `auto`, knitr and jupyter engines. |
 
