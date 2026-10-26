@@ -120,6 +120,10 @@ Banners are decorative. Quarto drops `image-alt: ""`, so the bundled script (`as
 
 The shared footer (`wfrc-shared.yml`) links to `contact/index.qmd` (label "Contact") and `terms/index.qmd` (label "Terms of use") with site-relative paths. The pages are expected to exist: copy `_extensions/wfrc-brand/templates/contact.qmd` and `terms.qmd` to `contact/index.qmd` and `terms/index.qmd`. The templates are meant to be edited per site; the terms wording is a draft that WFRC communications or legal should confirm before a site publishes it. A site without these pages gets dead links.
 
+**License.** Since 0.4.1 the terms template assumes the content is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). CC BY 4.0 already covers what the earlier draft asked for in custom words: it requires credit, requires users to indicate if they modified the material and to keep earlier indications of modification, and forbids implying that the licensor endorses them. CC licenses do not cover trademarks (the WFRC name and logo) and Creative Commons advises against using them for software, so the template excludes both, along with third-party data and models.
+
+A site that wants a different license edits its `terms/index.qmd`. The extension does not add a `rel="license"` tag through `include-in-header`, because a site's own `include-in-header` replaces the extension's. Sites should add `<link rel="license" href="https://creativecommons.org/licenses/by/4.0/">` in their own `include-in-header` file.
+
 A site that does not want them must override the footer, but **setting `website.page-footer.right` in `_quarto.yml` does not replace the list**: Quarto appends it, so the site's links appear next to Contact and Terms of use (verified in a Quarto 1.10 test render). To drop the two links, keep a local copy of `wfrc-shared.yml` with the `right:` block edited and point `metadata-files` at the copy.
 
 ---
@@ -255,7 +259,7 @@ Use the [wfrcanalytics.github.io](https://github.com/WFRCAnalytics/wfrcanalytics
 2. Delete the site's own `_brand.yml`, custom theme SCSS, `format.html.theme`, `css:` and `include-in-header` font preloads.
 3. **Remove anything `wfrc-shared.yml` already supplies.** Quarto lists *append* across config levels, so a site that also defines its own "Follow Us" menu, GitHub tools menu or footer links shows them twice.
 4. Keep what is yours: `website.title`, `site-url`, `navbar.left`, the sidebars, announcements, and per-site GitHub links.
-5. **Add `contact/index.qmd` and `terms/index.qmd`.** The shared footer links to them with site-relative paths (so previews stay local). Start from `_extensions/wfrc-brand/templates/contact.qmd` and `terms.qmd`. A site that already has `license/index.qmd` should move it (see the 0.4.0 migration).
+5. **Add `contact/index.qmd` and `terms/index.qmd`.** The shared footer links to them with site-relative paths (so previews stay local). Start from `_extensions/wfrc-brand/templates/contact.qmd` and `terms.qmd`. A site that already has `license/index.qmd` should move it (see the 0.4.0 migration in the [changelog](CHANGELOG.md)).
 6. Remove what is now shared: `link-external-newwindow: true`, any copy of `decorative-images.html` in `include-after-body`, and site CSS for listing cards, table-listing titles and category chips.
 7. Pages that used the old `index.scss` classes (`#bio`, `#landing-icons`, `.name-highlight`) still work. New pages can use the `.wfrc-*` components above.
 8. Render, then clear the cache if styles look stale (see below).
@@ -295,44 +299,7 @@ Preview: `quarto preview` renders [`example.qmd`](example.qmd) (every component)
 
 **Clearing the Sass cache.** Quarto caches compiled SCSS in `.quarto/`. If a style change does not show, delete that folder and render again (`rmdir /s /q .quarto` on Windows, `rm -rf .quarto` elsewhere).
 
-**Versioning.** Bump `version` in `_extension.yml` on every meaningful change. Downstream sites update with `quarto update WFRCAnalytics/wfrc-brand`.
-
-### Changelog
-
-**0.4.0** — The footer's "License" link becomes "Terms of use".
-- WFRC is a public agency and attaches no license to its material, so the footer label, path and template changed: `wfrc-shared.yml` now links `Terms of use` to `terms/index.qmd`. `templates/license.qmd` (which claimed CC BY-SA 4.0) is replaced by `templates/terms.qmd`: public use, credit and link, a required statement of what you changed, no implied endorsement, third-party data under its own terms, optional Models and Source code sections, no warranty. The wording is a draft for WFRC communications or legal to confirm.
-- **Migration.** A site that has `license/index.qmd`: move it to `terms/index.qmd`, add `aliases: [/license/]` to its front matter so old links keep working, and review the text against `templates/terms.qmd` (remove any CC BY-SA statement). Until a site has `terms/index.qmd`, its footer link is dead. Run `quarto update WFRCAnalytics/wfrc-brand`, then render.
-- Only the footer changes; no `_quarto.yml` edits are needed.
-
-**0.3.1** — The footer copyright year is no longer hardcoded.
-- Added the `{{< year >}}` shortcode (`shortcodes/year.lua`); `wfrc-shared.yml` uses it, so the footer shows the year of the build. Pages rebuild with a full `quarto render`; a page skipped by `freeze` keeps the year it was last rendered with. Sites can use `{{< year >}}` in their own text.
-
-**0.3.0** — Card surface tokens and documentation.
-- New brand colors `wfrc-card` (`#E8F5FA`), `wfrc-night-card` (`#17384F`) and `wfrc-night-card-line` (`#2F6286`); roles `$wfrc-card` and `$wfrc-card-line` in the light and dark role maps. Cards were the same tone as `.wfrc-band-alt`, so they vanished on landing pages.
-- Grid listing cards, dashboard cards and bslib cards (headers, toolbars, footers) use the card surface and border. CSS variables `--wfrc-card-bg` and `--wfrc-card-line` are exposed for site components.
-- Outline buttons inside cards use the link color to hold AA contrast on the light card surface.
-- README: card banners need `project.resources` and a page-relative `image:` path; sites should add scripts with `include-in-header` or `include-before-body` (a site `include-after-body` is dropped); new **Footer links** section.
-- No `_quarto.yml` change is required. Sites that defined their own card surface (for example `--wfrc-card-bg` in site CSS) can delete it.
-
-**0.2.0** — Callouts, listing cards and shared fixes, moved up from the wfrcanalytics.github.io redesign.
-- Callouts now match the design reference: 4px type-color bar, 9% body tint and 16% title strip over the page color, square left and 8px right corners, Inter 700 0.9rem title with 8px 14px padding, body 0.93rem, and a **filled-circle icon** in the type color with the glyph in the page color (replaces Quarto's outline icon).
-- Grid listing cards: tinted surface (visible against the page in dark mode), hairline border, overflow hidden, hover lift with shadow (off under reduced motion), `object-fit: cover` images.
-- Added `assets/cards/{navy,mid,teal,bright,brick}.svg` banners (use with `image-height: 84px`).
-- Added `assets/js/a11y-fixes.html`, included on every page: empty `alt` for listing banners (axe `image-alt`), accessible name and tooltip on the color-scheme toggle, `role="button"` on collapsible callout headers, removal of Plot's invalid `aria-label` on `<g>`, and `tabindex` on scrollable regions.
-- Table listings: titles at body size, line-height 1.4, no margin.
-- Category chips (`.listing-category`, `.quarto-category`): body color, full opacity, in both modes. Hover now changes the border only, so text keeps its contrast.
-- `wfrc-shared.yml`: footer Contact and License links are now site-relative (`contact/index.qmd`, `license/index.qmd`) and no longer open a new tab; added `link-external-newwindow: true` and the accessibility include to `format.html`. Also set on the extension's own `html` and `dashboard` formats.
-- Added `templates/contact.qmd` and `templates/license.qmd`.
-- **Sites must update their `_quarto.yml`:** delete `link-external-newwindow: true` and their own `decorative-images.html` include (now supplied; leaving them is harmless but redundant); add `contact/index.qmd` and `license/index.qmd` or the footer links 404; and drop site CSS that duplicates the card, table-listing and chip rules.
-
-**0.1.0** — Redesign.
-- New palette from the live wfrc.utah.gov tokens: navy `#00395B`, bright blue `#0093C5`, brick `#C85327`, gold `#FEBC46`. Legacy names (`wfrc-blue`, `wfrc-secondary-blue`, `wfrc-yellow`) are kept as aliases. **`wfrc-secondary-blue` changed from `#52b6d5` to `#0093C5`.**
-- Dark mode is now a designed palette, not a lightened copy.
-- `brand.yml` is the single source for hex codes; the SCSS no longer repeats them (`_wfrc-colors.scss` and `_wfrc-fonts.scss` removed).
-- Light and dark SCSS shrank to role maps; all component rules moved to one file, `wfrc-overrides.scss`.
-- Cosmo is no longer the light-mode base, so both modes share one Bootstrap base.
-- Fixed: org defaults now apply to plain `format: html` through `wfrc-shared.yml`.
-- Added: `wfrc-brand-dashboard` format, dashboard value-box and card styling, custom syntax themes, landing-page components, chart helpers, logo alt text, and phone-width fixes for tables and plots.
+**Versioning.** Bump `version` in `_extension.yml` and add an entry to [`CHANGELOG.md`](CHANGELOG.md) on every meaningful change. Downstream sites update with `quarto update WFRCAnalytics/wfrc-brand`.
 
 ---
 
