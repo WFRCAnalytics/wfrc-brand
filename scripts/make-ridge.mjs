@@ -10,13 +10,13 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const W = 1200;           // viewBox width
-const H = 84;             // viewBox height; the footer ::before height must match (px)
+const H = 90;             // viewBox height; the footer ::before height must match (px)
 const LAT_N = 41.45, LAT_S = 40.15;
 const FT_MIN = 6000, FT_MAX = 11800;
-const FLOOR = 8, SPAN = 72;   // 6,000 ft sits 8 units up; 11,800 ft sits 80 units up
-const LEVELS = 4;             // midpoint displacement passes
+const FLOOR = 4, SPAN = 84;   // 6,000 ft sits 4 units up; 11,800 ft sits 88 units up
+const LEVELS = 3;             // midpoint displacement passes
 const SEED = 20260;
-const ROUGH = 0.2;            // displacement as a fraction of segment length
+const ROUGH = 0.3;            // displacement as a fraction of segment length
 
 // lat / ft checked against Wikipedia and SummitPost (see CHANGELOG 0.5.0).
 // shape: pyramid = steep narrow flanks, smooth; rugged = extra crag; massif = long summit ridge.
@@ -50,10 +50,10 @@ function mulberry32(a) {
 const rand = mulberry32(SEED);
 
 const SHAPES = {
-  default: { w: 18, drop: 900,  rough: 1 },
-  pyramid: { w: 9,  drop: 1700, rough: 0.35 },
-  rugged:  { w: 14, drop: 800,  rough: 1.7 },
-  massif:  { w: 22, drop: 700,  rough: 0.9 },
+  default: { w: 16, drop: 1700, rough: 1 },
+  pyramid: { w: 9,  drop: 2400, rough: 0.3 },
+  rugged:  { w: 14, drop: 1600, rough: 1.6 },
+  massif:  { w: 22, drop: 1500, rough: 0.9 },
 };
 
 // Key points: [x, h, rough]. Each peak gets shoulders; each gap gets a saddle.
@@ -67,7 +67,7 @@ for (let i = 0; i < peaks.length; i++) {
   if (i > 0) {
     const a = peaks[i - 1];
     const gl = Math.min(a.s.w, (p.x - a.x) * 0.3), x0 = a.x + gl, x1 = p.x - wl;
-    const ft = Math.max(6600, Math.min(a.ft, p.ft) - 1700 - rand() * 600);
+    const ft = Math.max(7000, Math.min(a.ft, p.ft) - 1500 - rand() * 700);
     key.push([x0 + (x1 - x0) * (0.4 + rand() * 0.2), hOf(ft), a.s.rough]);
   }
   const sh = p.ft - p.s.drop;
@@ -89,7 +89,7 @@ function subdivide(a, b, level) {
   const len = b[0] - a[0], rough = (a[2] + b[2]) / 2;
   const amp = ROUGH * len * rough;
   const taper = Math.min(1, Math.min(len / 2, 12) / 12);
-  const m = [(a[0] + b[0]) / 2 + (rand() - 0.5) * len * 0.25,
+  const m = [(a[0] + b[0]) / 2 + (rand() - 0.5) * len * 0.12,
              (a[1] + b[1]) / 2 + (rand() - 0.5) * 2 * amp * taper, rough];
   m[1] = Math.min(H - 3, Math.max(4, m[1]));
   return [...subdivide(a, m, level - 1), m, ...subdivide(m, b, level - 1)];
