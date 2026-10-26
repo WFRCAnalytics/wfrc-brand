@@ -299,6 +299,9 @@ Preview: `quarto preview` renders [`example.qmd`](example.qmd) (every component)
 
 ### Changelog
 
+**0.3.1** — The footer copyright year is no longer hardcoded.
+- Added the `{{< year >}}` shortcode (`shortcodes/year.lua`); `wfrc-shared.yml` uses it, so the footer shows the year of the build. Pages rebuild with a full `quarto render`; a page skipped by `freeze` keeps the year it was last rendered with. Sites can use `{{< year >}}` in their own text.
+
 **0.3.0** — Card surface tokens and documentation.
 - New brand colors `wfrc-card` (`#E8F5FA`), `wfrc-night-card` (`#17384F`) and `wfrc-night-card-line` (`#2F6286`); roles `$wfrc-card` and `$wfrc-card-line` in the light and dark role maps. Cards were the same tone as `.wfrc-band-alt`, so they vanished on landing pages.
 - Grid listing cards, dashboard cards and bslib cards (headers, toolbars, footers) use the card surface and border. CSS variables `--wfrc-card-bg` and `--wfrc-card-line` are exposed for site components.

@@ -73,7 +73,7 @@ website:
   # license/index.qmd (templates in _extensions/wfrc-brand/templates/). Local previews
   # then stay local instead of jumping to the live site.
   page-footer:
-    left: "© 2025 [Wasatch Front Regional Council](https://wfrc.utah.gov/)"
+    left: "© {{< year >}} [Wasatch Front Regional Council](https://wfrc.utah.gov/)"
     center:
       - icon: github
         href: https://github.com/WFRCAnalytics/
