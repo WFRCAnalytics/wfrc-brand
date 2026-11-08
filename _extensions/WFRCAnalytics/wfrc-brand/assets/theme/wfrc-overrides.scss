@@ -154,6 +154,28 @@ hr { border-color: $wfrc-line; opacity: 1; }
   &.alert-danger    { border-left-color: $wfrc-c-important; }
   &.alert-secondary, &.alert-light, &.alert-dark { border-left-color: $wfrc-ink-2; }
   a { color: $wfrc-link; }
+
+  // The dismiss control is a bare icon in Quarto. A 24px square target (WCAG 2.2) with the same
+  // layout height as before (negative block margin), a hover surface and a focus ring; a11y-fixes.html
+  // makes it a keyboard-operable button with a name.
+  .quarto-announcement-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 1.75rem;
+    height: 1.75rem;
+    margin: -0.3rem 0 -0.3rem 0.5rem;
+    border-radius: 6px;
+    color: $wfrc-ink-2;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover { background: $wfrc-surface; color: $wfrc-h1; }
+    &:focus-visible { outline: 2px solid $wfrc-focus; outline-offset: 1px; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #quarto-announcement .quarto-announcement-action { transition: none; }
 }
 
 // ── 4  Buttons and chips ─────────────────────────────────────────────────────

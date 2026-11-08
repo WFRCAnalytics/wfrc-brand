@@ -2,6 +2,9 @@
 
 All notable changes to the wfrc-brand extension. Bump `version` in `_extensions/wfrc-brand/_extension.yml` and add an entry here on every meaningful change.
 
+**1.0.4** — The announcement banner's dismiss control is accessible.
+- **Dismiss control.** Quarto renders the announcement's close button as a bare `<i>` icon with a click handler: about 11px wide (below the WCAG 2.2 24px minimum target size), unreachable by keyboard, and without a name. It is now a 28px button-sized target with a hover surface and a focus ring (`wfrc-overrides.scss`), and `a11y-fixes.html` gives it `role="button"`, `tabindex="0"`, the name "Dismiss announcement" and Enter/Space. The banner keeps its height. Found while checking a migrated site; axe (WCAG 2.2 AA) is clean for all eight banner types in both modes at 1300px and 390px.
+
 **1.0.3** — A guide to `_site.yml`, and the starter ships one.
 - **Customizing guide** (`customize.qmd`, in the docs site): the one precedence rule, a quick start, tested recipes (always re-run code, hide Back to top, page layout and table of contents, sidebar width, smooth scroll, social tags, accessibility checking), which keys the shared file sets (the only ones that need `_site.yml`) and which do not, what cannot be overridden (lists append, the theme), the per-page and per-folder alternatives, how to check with `quarto inspect`, and a troubleshooting list. Every recipe was verified in a render.
 - **Starter.** `_site.yml` is shipped and already listed after the shared file in `_quarto.yml`. It contains `{}` plus commented examples (Quarto rejects a file with no content at all, so a comment-only file does not work). `tests/check-starter.sh` checks that the file ships and is listed, and that overrides placed in it win.
