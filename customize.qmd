@@ -62,7 +62,6 @@ format:
     page-layout: article     # a narrower, centered page (the default is full)
     toc: false               # no table of contents
     toc-expand: 1            # in the contents, open only the current section (the default is 2)
-    smooth-scroll: false     # jump instead of animating when a contents link is clicked
     grid:
       sidebar-width: 406px   # a different sidebar width (the default is 350px)
 ```
@@ -107,7 +106,7 @@ The keys the shared file **does** set, and so the only ones you ever override in
 | Area | Keys |
 |---|---|
 | Website | `twitter-card`, `open-graph`, `cookie-consent`, `back-to-top-navigation`, `navbar.logo-alt`, `navbar.right` (Follow Us), `navbar.tools` (GitHub), `page-footer` |
-| HTML format | `theme`, `highlight-style`, `respect-user-color-scheme`, `link-external-newwindow`, `include-after-body`, `axe`, `page-layout`, `toc`, `toc-expand`, `smooth-scroll`, `grid` |
+| HTML format | `theme`, `highlight-style`, `respect-user-color-scheme`, `link-external-newwindow`, `include-after-body`, `axe`, `page-layout`, `toc`, `toc-expand`, `grid` |
 | Execution | `execute.freeze` |
 | Other | `citation` |
 | Project | `project.post-render` (fills in the GitHub menu) |

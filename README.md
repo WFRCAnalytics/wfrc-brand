@@ -201,7 +201,7 @@ website:
   back-to-top-navigation: true
 ```
 
-Layout defaults (`page-layout: full`, a table of contents, `toc-expand: 2`, smooth scroll, a 350px sidebar), `execute.freeze: auto` and the "Back to top" link (`website.back-to-top-navigation: true`) are org defaults in the shared file. `website.page-navigation` is not set (Quarto's default is off), so it can go straight in `_quarto.yml`. Do not use `format: wfrc-brand-html` in a website that loads the shared file: Quarto would render every page twice.
+Layout defaults (`page-layout: full`, a table of contents, `toc-expand: 2`, a 350px sidebar), `execute.freeze: auto` and the "Back to top" link (`website.back-to-top-navigation: true`) are org defaults in the shared file. `website.page-navigation` is not set (Quarto's default is off), so it can go straight in `_quarto.yml`. Smooth scrolling for in-page links is plain CSS in the theme (it respects the visitor's reduced-motion setting); do not turn on Quarto's `smooth-scroll` option, which loads a script that errors on pages with RequireJS (Plotly figures, notebook widgets). Do not use `format: wfrc-brand-html` in a website that loads the shared file: Quarto would render every page twice.
 
 ---
 

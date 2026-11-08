@@ -74,6 +74,21 @@ $wfrc-scroll-thumb: mix($wfrc-ink-2, $wfrc-bg, 55%);
   * { scrollbar-width: thin; scrollbar-color: #{$wfrc-scroll-thumb} transparent; }
 }
 
+// Smooth scrolling for in-page links (contents, anchors, Back to top) in plain CSS, and only for people
+// who have not asked for reduced motion. Quarto's `smooth-scroll` option loads zenscroll instead, a UMD
+// script that throws "Mismatched anonymous define() module" on any page where RequireJS is present
+// (Plotly figures, notebook widgets), so wfrc-shared.yml leaves that option off.
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+// Where a link lands: a small gap above the heading (zenscroll left 9px). Visitors who asked for reduced
+// motion jump instantly, and after an upward jump Quarto's headroom navbar pins itself over the top of
+// the page, so they get room for it.
+:target { scroll-margin-top: 0.55rem; }
+@media (prefers-reduced-motion: reduce) {
+  :target { scroll-margin-top: 4.5rem; }
+}
+
 // ── 2  Typography ────────────────────────────────────────────────────────────
 h1, .h1, .title { color: $wfrc-h1; }
 h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 { color: $wfrc-h2; }
