@@ -1,4 +1,5 @@
-# Profile for this repo's own documentation site (GitHub Pages serves docs/).
+# Profile for this repo's own documentation site. GitHub Actions renders it into docs/ and
+# publishes that folder with GitHub Pages (.github/workflows/pages.yml); docs/ is not committed.
 #   quarto render --profile docs        quarto preview --profile docs
 # The default config (_quarto.yml) is the starter that `quarto use template` copies, so everything
 # that only documents the extension lives here or in files named in .quartoignore.

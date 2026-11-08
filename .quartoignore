@@ -10,6 +10,8 @@ example-slides.qmd
 example-report.qmd
 docs/
 scripts/
+tests/
+.github/
 filetree.txt
 _site/
 .quarto/

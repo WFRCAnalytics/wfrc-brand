@@ -8,7 +8,7 @@ Everything on this page comes from `brand.yml`. The swatches are drawn from the 
 
 ## Color roles
 
-These are the semantic colors in `brand.yml` (`color.primary`, `color.background` and the rest). Each has a light and a dark value, and Bootstrap, Shiny and Typst all read them.
+These are the semantic colors in `brand.yml` (`color.primary`, `color.background` and the rest). Each has a light and a dark value, which Quarto (Bootstrap, slides, Typst) reads. Shiny and the R and Python brand.yml packages read `brand-flat.yml`, the same brand with light values only.
 
 ```{=html}
 <div class="bg-roles" id="bg-roles"></div>
@@ -70,8 +70,8 @@ The helpers read these from `brand.yml`: `wfrc-charts.R` (ggplot2), `wfrc_charts
 |---|---|
 | Quarto site | `project.brand: _extensions/wfrc-brand/brand.yml`, then `$brand-wfrc-navy` in SCSS and `var(--brand-wfrc-navy)` in CSS |
 | Slides, PDF | `format: wfrc-brand-revealjs` or `wfrc-brand-typst` |
-| Shiny (R) | `bs_theme(brand = "_extensions/wfrc-brand/brand.yml")` |
-| Shiny (Python) | `ui.Theme.from_brand("_extensions/wfrc-brand/brand.yml")` |
+| Shiny (R) | `bs_theme(brand = "_extensions/wfrc-brand/brand-flat.yml")` |
+| Shiny (Python) | `ui.Theme.from_brand("_extensions/wfrc-brand/brand-flat.yml")` |
 | Charts | the helpers above |
 
 ```{=html}

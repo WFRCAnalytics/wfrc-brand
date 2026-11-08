@@ -12,6 +12,7 @@ toc: true
 
 - `format: wfrc-brand-revealjs` for slides and a fuller `wfrc-brand-typst` for PDF reports, both from the same `brand.yml`.
 - `brand-offline.yml`: the same brand with bundled font files (Poppins, Inter, Fira Code; OFL), for offline builds. `brand.yml` still loads fonts from Google Fonts.
+- `brand-flat.yml`, the brand with light values only, for Shiny, R and Python (their brand.yml packages do not read light/dark pairs).
 - Starter template: `quarto use template WFRCAnalytics/wfrc-brand`.
 - Components promoted from the wfrcanalytics.github.io site: status chips (`.chip-live`, `.chip-internal`, `.chip-archived`), `.wfrc-stat-num`, rounded table listings, `.wfrc-cite` and `.wfrc-shot`.
 - A fix for the repo-actions (GitHub) navbar dropdown running off the screen.

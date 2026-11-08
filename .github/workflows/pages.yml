@@ -1,0 +1,41 @@
+# Build the documentation site (the `docs` profile) and publish it with GitHub Pages.
+# Pages must be set to "GitHub Actions" in Settings > Pages. Pull requests build the site
+# without deploying it, so a broken page is caught before merge.
+name: Docs
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with: { version: "1.11.9" }
+      - run: quarto render --profile docs
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: docs }
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

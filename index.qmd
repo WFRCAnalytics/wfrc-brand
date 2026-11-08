@@ -55,7 +55,7 @@ Render with `quarto render`, then publish the output folder with GitHub Pages, o
 ## Choices you may want to change
 
 - **Fonts.** The default loads Poppins, Inter and Fira Code from Google Fonts. For offline builds or no third-party requests, set `project.brand` to `_extensions/wfrc-brand/brand-offline.yml`, which uses fonts bundled with the extension (not for slides, because Quarto does not copy bundled fonts for revealjs).
-- **Other brand pieces.** One brand file serves Quarto, Shiny, R and Python. See `_extensions/wfrc-brand/brand.yml`.
+- **Shiny, R and Python.** Use `_extensions/wfrc-brand/brand-flat.yml`: the same brand with light values only, because those packages do not read light/dark pairs.
 
 ::: {.content-visible when-profile="docs"}
 ## Documentation
