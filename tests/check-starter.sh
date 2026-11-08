@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 # Make a site from this repo with `quarto use template`, render every format, and check the result.
-#   bash tests/check-starter.sh        (needs quarto; python with pymupdf is optional)
-# CI runs this in .github/workflows/check.yml.
+#   bash tests/check-starter.sh [source]    (needs quarto; python with pymupdf is optional)
+# source is what `quarto use template` installs from: a local folder (the default, this repo) or a
+# GitHub reference such as WFRCAnalytics/wfrc-brand@main. CI uses the GitHub reference, because that
+# is how sites install it; Quarto puts an extension from GitHub under the owner's folder
+# (_extensions/WFRCAnalytics/wfrc-brand) but one from a local folder directly under _extensions.
+# The local default moves it there, so the paths in the starter's config are the ones checked.
 set -euo pipefail
 
 repo="$(cd "$(dirname "$0")/.." && pwd)"
@@ -13,11 +17,18 @@ cd "$work/my-site"
 fail() { echo "FAIL $*"; exit 1; }
 ok() { echo "ok   $*"; }
 
-quarto use template "$repo" --no-prompt > /dev/null
+source="${1:-$repo}"
+quarto use template "$source" --no-prompt > /dev/null
 quarto --version
+if [ -d "$source" ]; then
+  test -d _extensions/wfrc-brand || fail "a local install should have produced _extensions/wfrc-brand"
+  mkdir -p _extensions/WFRCAnalytics
+  mv _extensions/wfrc-brand _extensions/WFRCAnalytics/wfrc-brand
+  echo "note local install: moved the extension under _extensions/WFRCAnalytics, as a GitHub install does"
+fi
 
 # 1. The starter has what a new site needs and none of the documentation.
-for f in _quarto.yml index.qmd contact/index.qmd terms/index.qmd _extensions/wfrc-brand/_extension.yml _extensions/wfrc-brand/brand.yml; do
+for f in _quarto.yml index.qmd contact/index.qmd terms/index.qmd _extensions/WFRCAnalytics/wfrc-brand/_extension.yml _extensions/WFRCAnalytics/wfrc-brand/brand.yml; do
   test -f "$f" || fail "starter is missing $f"
 done
 for f in _quarto-docs.yml brand-guide.qmd migrate.qmd example.qmd example-landing.qmd example-dashboard.qmd \
@@ -25,6 +36,20 @@ for f in _quarto-docs.yml brand-guide.qmd migrate.qmd example.qmd example-landin
   test ! -e "$f" || fail "starter should not contain $f"
 done
 ok "starter has the site files and no documentation files"
+
+# Quarto installs an extension under the owner's name (_extensions/<owner>/<name>), and every path in
+# the starter's config has to point there. A wrong path is ignored without an error: the site would
+# render unthemed. So check each _extensions/ path the config names.
+test -d _extensions/WFRCAnalytics/wfrc-brand || fail "extension is not installed at _extensions/WFRCAnalytics/wfrc-brand"
+paths="$(grep -h -v -E '^[[:space:]]*#' _quarto.yml _extensions/WFRCAnalytics/wfrc-brand/wfrc-shared.yml | grep -o -E '_extensions/[A-Za-z0-9_./*-]+' | sed 's/[.]$//' | sort -u)"
+test -n "$paths" || fail "found no _extensions paths to check"
+for p in $paths; do
+  case "$p" in
+    *'*'*) ls $p > /dev/null 2>&1 || fail "glob matches nothing: $p" ;;
+    *) test -e "$p" || fail "config points at a path that does not exist: $p" ;;
+  esac
+done
+ok "every _extensions path in the config exists"
 
 # 2. One page per format, next to the starter's own pages.
 cat > slides.qmd <<'EOF'
@@ -78,12 +103,12 @@ grep -q 'href="./contact/index.html"' _site/index.html || fail "footer Contact l
 ok "theme applied and footer links resolve"
 
 # 4. Offline brand: render the PDF with only the bundled fonts and check they are embedded.
-sed -i 's#brand: _extensions/wfrc-brand/brand.yml#brand: _extensions/wfrc-brand/brand-offline.yml#' _quarto.yml
+sed -i 's#brand: _extensions/WFRCAnalytics/wfrc-brand/brand.yml#brand: _extensions/WFRCAnalytics/wfrc-brand/brand-offline.yml#' _quarto.yml
 grep -q "brand-offline.yml" _quarto.yml || fail "could not switch to the offline brand"
 sed -i 's/^format: wfrc-brand-typst/format:\n  wfrc-brand-typst:\n    keep-typ: true/' report.qmd
 quarto render report.qmd > render2.log 2>&1 || { cat render2.log; fail "offline brand render failed"; }
 if python -c "import pymupdf" 2>/dev/null || python -c "import fitz" 2>/dev/null; then
-  quarto typst compile report.typ offline.pdf --ignore-system-fonts --font-path _extensions/wfrc-brand/assets/fonts > /dev/null 2>&1 \
+  quarto typst compile report.typ offline.pdf --ignore-system-fonts --font-path _extensions/WFRCAnalytics/wfrc-brand/assets/fonts > /dev/null 2>&1 \
     || fail "typst compile with bundled fonts failed"
   python - <<'EOF' || fail "bundled fonts are not embedded"
 import re, sys

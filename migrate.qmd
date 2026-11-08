@@ -8,6 +8,8 @@ toc: true
 
 ## What changed
 
+**The extension folder moved (breaking).** Quarto installs an extension from GitHub under the owner's folder, so a fresh `quarto add WFRCAnalytics/wfrc-brand` or `quarto use template` puts it at `_extensions/WFRCAnalytics/wfrc-brand/`. Earlier setups and the README used `_extensions/wfrc-brand/`. Every path in 1.0 includes the owner folder. A path that points at a folder that does not exist is **ignored without an error**: the site renders, unthemed.
+
 **Added**
 
 - `format: wfrc-brand-revealjs` for slides and a fuller `wfrc-brand-typst` for PDF reports, both from the same `brand.yml`.
@@ -29,8 +31,8 @@ Class names, `--wfrc-*` and `--brand-*` variables, the page structure and the fo
 
 ## From 0.x
 
-1. Update the extension: `quarto update WFRCAnalytics/wfrc-brand`.
-2. Search your SCSS, CSS and `.qmd` files for the removed names above and replace them.
+1. Replace the extension: delete `_extensions/wfrc-brand/` if you have it, then run `quarto add WFRCAnalytics/wfrc-brand`. It installs to `_extensions/WFRCAnalytics/wfrc-brand/`.
+2. In `_quarto.yml` and any SCSS, CSS, `.qmd` or script that names the old folder, change `_extensions/wfrc-brand/` to `_extensions/WFRCAnalytics/wfrc-brand/`: `project.brand`, `metadata-files`, `project.resources`, listing `image:` paths and chart-helper imports. Then search your SCSS, CSS and `.qmd` files for the removed names above and replace them.
 3. If your site relied on the R or Python engine defaults, add them to your `_quarto.yml`:
 
    ```yaml
@@ -51,9 +53,9 @@ Class names, `--wfrc-*` and `--brand-*` variables, the page structure and the fo
 
    ```yaml
    project:
-     brand: _extensions/wfrc-brand/brand.yml
+     brand: _extensions/WFRCAnalytics/wfrc-brand/brand.yml
    metadata-files:
-     - _extensions/wfrc-brand/wfrc-shared.yml
+     - _extensions/WFRCAnalytics/wfrc-brand/wfrc-shared.yml
    ```
 
 4. Remove anything `wfrc-shared.yml` already supplies. Quarto lists *append* across config levels, so a site that repeats the "Follow Us" menu, GitHub tools menu or footer links shows them twice.
@@ -64,7 +66,7 @@ Class names, `--wfrc-*` and `--brand-*` variables, the page structure and the fo
    ```yaml
    project:
      resources:
-       - _extensions/wfrc-brand/assets/cards/*.svg
+       - _extensions/WFRCAnalytics/wfrc-brand/assets/cards/*.svg
    ```
 
 ## Good to know

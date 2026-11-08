@@ -12,7 +12,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-EXT = Path(__file__).resolve().parent.parent / "_extensions/wfrc-brand"
+EXT = Path(__file__).resolve().parent.parent / "_extensions/WFRCAnalytics/wfrc-brand"
 THEME = EXT / "assets/theme"
 HEX = re.compile(r"^#[0-9A-Fa-f]{6}$")
 

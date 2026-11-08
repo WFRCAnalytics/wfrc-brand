@@ -2,7 +2,7 @@
 #   Rscript tests/test-charts.R        (needs ggplot2; brand.yml and bslib are optional)
 args <- commandArgs(trailingOnly = FALSE)
 here <- dirname(normalizePath(sub("^--file=", "", args[grep("^--file=", args)])))
-ext <- file.path(dirname(here), "_extensions", "wfrc-brand")
+ext <- file.path(dirname(here), "_extensions", "WFRCAnalytics", "wfrc-brand")
 source(file.path(ext, "assets", "charts", "wfrc-charts.R"))
 
 failures <- 0

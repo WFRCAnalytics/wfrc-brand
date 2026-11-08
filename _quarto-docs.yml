@@ -7,8 +7,8 @@
 project:
   output-dir: docs
   resources:
-    - _extensions/wfrc-brand/assets/logo/**/*.png
-    - _extensions/wfrc-brand/assets/fonts/*.woff2
+    - _extensions/WFRCAnalytics/wfrc-brand/assets/logo/**/*.png
+    - _extensions/WFRCAnalytics/wfrc-brand/assets/fonts/*.woff2
 
 website:
   title: "WFRC brand"

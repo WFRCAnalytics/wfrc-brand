@@ -27,7 +27,7 @@ jobs:
       - name: Generated brand files are up to date
         run: |
           python scripts/build-brand-variants.py
-          git diff --exit-code -- _extensions/wfrc-brand/brand-offline.yml _extensions/wfrc-brand/brand-flat.yml
+          git diff --exit-code -- _extensions/WFRCAnalytics/wfrc-brand/brand-offline.yml _extensions/WFRCAnalytics/wfrc-brand/brand-flat.yml
       - run: pytest tests -q
 
   r:
@@ -48,4 +48,5 @@ jobs:
       - run: pip install pymupdf
       - uses: quarto-dev/quarto-actions/setup@v2
         with: { version: "${{ env.QUARTO_VERSION }}" }
-      - run: bash tests/check-starter.sh
+      # Install the way sites do, from GitHub: the branch under test (the fork's, for a fork PR).
+      - run: bash tests/check-starter.sh "${{ github.event.pull_request.head.repo.full_name || github.repository }}@${{ github.head_ref || github.ref_name }}"

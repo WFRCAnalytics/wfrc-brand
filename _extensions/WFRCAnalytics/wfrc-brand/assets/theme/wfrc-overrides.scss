@@ -49,6 +49,31 @@
   --wfrc-shadow: #{$wfrc-shadow};
 }
 
+// Scrollbars and native controls follow the mode instead of the browser default (a bright default
+// scrollbar on the dark page, or a heavy one with arrow buttons on the light page).
+// Chrome, Edge and Safari: a slim pill thumb on a transparent track, no arrow buttons. Chrome ignores
+// these pseudo-elements once `scrollbar-width` or `scrollbar-color` is set, so those two standard
+// properties are only given to browsers without them (Firefox).
+:root {
+  @if $wfrc-is-dark { color-scheme: dark; } @else { color-scheme: light; }
+}
+$wfrc-scroll-thumb: mix($wfrc-ink-2, $wfrc-bg, 55%);
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+::-webkit-scrollbar-thumb {
+  background: $wfrc-scroll-thumb;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+  min-height: 36px;
+  min-width: 36px;
+}
+::-webkit-scrollbar-thumb:hover { background: $wfrc-ink-2; background-clip: padding-box; }
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: #{$wfrc-scroll-thumb} transparent; }
+}
+
 // ── 2  Typography ────────────────────────────────────────────────────────────
 h1, .h1, .title { color: $wfrc-h1; }
 h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 { color: $wfrc-h2; }
@@ -239,7 +264,7 @@ $wfrc-callout-glyphs: (
   note:      "%3Ccircle cx='8' cy='3.6' r='1.5'/%3E%3Crect x='6.7' y='6.6' width='2.6' height='7' rx='1.1'/%3E",
   tip:       "%3Cpath d='M2.6 8.6l3.7 3.7 7.1-8' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E",
   important: "%3Crect x='6.7' y='2' width='2.6' height='7.6' rx='1.2'/%3E%3Ccircle cx='8' cy='12.7' r='1.5'/%3E",
-  warning:   "%3Cpath d='M8 2.2L14.8 13.8H1.2z' stroke='%23000' stroke-width='1.2' stroke-linejoin='round'/%3E",
+  warning:   "%3Cpath fill-rule='evenodd' d='M8 2.1Q8.5 2.1 8.8 2.7L14.9 13.1Q15.3 13.9 14.4 13.9H1.6Q0.7 13.9 1.1 13.1L7.2 2.7Q7.5 2.1 8 2.1Z M7.15 5.8H8.85V10H7.15Z M8 10.9A1.05 1.05 0 1 0 8 13A1.05 1.05 0 1 0 8 10.9Z'/%3E",
   caution:   "%3Cpath d='M3.6 3.6l8.8 8.8M12.4 3.6l-8.8 8.8' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round'/%3E"
 );
 .callout {
@@ -297,8 +322,10 @@ $wfrc-callout-glyphs: (
 }
 
 // ── 7  Code ──────────────────────────────────────────────────────────────────
-// Keep code reading as typed: no Fira Code ligatures (<- stays <-, |> stays |>).
-code, pre, kbd, samp { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+// Fira Code ligatures on: != >= <= == => -> <- |> render as single glyphs. They are explicit here so a
+// site rule or Bootstrap default cannot switch them off. To read code strictly as typed, add
+// `code, pre { font-variant-ligatures: none; font-feature-settings: "calt" 0; }` to your site CSS.
+code, pre, kbd, samp { font-variant-ligatures: normal; font-feature-settings: "calt" 1, "liga" 1; }
 div.sourceCode, pre.sourceCode, div.cell-output pre, pre:not(.sourceCode) {
   background-color: $wfrc-code-bg;
   color: $wfrc-code-ink;
