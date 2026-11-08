@@ -1,0 +1,22 @@
+# Files that document or develop the extension and must not reach a new site made with
+# `quarto use template WFRCAnalytics/wfrc-brand`. README.md and CHANGELOG.md are skipped by Quarto.
+_quarto-docs.yml
+brand-guide.qmd
+migrate.qmd
+example.qmd
+example-landing.qmd
+example-dashboard.qmd
+example-slides.qmd
+example-report.qmd
+docs/
+scripts/
+tests/
+.github/
+filetree.txt
+_site/
+.quarto/
+README.html
+README_files/
+CHANGELOG.html
+.gitignore
+.gitattributes

@@ -1,0 +1,51 @@
+# Checks that run on every pull request and push to main:
+#   python  brand.yml, its generated variants, the chart helpers, the schema, a Shiny theme
+#   r       the ggplot2 helpers, and brand-flat.yml through R's brand.yml and bslib
+#   starter `quarto use template`, then render every format from the new site
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  QUARTO_VERSION: "1.11.9"
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pytest pyyaml matplotlib plotly brand-yml "shiny[theme]"
+      - name: Generated brand files are up to date
+        run: |
+          python scripts/build-brand-variants.py
+          git diff --exit-code -- _extensions/wfrc-brand/brand-offline.yml _extensions/wfrc-brand/brand-flat.yml
+      - run: pytest tests -q
+
+  r:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with: { use-public-rspm: true }
+      - run: Rscript -e 'install.packages(c("ggplot2", "brand.yml", "bslib"))'
+      - run: Rscript tests/test-charts.R
+
+  starter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pymupdf
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with: { version: "${{ env.QUARTO_VERSION }}" }
+      - run: bash tests/check-starter.sh

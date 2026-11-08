@@ -147,10 +147,5 @@ format:
 execute:
   freeze: auto
 
-engine: knitr
-knitr:
-  opts_chunk:
-    dev: ragg_png
-jupyter: python3
 
 citation: false

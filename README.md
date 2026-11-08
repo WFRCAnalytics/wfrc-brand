@@ -1,16 +1,25 @@
 # `wfrc-brand` — Quarto brand extension for WFRC Analytics
 
-One design system for every WFRC Analytics Quarto site: colors, type, logos, light and dark mode, and styling for every Quarto component (navbar, callouts, code, tabsets, cards, tables, dashboards, footer). It is built on Posit's [`brand.yml`](https://posit-dev.github.io/brand-yml/) and Quarto's own theming, so it only uses what Quarto can render. There is no JavaScript.
+One design system for every WFRC Analytics Quarto site: colors, type, logos, light and dark mode, and styling for every Quarto component (navbar, callouts, code, tabsets, cards, tables, dashboards, footer). It is built on Posit's [`brand.yml`](https://posit-dev.github.io/brand-yml/) and Quarto's own theming, so it only uses what Quarto can render. Quarto uses `brand.yml`; Shiny, R and Python use its flat twin `brand-flat.yml` (see **Shiny, R and Python**). The theme itself has no JavaScript.
+
+**Documentation and starter:** <https://wfrcanalytics.github.io/wfrc-brand> (brand guide, examples, migration guide). This repo is also the starter template.
 
 The look is WFRC's marketing site brought to analytics density: Inter headings with Poppins body text, flat navy, blue and brick color blocks, pill buttons, 10px cards, and a ridge line above the footer. Hex codes come from the live wfrc.utah.gov site.
 
-Requires [Quarto](https://quarto.org/docs/get-started/) 1.8 or later (tested on 1.10).
+Requires [Quarto](https://quarto.org/docs/get-started/) 1.8 or later (tested on 1.11).
 
 ---
 
 ## Install
 
-From the root of a Quarto project:
+**A new site:** start from the template. It installs the extension and adds `_quarto.yml`, a home page, and the `contact/` and `terms/` pages the footer links to.
+
+```bash
+mkdir my-site && cd my-site
+quarto use template WFRCAnalytics/wfrc-brand
+```
+
+**An existing project** (see also the [migration guide](https://wfrcanalytics.github.io/wfrc-brand/migrate.html)):
 
 ```bash
 quarto add WFRCAnalytics/wfrc-brand
@@ -42,7 +51,14 @@ format: wfrc-brand-dashboard
 ---
 ```
 
-For a standalone document outside a website, `format: wfrc-brand-html` (adds numbered sections, KaTeX, code links) and `format: wfrc-brand-typst` are also available.
+Other formats work the same way:
+
+| Format | Output |
+|---|---|
+| `wfrc-brand-revealjs` | Slides: brand colors, fonts and logo, brick title-slide bar, bright-blue slide rule. Light only. |
+| `wfrc-brand-typst` | PDF report: US Letter, brand logo, colors and fonts. |
+| `wfrc-brand-html` | A standalone HTML document outside a website (numbered sections, KaTeX, code links). |
+| `wfrc-brand-dashboard` | Dashboards. |
 
 > **Why dashboards use their own format name.** Quarto only applies an extension's `contributes.formats.*` to the extension's own named formats, never to plain `html`. That is why HTML defaults live in `wfrc-shared.yml` (loaded with `metadata-files`) and dashboards use `wfrc-brand-dashboard`. Do not add a `dashboard:` key to `wfrc-shared.yml` or a project-level metadata file: in Quarto 1.10 it breaks the announcement banner render on every HTML page.
 
@@ -53,7 +69,7 @@ For a standalone document outside a website, `format: wfrc-brand-html` (adds num
 | Area | Result |
 |---|---|
 | **Theme** | One Bootstrap base for both modes. Light and dark are separate designs, not an inversion. Follows the visitor's OS setting, with a toggle in the navbar. |
-| **Type** | Poppins body 16px/1.6, Inter headings and navbar, Fira Code for code. All from Google Fonts. |
+| **Type** | Poppins body 16px/1.6, Inter headings and navbar, Fira Code for code. From Google Fonts by default; `brand-offline.yml` bundles the files (see **Fonts**). |
 | **Logos** | The brand logo set switches by mode (color on light, white on dark) and carries alt text. |
 | **Navbar** | Page-colored with a hairline, Inter 600 links, uppercase site title, bright-blue underline on hover and for the current page. |
 | **Buttons** | Pill shaped. `.btn-primary` is the AA-safe action blue. |
@@ -66,6 +82,37 @@ For a standalone document outside a website, `format: wfrc-brand-html` (adds num
 | **Footer** | Navy with the Wasatch Front skyline. The ridge is a CSS mask, so it follows each mode's color. |
 | **Dashboards** | Flat navy, mid-blue, teal and brick value boxes in both modes; transparent Observable Plot charts. |
 | **Org defaults** | Social menu, footer, external links open in a new tab, `axe` accessibility checking, an accessibility script (decorative listing banners, toggle name, Plot and collapsed-callout ARIA, keyboard-reachable scroll regions), `page-layout: full`, TOC, smooth scroll, freeze `auto`, knitr and jupyter engines. |
+
+---
+
+## Fonts
+
+`brand.yml` loads Poppins, Inter and Fira Code from Google Fonts. For offline builds or no request to a third party, point the project at the offline brand, which is the same file with the fonts bundled in `assets/fonts/` (SIL OFL; woff2 for the web, ttf for Typst):
+
+```yaml
+project:
+  brand: _extensions/wfrc-brand/brand-offline.yml
+```
+
+Quarto 1.11 does not copy bundled fonts for revealjs, so slides always use `brand.yml` (Google Fonts). `brand-offline.yml` is generated: edit `brand.yml`, then run `python scripts/build-brand-variants.py`. `scripts/fetch-fonts.py` re-downloads the font files.
+
+---
+
+## Shiny, R and Python
+
+`brand.yml` uses `light:`/`dark:` values, which Quarto 1.8 added. The R and Python brand.yml packages (so Shiny, bslib and great-tables) do not understand them and reject the file. `brand-flat.yml` is the same brand with each pair replaced by its light value, generated by `scripts/build-brand-variants.py`:
+
+```r
+# Shiny for R
+bslib::bs_theme(brand = "_extensions/wfrc-brand/brand-flat.yml")
+```
+
+```python
+# Shiny for Python (pip install "shiny[theme]")
+ui.Theme.from_brand("_extensions/wfrc-brand/brand-flat.yml")
+```
+
+Checked with the official `brand-yml` Python package (schema), `shiny` 1.9 and R's `brand.yml` and `bslib`.
 
 ---
 
@@ -168,7 +215,10 @@ Description.
 | `.wfrc-blocks` + `.wfrc-block` (`.mid`, `.teal`, `.brick`) | A row of flat color blocks. |
 | `.wfrc-keyfacts` | One bordered strip of key numbers. Each child div holds a bold number and a label. |
 | `.wfrc-updates` + `[Oct 21]{.wfrc-date}` | A dated update list with brick date tiles. |
-| `.wfrc-chip` | Small pill label. |
+| `.wfrc-chip` | Small pill label. Add `.chip-live`, `.chip-internal` or `.chip-archived` for a status. |
+| `.wfrc-stat-num` | A large number inside a `.wfrc-block`. |
+| `.wfrc-cite` | A quiet aside with a bright-blue rule, for "How to cite". |
+| `.wfrc-shot` | A screenshot with a hairline border and rounded corners. |
 
 ---
 
@@ -211,8 +261,10 @@ The CSS variables `--wfrc-chart-1` to `--wfrc-chart-5` are available to any cust
 
 ```
 _extensions/wfrc-brand/
-├── _extension.yml        wfrc-brand-html / -dashboard / -typst formats (same theme list as wfrc-shared.yml)
+├── _extension.yml        wfrc-brand-html / -dashboard / -revealjs / -typst formats
 ├── brand.yml             the ONLY place hex codes are written (palette, type, logos, light/dark roles)
+├── brand-offline.yml     generated from brand.yml, with bundled fonts
+├── brand-flat.yml        generated from brand.yml, light values only, for Shiny, R and Python
 ├── wfrc-shared.yml       org defaults loaded with metadata-files: theme, layout, navbar, footer, freeze
 └── assets/
     ├── theme/
@@ -220,10 +272,14 @@ _extensions/wfrc-brand/
     │   ├── wfrc-light.scss       role map for light: each role points at a brand.yml palette name
     │   ├── wfrc-dark.scss        role map for dark
     │   ├── wfrc-overrides.scss   every Quarto component rule, written once for both modes
+    │   ├── wfrc-revealjs.scss    slide shape
     │   └── wfrc-{light,dark}.theme   syntax highlighting palettes (Pandoc format)
+    ├── fonts/                    Poppins, Inter, Fira Code (woff2 and ttf)
     ├── charts/                   R, Python and Observable JS helpers
     └── logo/
 ```
+
+The repo root is the starter project (`_quarto.yml`, `index.qmd`, `contact/`, `terms/`). `_quarto-docs.yml` is the profile that adds the documentation pages for this repo's own site; `.quartoignore` keeps them out of new sites.
 
 **Theme layers**, low to high priority: `wfrc.scss`, `wfrc-light|dark.scss`, `wfrc-overrides.scss`, then the `brand` keyword. Putting `brand` last is what makes `$brand-*` Sass variables (and `$primary`, `$background`) available in the files above it, so the SCSS never writes a hex code.
 
@@ -253,16 +309,7 @@ The two exceptions are the Pandoc syntax themes (`.theme` JSON cannot reference 
 
 ## Migrating an existing site
 
-Use the [wfrcanalytics.github.io](https://github.com/WFRCAnalytics/wfrcanalytics.github.io) site as the model.
-
-1. `quarto add WFRCAnalytics/wfrc-brand`, then add the `brand` and `metadata-files` lines from **Install**.
-2. Delete the site's own `_brand.yml`, custom theme SCSS, `format.html.theme`, `css:` and `include-in-header` font preloads.
-3. **Remove anything `wfrc-shared.yml` already supplies.** Quarto lists *append* across config levels, so a site that also defines its own "Follow Us" menu, GitHub tools menu or footer links shows them twice.
-4. Keep what is yours: `website.title`, `site-url`, `navbar.left`, the sidebars, announcements, and per-site GitHub links.
-5. **Add `contact/index.qmd` and `terms/index.qmd`.** The shared footer links to them with site-relative paths (so previews stay local). Start from `_extensions/wfrc-brand/templates/contact.qmd` and `terms.qmd`. A site that already has `license/index.qmd` should move it (see the 0.4.0 migration in the [changelog](CHANGELOG.md)).
-6. Remove what is now shared: `link-external-newwindow: true`, any copy of `decorative-images.html` in `include-after-body`, and site CSS for listing cards, table-listing titles and category chips.
-7. Pages that used the old `index.scss` classes (`#bio`, `#landing-icons`, `.name-highlight`) still work. New pages can use the `.wfrc-*` components above.
-8. Render, then clear the cache if styles look stale (see below).
+The [migration guide](https://wfrcanalytics.github.io/wfrc-brand/migrate.html) covers moving from 0.x (what 1.0 removed) and from a site with its own theme. In short: `quarto add WFRCAnalytics/wfrc-brand` (or start from the template), add the `project.brand` and `metadata-files` lines from **Install**, delete your own theme, CSS and font links, remove config that `wfrc-shared.yml` already supplies (Quarto lists append), keep your title, navbar and sidebars, add `contact/index.qmd` and `terms/index.qmd`, then render and check light and dark.
 
 ### Accessibility checklist
 
@@ -279,7 +326,7 @@ The extension keeps `axe: true` on. In a pass over the preview pages and real si
 
 - **Hero and band sections cover the TOC.** Use them on `toc: false` pages.
 - **Dashboards** need `format: wfrc-brand-dashboard`; setting `format: dashboard` gives Quarto's default look.
-- **RevealJS** is not themed by this extension. **Typst and Word** pick up brand colors and fonts through `brand.yml` only. The Typst render was checked for errors, not for appearance.
+- **Slides are light only** (Reveal.js has no color-scheme toggle) and use Google Fonts even with `brand-offline.yml`. **Word** picks up brand colors and fonts through `brand.yml` only. The bundled fonts are checked in Typst with system fonts ignored.
 - **R helpers.** The palette lookup is tested; the ggplot2 theme was written but not run in the environment used to build this release (ggplot2 was not installed).
 - **No numbered sections by default** in websites. Set `number-sections: true` per site, or use `wfrc-brand-html`.
 
@@ -289,13 +336,16 @@ The extension keeps `axe: true` on. In a pass over the preview pages and real si
 
 | To change | Edit |
 |---|---|
-| A color, logo or font | `brand.yml` (and the `.theme` files if it is a syntax color) |
+| A color, logo or font | `brand.yml` (and the `.theme` files if it is a syntax color), then `python scripts/build-brand-variants.py` |
 | Which palette name a role uses | `wfrc-light.scss`, `wfrc-dark.scss` |
 | How a Quarto component looks | `wfrc-overrides.scss` (sections are numbered at the top) |
+| How slides look | `wfrc-revealjs.scss` |
 | Layout or sizing that is the same in both modes | `wfrc.scss` |
 | Org-wide site defaults | `wfrc-shared.yml` (and keep `_extension.yml`'s theme list in step) |
+| What a new site starts with | `_quarto.yml`, `index.qmd`, `contact/`, `terms/` |
+| Documentation pages | `brand-guide.qmd`, `migrate.qmd`, `example*.qmd`, `_quarto-docs.yml` (add new docs-only files to `.quartoignore`) |
 
-Preview: `quarto preview` renders [`example.qmd`](example.qmd) (every component), [`example-landing.qmd`](example-landing.qmd) and [`example-dashboard.qmd`](example-dashboard.qmd). Check each in light and dark, and at phone width.
+Run the checks with `pytest tests` (needs `pyyaml`, `matplotlib`, and optionally `plotly`, `brand-yml` and `shiny[theme]`) and `Rscript tests/test-charts.R`; CI also renders the starter. Preview the documentation site with `quarto preview --profile docs`. GitHub Actions builds it with `quarto render --profile docs` and publishes it to GitHub Pages on every push to `main` (`docs/` is build output and is not committed); a pull request builds it without deploying. Check each page in light and dark, and at phone width. Without `--profile docs`, Quarto renders the starter.
 
 **Clearing the Sass cache.** Quarto caches compiled SCSS in `.quarto/`. If a style change does not show, delete that folder and render again (`rmdir /s /q .quarto` on Windows, `rm -rf .quarto` elsewhere).
 
