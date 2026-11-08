@@ -12,7 +12,7 @@ Requires [Quarto](https://quarto.org/docs/get-started/) 1.8 or later (tested on 
 
 ## Install
 
-**A new site:** start from the template. It installs the extension and adds `_quarto.yml`, a home page, and the `contact/` and `terms/` pages the footer links to.
+**A new site:** start from the template. It installs the extension and adds `_quarto.yml` and a home page.
 
 ```bash
 mkdir my-site && cd my-site
@@ -83,7 +83,7 @@ Other formats work the same way:
 | **TOC and sidebar** | Active item marked with a bright-blue edge. |
 | **Footer** | Navy with the Wasatch Front skyline. The ridge is a CSS mask, so it follows each mode's color. |
 | **Dashboards** | Flat navy, mid-blue, teal and brick value boxes in both modes; transparent Observable Plot charts. |
-| **Org defaults** | Social menu, footer, external links open in a new tab, `axe` accessibility checking, an accessibility script (decorative listing banners, toggle name, Plot and collapsed-callout ARIA, keyboard-reachable scroll regions), `page-layout: full`, TOC, smooth scroll, freeze `auto`, knitr and jupyter engines. |
+| **Org defaults** | Social menu, a GitHub menu that points at the site's own repository, footer, external links open in a new tab, `axe` accessibility checking, an accessibility script (decorative listing banners, toggle name, Plot and collapsed-callout ARIA, keyboard-reachable scroll regions), `page-layout: full`, TOC, smooth scroll, and freeze `auto`. |
 
 ---
 
@@ -165,15 +165,47 @@ Banners are decorative. Quarto drops `image-alt: ""`, so the bundled script (`as
 
 ---
 
+## GitHub menu
+
+Every site gets a GitHub menu in the navbar (Source Code, Report a Bug, and Ask a Question when the repository has Discussions turned on), pointing at **its own repository with no configuration**. `wfrc-shared.yml` writes the links as placeholders, and a post-render script (`scripts/github-repo.ts`, run by Quarto's built-in Deno; nothing to install) replaces them in the built pages. It finds the repository from `GITHUB_REPOSITORY` (set in GitHub Actions) or the git remote `origin`, and asks the GitHub API whether Discussions are on (without a token only public repositories answer, so a private repository shows no question item locally). If it finds no repository the links stay on the organization page.
+
+`quarto preview` does not run post-render scripts, so a preview shows the organization links until the next `quarto render`.
+
+**Do not add your own GitHub menu** (`navbar.tools` or `repo-url` with `repo-actions`): lists append, so it would appear twice.
+
+---
+
+## Site-specific differences
+
+A value in `wfrc-shared.yml` **beats the same key in your `_quarto.yml`** (verified on Quarto 1.11), so a site never fights the org defaults by editing its own file. The pattern is a second metadata file listed after the shared one, which beats it:
+
+```yaml
+metadata-files:
+  - _extensions/WFRCAnalytics/wfrc-brand/wfrc-shared.yml
+  - _site.yml
+```
+
+```yaml
+# _site.yml: only what this site does differently
+execute:
+  freeze: false            # always re-run
+format:
+  html:
+    grid:
+      sidebar-width: 406px
+website:
+  back-to-top-navigation: true
+```
+
+Layout defaults (`page-layout: full`, a table of contents, `toc-expand: 2`, smooth scroll, a 350px sidebar) and `execute.freeze: auto` are org defaults in the shared file; the page-navigation keys are not set (they are Quarto's defaults), so `website.page-navigation` and `back-to-top-navigation` can go straight in `_quarto.yml`. Do not use `format: wfrc-brand-html` in a website that loads the shared file: Quarto would render every page twice.
+
+---
+
 ## Footer links
 
-The shared footer (`wfrc-shared.yml`) links to `contact/index.qmd` (label "Contact") and `terms/index.qmd` (label "Terms of use") with site-relative paths. The pages are expected to exist: copy `_extensions/WFRCAnalytics/wfrc-brand/templates/contact.qmd` and `terms.qmd` to `contact/index.qmd` and `terms/index.qmd`. The templates are meant to be edited per site; the terms wording is a draft that WFRC communications or legal should confirm before a site publishes it. A site without these pages gets dead links.
+The shared footer (`wfrc-shared.yml`) links **Contact** to <https://wfrcanalytics.github.io/contact/> and **Terms of use** to <https://wfrcanalytics.github.io/terms/>. Those are the only copies: sites do not carry their own, so the terms wording is maintained in one place (the terms text is a draft that WFRC communications or legal should confirm). The content license, CC BY 4.0, is stated on that page.
 
-**License.** Since 0.4.1 the terms template assumes the content is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). CC BY 4.0 already covers what the earlier draft asked for in custom words: it requires credit, requires users to indicate if they modified the material and to keep earlier indications of modification, and forbids implying that the licensor endorses them. CC licenses do not cover trademarks (the WFRC name and logo) and Creative Commons advises against using them for software, so the template excludes both, along with third-party data and models.
-
-A site that wants a different license edits its `terms/index.qmd`. The extension does not add a `rel="license"` tag through `include-in-header`, because a site's own `include-in-header` replaces the extension's. Sites should add `<link rel="license" href="https://creativecommons.org/licenses/by/4.0/">` in their own `include-in-header` file.
-
-A site that does not want them must override the footer, but **setting `website.page-footer.right` in `_quarto.yml` does not replace the list**: Quarto appends it, so the site's links appear next to Contact and Terms of use (verified in a Quarto 1.10 test render). To drop the two links, keep a local copy of `wfrc-shared.yml` with the `right:` block edited and point `metadata-files` at the copy.
+A site that needs different terms for its own data or models can link to a page of its own from its content; the footer cannot be replaced, because **setting `website.page-footer.right` in `_quarto.yml` does not replace the list**: Quarto appends it, so the site's links appear next to Contact and Terms of use (verified in a Quarto 1.10 test render). To drop the two links, keep a local copy of `wfrc-shared.yml` with the `right:` block edited and point `metadata-files` at the copy.
 
 ---
 
@@ -281,7 +313,7 @@ _extensions/WFRCAnalytics/wfrc-brand/
     └── logo/
 ```
 
-The repo root is the starter project (`_quarto.yml`, `index.qmd`, `contact/`, `terms/`). `_quarto-docs.yml` is the profile that adds the documentation pages for this repo's own site; `.quartoignore` keeps them out of new sites.
+The repo root is the starter project (`_quarto.yml`, `index.qmd`). `_quarto-docs.yml` is the profile that adds the documentation pages for this repo's own site; `.quartoignore` keeps them out of new sites.
 
 **Theme layers**, low to high priority: `wfrc.scss`, `wfrc-light|dark.scss`, `wfrc-overrides.scss`, then the `brand` keyword. Putting `brand` last is what makes `$brand-*` Sass variables (and `$primary`, `$background`) available in the files above it, so the SCSS never writes a hex code.
 
@@ -311,7 +343,7 @@ The two exceptions are the Pandoc syntax themes (`.theme` JSON cannot reference 
 
 ## Migrating an existing site
 
-The [migration guide](https://wfrcanalytics.github.io/wfrc-brand/migrate.html) covers moving from 0.x (what 1.0 removed) and from a site with its own theme. In short: `quarto add WFRCAnalytics/wfrc-brand` (or start from the template), add the `project.brand` and `metadata-files` lines from **Install**, delete your own theme, CSS and font links, remove config that `wfrc-shared.yml` already supplies (Quarto lists append), keep your title, navbar and sidebars, add `contact/index.qmd` and `terms/index.qmd`, then render and check light and dark.
+The [migration guide](https://wfrcanalytics.github.io/wfrc-brand/migrate.html) covers moving from 0.x (what 1.0 removed) and from a site with its own theme. In short: `quarto add WFRCAnalytics/wfrc-brand` (or start from the template), add the `project.brand` and `metadata-files` lines from **Install**, delete your own theme, CSS and font links, remove config that `wfrc-shared.yml` already supplies (Quarto lists append), keep your title, navbar and sidebars (do not add a GitHub menu: it is automatic), put differences from the org defaults in a `_site.yml`, then render and check light and dark.
 
 ### Accessibility checklist
 
@@ -330,7 +362,7 @@ The extension keeps `axe: true` on. In a pass over the preview pages and real si
 - **Dashboards** need `format: wfrc-brand-dashboard`; setting `format: dashboard` gives Quarto's default look.
 - **Slides are light only** (Reveal.js has no color-scheme toggle) and use Google Fonts even with `brand-offline.yml`. **Word** picks up brand colors and fonts through `brand.yml` only. The bundled fonts are checked in Typst with system fonts ignored.
 - **R helpers.** The palette lookup is tested; the ggplot2 theme was written but not run in the environment used to build this release (ggplot2 was not installed).
-- **No numbered sections by default** in websites. Set `number-sections: true` per site, or use `wfrc-brand-html`.
+- **No numbered sections by default** in websites. Set `number-sections: true` in your `_site.yml` under `format: html:` (see **Site-specific differences**). Do not use `wfrc-brand-html` in a website that loads `wfrc-shared.yml`: Quarto would render each page twice.
 
 ---
 
@@ -344,7 +376,8 @@ The extension keeps `axe: true` on. In a pass over the preview pages and real si
 | How slides look | `wfrc-revealjs.scss` |
 | Layout or sizing that is the same in both modes | `wfrc.scss` |
 | Org-wide site defaults | `wfrc-shared.yml` (and keep `_extension.yml`'s theme list in step) |
-| What a new site starts with | `_quarto.yml`, `index.qmd`, `contact/`, `terms/` |
+| The automatic GitHub menu | `scripts/github-repo.ts` (placeholders are in `wfrc-shared.yml`) |
+| What a new site starts with | `_quarto.yml`, `index.qmd` |
 | Documentation pages | `brand-guide.qmd`, `migrate.qmd`, `example*.qmd`, `_quarto-docs.yml` (add new docs-only files to `.quartoignore`) |
 
 Run the checks with `pytest tests` (needs `pyyaml`, `matplotlib`, and optionally `plotly`, `brand-yml` and `shiny[theme]`) and `Rscript tests/test-charts.R`; CI also renders the starter. Preview the documentation site with `quarto preview --profile docs`. GitHub Actions builds it with `quarto render --profile docs` and publishes it to GitHub Pages on every push to `main` (`docs/` is build output and is not committed); a pull request builds it without deploying. Check each page in light and dark, and at phone width. Without `--profile docs`, Quarto renders the starter.

@@ -20,6 +20,9 @@ ok() { echo "ok   $*"; }
 source="${1:-$repo}"
 quarto use template "$source" --no-prompt > /dev/null
 quarto --version
+# The GitHub menu finds its repository from the git remote (or GITHUB_REPOSITORY in Actions).
+git init -q .
+git remote add origin https://github.com/WFRCAnalytics/my-site.git
 if [ -d "$source" ]; then
   test -d _extensions/wfrc-brand || fail "a local install should have produced _extensions/wfrc-brand"
   mkdir -p _extensions/WFRCAnalytics
@@ -28,11 +31,11 @@ if [ -d "$source" ]; then
 fi
 
 # 1. The starter has what a new site needs and none of the documentation.
-for f in _quarto.yml index.qmd contact/index.qmd terms/index.qmd _extensions/WFRCAnalytics/wfrc-brand/_extension.yml _extensions/WFRCAnalytics/wfrc-brand/brand.yml; do
+for f in _quarto.yml index.qmd _extensions/WFRCAnalytics/wfrc-brand/_extension.yml _extensions/WFRCAnalytics/wfrc-brand/brand.yml; do
   test -f "$f" || fail "starter is missing $f"
 done
 for f in _quarto-docs.yml brand-guide.qmd migrate.qmd example.qmd example-landing.qmd example-dashboard.qmd \
-         example-slides.qmd example-report.qmd docs scripts tests .github CHANGELOG.md README.md; do
+         example-slides.qmd example-report.qmd docs scripts tests .github CHANGELOG.md README.md contact terms; do
   test ! -e "$f" || fail "starter should not contain $f"
 done
 ok "starter has the site files and no documentation files"
@@ -89,9 +92,9 @@ Some text.
 :::
 EOF
 
-quarto render > render.log 2>&1 || { cat render.log; fail "quarto render failed"; }
+env -u GITHUB_REPOSITORY quarto render > render.log 2>&1 || { cat render.log; fail "quarto render failed"; }
 grep -E "^(WARN|ERROR)" render.log | grep -v -E "Unable to resolve link target" && fail "render warnings above" || true
-for out in index.html contact/index.html terms/index.html slides.html report.pdf dashboard.html; do
+for out in index.html slides.html report.pdf dashboard.html; do
   test -f "_site/$out" || fail "missing _site/$out"
 done
 ok "starter, slides, PDF and dashboard render"
@@ -99,8 +102,40 @@ ok "starter, slides, PDF and dashboard render"
 # 3. The theme is applied: brand colors reach the compiled CSS and the footer links resolve.
 css="$(ls _site/site_libs/bootstrap/bootstrap-*.min.css | grep -v dark | head -1)"
 grep -qi "00395b" "$css" || fail "brand navy is not in the compiled CSS"
-grep -q 'href="./contact/index.html"' _site/index.html || fail "footer Contact link is not site-relative"
-ok "theme applied and footer links resolve"
+grep -q 'href="https://wfrcanalytics.github.io/contact/"' _site/index.html || fail "footer Contact link does not go to the org page"
+grep -q 'href="https://wfrcanalytics.github.io/terms/"' _site/index.html || fail "footer Terms of use link does not go to the org page"
+ok "theme applied, footer links go to the org pages"
+
+# 3a. The GitHub menu points at this site's own repository, found from the git remote.
+grep -q 'href="https://github.com/WFRCAnalytics/my-site"' _site/index.html || fail "GitHub menu: Source Code does not point at the repository"
+grep -q 'href="https://github.com/WFRCAnalytics/my-site/issues/new"' _site/index.html || fail "GitHub menu: Report a Bug does not point at the repository"
+if grep -q 'wfrc-repo' _site/index.html; then fail "GitHub menu placeholders were left in the page"; fi
+if grep -q "Ask a Question" _site/index.html; then fail "Ask a Question should be left out when the repository has no Discussions"; fi
+env GITHUB_REPOSITORY=WFRCAnalytics/from-env quarto render index.qmd > render4.log 2>&1 || { cat render4.log; fail "render with GITHUB_REPOSITORY failed"; }
+grep -q 'href="https://github.com/WFRCAnalytics/from-env/issues/new"' _site/index.html || fail "GitHub menu ignored GITHUB_REPOSITORY"
+ok "GitHub menu detects the repository (git remote, and GITHUB_REPOSITORY in Actions)"
+
+# 3b. A site can differ from the org defaults with a file listed after the shared one, which beats it.
+cp _quarto.yml _quarto.yml.orig
+cat > _site.yml <<'EOF'
+website:
+  back-to-top-navigation: true
+format:
+  html:
+    page-layout: article
+    toc-expand: 1
+execute:
+  freeze: false
+EOF
+sed -i 's/^  # - _site.yml$/  - _site.yml/' _quarto.yml
+grep -q "^  - _site.yml$" _quarto.yml || fail "could not list _site.yml in the starter config"
+env -u GITHUB_REPOSITORY quarto render index.qmd > render3.log 2>&1 || { cat render3.log; fail "render with _site.yml failed"; }
+grep -q "quarto-back-to-top" _site/index.html || fail "_site.yml did not turn on back-to-top-navigation"
+grep -q "page-layout-article" _site/index.html || fail "_site.yml did not override page-layout"
+quarto inspect index.qmd | python -c "import sys,json; d=json.load(sys.stdin); sys.exit(0 if d['formats']['html'].get('execute',{}).get('freeze') is False else 1)"   || fail "_site.yml did not override execute.freeze"
+cp _quarto.yml.orig _quarto.yml
+rm _site.yml
+ok "a site's own _site.yml overrides the shared defaults"
 
 # 4. Offline brand: render the PDF with only the bundled fonts and check they are embedded.
 sed -i 's#brand: _extensions/WFRCAnalytics/wfrc-brand/brand.yml#brand: _extensions/WFRCAnalytics/wfrc-brand/brand-offline.yml#' _quarto.yml
