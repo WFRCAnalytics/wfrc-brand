@@ -177,6 +177,8 @@ Every site gets a GitHub menu in the navbar (Source Code, Report a Bug, and Ask 
 
 ## Site-specific differences
 
+**Step-by-step guide with tested recipes: <https://wfrcanalytics.github.io/wfrc-brand/customize.html>.** In short:
+
 A value in `wfrc-shared.yml` **beats the same key in your `_quarto.yml`** (verified on Quarto 1.11), so a site never fights the org defaults by editing its own file. The pattern is a second metadata file listed after the shared one, which beats it:
 
 ```yaml
@@ -184,6 +186,8 @@ metadata-files:
   - _extensions/WFRCAnalytics/wfrc-brand/wfrc-shared.yml
   - _site.yml
 ```
+
+A site from the starter already has an empty `_site.yml` listed this way (delete its `{}` line when you add keys). Put in it only keys the shared file sets; everything else belongs in `_quarto.yml`.
 
 ```yaml
 # _site.yml: only what this site does differently

@@ -2,6 +2,7 @@
 # `quarto use template WFRCAnalytics/wfrc-brand`. README.md and CHANGELOG.md are skipped by Quarto.
 _quarto-docs.yml
 brand-guide.qmd
+customize.qmd
 migrate.qmd
 example.qmd
 example-landing.qmd

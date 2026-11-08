@@ -34,7 +34,7 @@ fi
 for f in _quarto.yml index.qmd _extensions/WFRCAnalytics/wfrc-brand/_extension.yml _extensions/WFRCAnalytics/wfrc-brand/brand.yml; do
   test -f "$f" || fail "starter is missing $f"
 done
-for f in _quarto-docs.yml brand-guide.qmd migrate.qmd example.qmd example-landing.qmd example-dashboard.qmd \
+for f in _quarto-docs.yml brand-guide.qmd customize.qmd migrate.qmd example.qmd example-landing.qmd example-dashboard.qmd \
          example-slides.qmd example-report.qmd docs scripts tests .github CHANGELOG.md README.md contact terms; do
   test ! -e "$f" || fail "starter should not contain $f"
 done
@@ -117,7 +117,9 @@ grep -q 'href="https://github.com/WFRCAnalytics/from-env/issues/new"' _site/inde
 ok "GitHub menu detects the repository (git remote, and GITHUB_REPOSITORY in Actions)"
 
 # 3b. A site can differ from the org defaults with a file listed after the shared one, which beats it.
-cp _quarto.yml _quarto.yml.orig
+test -f _site.yml || fail "the starter does not ship a _site.yml"
+grep -q "^  - _site.yml$" _quarto.yml || fail "the starter does not list _site.yml after the shared file"
+cp _site.yml _site.yml.orig
 cat > _site.yml <<'EOF'
 website:
   back-to-top-navigation: false
@@ -128,14 +130,11 @@ format:
 execute:
   freeze: false
 EOF
-sed -i 's/^  # - _site.yml$/  - _site.yml/' _quarto.yml
-grep -q "^  - _site.yml$" _quarto.yml || fail "could not list _site.yml in the starter config"
 env -u GITHUB_REPOSITORY quarto render index.qmd > render3.log 2>&1 || { cat render3.log; fail "render with _site.yml failed"; }
 if grep -q 'id="quarto-back-to-top"' _site/index.html; then fail "_site.yml did not turn off back-to-top-navigation"; fi
 grep -q "page-layout-article" _site/index.html || fail "_site.yml did not override page-layout"
 quarto inspect index.qmd | python -c "import sys,json; d=json.load(sys.stdin); sys.exit(0 if d['formats']['html'].get('execute',{}).get('freeze') is False else 1)"   || fail "_site.yml did not override execute.freeze"
-cp _quarto.yml.orig _quarto.yml
-rm _site.yml
+mv _site.yml.orig _site.yml
 ok "a site's own _site.yml overrides the shared defaults (page-layout, toc-expand, freeze, back-to-top)"
 
 # 4. Offline brand: render the PDF with only the bundled fonts and check they are embedded.

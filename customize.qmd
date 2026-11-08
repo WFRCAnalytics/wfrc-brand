@@ -1,0 +1,157 @@
+---
+title: "Customizing a site"
+subtitle: "What to do when your site must differ from the WFRC defaults"
+toc: true
+---
+
+Every WFRC site gets the same defaults from `wfrc-shared.yml`: the theme, the navbar and footer, layout, `freeze: auto` and the "Back to top" link. Most sites need nothing else. When one does, you put **only the differences** in a file called `_site.yml`. This page shows how, with recipes that have been tested.
+
+## The one rule
+
+A value in the shared file **beats the same key in your `_quarto.yml`**. So if the shared file sets a key and you set it again in `_quarto.yml`, your value is silently ignored. A second metadata file listed **after** the shared one beats the shared file. That is what `_site.yml` is:
+
+```yaml
+# _quarto.yml
+metadata-files:
+  - _extensions/WFRCAnalytics/wfrc-brand/wfrc-shared.yml   # org defaults
+  - _site.yml                                              # yours: last, so it wins
+```
+
+A site made from the starter template already has both lines and an empty `_site.yml`. If you added the extension to an existing project, create `_site.yml` yourself and add the second line.
+
+## Quick start
+
+1. Open `_site.yml`.
+2. Delete the `{}` line (it is only there because Quarto rejects a file with no content).
+3. Add the keys you need, using the recipes below. Keep the same nesting as in the examples.
+4. Run `quarto render`, or check the result with `quarto inspect` (see [Check that it worked](#check-that-it-worked)).
+
+```yaml
+# _site.yml: only what this site does differently
+execute:
+  freeze: false
+```
+
+Put in this file **only what differs**. Do not copy the whole shared file or repeat a default: a copied value stops following the org default when it changes.
+
+## Recipes
+
+Each example is a complete `_site.yml`. Combine them by merging the top-level keys (`execute`, `website`, `format`) into one file.
+
+### Always re-run code
+
+The default, `freeze: auto`, re-runs a page only when it changed. Use `false` when results depend on data that lives outside the page, such as model runs, files that change, or the current date.
+
+```yaml
+execute:
+  freeze: false
+```
+
+### Hide the "Back to top" link
+
+```yaml
+website:
+  back-to-top-navigation: false
+```
+
+### Page layout and table of contents
+
+```yaml
+format:
+  html:
+    page-layout: article     # a narrower, centered page (the default is full)
+    toc: false               # no table of contents
+    toc-expand: 1            # in the contents, open only the current section (the default is 2)
+    smooth-scroll: false     # jump instead of animating when a contents link is clicked
+    grid:
+      sidebar-width: 406px   # a different sidebar width (the default is 350px)
+```
+
+### Turn off social-card tags
+
+```yaml
+website:
+  open-graph: false
+```
+
+### Accessibility checking
+
+`axe` reports accessibility problems in the browser console. It is on for every WFRC site on purpose, so only turn it off for a good reason:
+
+```yaml
+format:
+  html:
+    axe: false
+```
+
+## What does not need `_site.yml`
+
+`_site.yml` is only for keys that **the shared file sets**. Everything else goes in your own `_quarto.yml`, because nothing is there to override:
+
+- **Yours alone:** `website.title`, `description`, `site-url`, `favicon`, `navbar.left`, `sidebar`, `announcement`, `page-navigation`, and `project.output-dir`, `render`, `resources`.
+- **Not set by the shared file:** `jupyter`, `engine`, `execute.echo`, `warning`, `message`, `format.html.css`, `number-sections`, `code-fold`, `code-tools`, `code-link`, `html-math-method`, `lightbox`, `title-block-banner`.
+
+The keys the shared file **does** set, and so the only ones you ever override in `_site.yml`:
+
+| Area | Keys |
+|---|---|
+| Website | `twitter-card`, `open-graph`, `cookie-consent`, `back-to-top-navigation`, `navbar.logo-alt`, `navbar.right` (Follow Us), `navbar.tools` (GitHub), `page-footer` |
+| HTML format | `theme`, `highlight-style`, `respect-user-color-scheme`, `link-external-newwindow`, `include-after-body`, `axe`, `page-layout`, `toc`, `toc-expand`, `smooth-scroll`, `grid` |
+| Execution | `execute.freeze` |
+| Other | `citation` |
+| Project | `project.post-render` (fills in the GitHub menu) |
+
+## What you cannot do
+
+- **Remove a menu or the footer.** Lists (navbar items, tools, footer links) **append** across files, so `_site.yml` can add items but not take away the "Follow Us" menu, the GitHub menu or the footer links. A site that truly needs a different footer must keep a local copy of the shared file.
+- **Change the theme.** Do not override `theme` or `highlight-style`. Colors and fonts come from `brand.yml`; see the [brand guide](brand-guide.qmd).
+- **Add your own GitHub menu.** It points at your repository by itself. A second one (`navbar.tools` with GitHub, or `repo-url` with `repo-actions`) would appear twice.
+- **Use `format: wfrc-brand-html` in a website.** It conflicts with the shared file's `format.html` and Quarto fails when it renders each page twice. Websites use plain `format: html`.
+
+## For one page or one folder
+
+You do not always need a site-wide change. These beat the shared file too:
+
+- **One page:** put it in that page's front matter.
+
+  ```yaml
+  ---
+  title: "Live model results"
+  execute:
+    freeze: false
+  ---
+  ```
+
+- **One folder:** put a `_metadata.yml` in the folder. It applies to the pages in that folder only, not to its subfolders.
+
+  ```yaml
+  # reports/_metadata.yml
+  execute:
+    freeze: false
+  ```
+
+Site-wide settings such as `website.*` keys cannot be changed this way; use `_site.yml` for those.
+
+## Check that it worked
+
+Print the settings Quarto will actually use for a page:
+
+```bash
+quarto inspect reports/model.qmd
+```
+
+Look under `formats` then `html`: `execute.freeze`, and in `metadata` the keys you changed (`page-layout`, `toc-expand`, `grid`). For a `website.*` key, render and look at the page (the "Back to top" link, the social tags in the page source).
+
+If your setting seems ignored:
+
+- Is it in `_quarto.yml` and also set by the shared file? Move it to `_site.yml`.
+- Is `_site.yml` listed **after** the shared file in `metadata-files`? Order matters: the later file wins.
+- Is the indentation right? `format`, `html` and the key must each be nested two spaces under the one above.
+- Did you leave the `{}` line in? Delete it once the file has real keys, or Quarto reports that it cannot read the file.
+- Did Quarto cache an old render? Remove the `.quarto` folder and render again.
+
+## Related
+
+- [Get started](index.qmd) for the starter template.
+- [Migrating to 1.0](migrate.qmd) for moving an existing site.
+- The [README](https://github.com/WFRCAnalytics/wfrc-brand#readme) for everything the extension provides.

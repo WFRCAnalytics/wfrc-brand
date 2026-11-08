@@ -1,0 +1,21 @@
+# _site.yml: what THIS site does differently from the WFRC defaults in wfrc-shared.yml.
+#
+# It is listed after the shared file in _quarto.yml, so anything here wins. Put in it ONLY keys that
+# the shared file sets (see the list in the guide); everything else belongs in _quarto.yml.
+# Guide with tested recipes: https://wfrcanalytics.github.io/wfrc-brand/customize.html
+#
+# To use it: delete the `{}` line below (Quarto rejects a file with no content), then add keys, for example:
+#
+# execute:
+#   freeze: false               # always re-run code (the default, auto, re-runs only changed pages)
+#
+# website:
+#   back-to-top-navigation: false   # hide the "Back to top" link
+#
+# format:
+#   html:
+#     page-layout: article      # a narrower, centered page (the default is full)
+#     toc-expand: 1             # in the contents, open only the current section
+#     grid:
+#       sidebar-width: 406px    # a different sidebar width (the default is 350px)
+{}
