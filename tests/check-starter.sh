@@ -28,11 +28,11 @@ if [ -d "$source" ]; then
 fi
 
 # 1. The starter has what a new site needs and none of the documentation.
-for f in _quarto.yml index.qmd contact/index.qmd terms/index.qmd _extensions/WFRCAnalytics/wfrc-brand/_extension.yml _extensions/WFRCAnalytics/wfrc-brand/brand.yml; do
+for f in _quarto.yml index.qmd _extensions/WFRCAnalytics/wfrc-brand/_extension.yml _extensions/WFRCAnalytics/wfrc-brand/brand.yml; do
   test -f "$f" || fail "starter is missing $f"
 done
 for f in _quarto-docs.yml brand-guide.qmd migrate.qmd example.qmd example-landing.qmd example-dashboard.qmd \
-         example-slides.qmd example-report.qmd docs scripts tests .github CHANGELOG.md README.md; do
+         example-slides.qmd example-report.qmd docs scripts tests .github CHANGELOG.md README.md contact terms; do
   test ! -e "$f" || fail "starter should not contain $f"
 done
 ok "starter has the site files and no documentation files"
@@ -91,7 +91,7 @@ EOF
 
 quarto render > render.log 2>&1 || { cat render.log; fail "quarto render failed"; }
 grep -E "^(WARN|ERROR)" render.log | grep -v -E "Unable to resolve link target" && fail "render warnings above" || true
-for out in index.html contact/index.html terms/index.html slides.html report.pdf dashboard.html; do
+for out in index.html slides.html report.pdf dashboard.html; do
   test -f "_site/$out" || fail "missing _site/$out"
 done
 ok "starter, slides, PDF and dashboard render"
@@ -99,8 +99,23 @@ ok "starter, slides, PDF and dashboard render"
 # 3. The theme is applied: brand colors reach the compiled CSS and the footer links resolve.
 css="$(ls _site/site_libs/bootstrap/bootstrap-*.min.css | grep -v dark | head -1)"
 grep -qi "00395b" "$css" || fail "brand navy is not in the compiled CSS"
-grep -q 'href="./contact/index.html"' _site/index.html || fail "footer Contact link is not site-relative"
-ok "theme applied and footer links resolve"
+grep -q 'href="https://wfrcanalytics.github.io/contact/"' _site/index.html || fail "footer Contact link does not go to the org page"
+grep -q 'href="https://wfrcanalytics.github.io/terms/"' _site/index.html || fail "footer Terms of use link does not go to the org page"
+if grep -q "Report a Bug" _site/index.html; then fail "the shared config adds a GitHub menu again; it must be per site"; fi
+ok "theme applied, footer links go to the org pages, no shared GitHub menu"
+
+# 3b. A site can override what it needs: a value in the shared file would beat the site's own
+# _quarto.yml, so the shared file must not set any of these.
+cp _quarto.yml _quarto.yml.orig
+sed -i '/^website:$/a\  back-to-top-navigation: true' _quarto.yml
+sed -i 's/toc-expand: 2/toc-expand: 1/; s/page-layout: full/page-layout: article/; s/^  freeze: auto$/  freeze: false/' _quarto.yml
+grep -q "back-to-top-navigation: true" _quarto.yml || fail "could not edit the starter config for the override check"
+quarto render index.qmd > render3.log 2>&1 || { cat render3.log; fail "render with overrides failed"; }
+grep -q "quarto-back-to-top" _site/index.html || fail "website.back-to-top-navigation: true was overridden by the shared config"
+grep -q "page-layout-article" _site/index.html || fail "format.html.page-layout was overridden by the shared config"
+quarto inspect index.qmd | python -c "import sys,json; d=json.load(sys.stdin); sys.exit(0 if d['formats']['html'].get('execute',{}).get('freeze') is False else 1)"   || fail "execute.freeze: false was overridden by the shared config"
+cp _quarto.yml.orig _quarto.yml
+ok "a site's own back-to-top, layout and freeze settings win"
 
 # 4. Offline brand: render the PDF with only the bundled fonts and check they are embedded.
 sed -i 's#brand: _extensions/WFRCAnalytics/wfrc-brand/brand.yml#brand: _extensions/WFRCAnalytics/wfrc-brand/brand-offline.yml#' _quarto.yml

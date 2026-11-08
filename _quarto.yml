@@ -28,6 +28,43 @@ website:
       - href: index.qmd
         text: Home
 
+# Layout defaults for HTML pages. They live here, not in wfrc-shared.yml, because a value in the shared
+# file beats the same key in this file: so change them here freely. The theme, highlight style, color
+# scheme, external-link behavior and accessibility script come from wfrc-shared.yml.
+format:
+  html:
+    page-layout: full
+    toc: true
+    toc-expand: 2
+    smooth-scroll: true
+    grid:
+      sidebar-width: 350px
+    # Also on by default in 0.x; uncomment what your pages need:
+    # number-sections: true
+    # html-math-method: katex
+    # code-link: true
+    # code-tools: true
+
+# Org default for computational output: re-run a page only when it changes
+# (https://quarto.org/docs/projects/code-execution.html#freeze). Change it here if your pages must
+# always re-run: wfrc-shared.yml does not set it, so this value applies.
+execute:
+  freeze: auto
+
+# Add a GitHub menu for this repository (wfrc-shared.yml does not supply one), for example:
+#   website:
+#     navbar:
+#       tools:
+#         - icon: github
+#           text: GitHub
+#           menu:
+#             - text: Source Code
+#               href: https://github.com/WFRCAnalytics/my-site
+#             - text: Report a Bug
+#               href: https://github.com/WFRCAnalytics/my-site/issues/new
+# or, for Quarto's own menu: `website.repo-url: https://github.com/WFRCAnalytics/my-site` with
+# `website.repo-actions: [source, issue]`.
+
 # Quarto lists (navbar items, footer links) append across config levels instead of replacing.
 # Do not repeat the navbar `right`/`tools` or `page-footer` lists that wfrc-shared.yml already
 # supplies, or they appear twice.

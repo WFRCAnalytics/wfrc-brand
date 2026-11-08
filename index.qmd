@@ -18,14 +18,14 @@ quarto use template WFRCAnalytics/wfrc-brand
 quarto preview
 ```
 
-The template installs the `wfrc-brand` extension and adds `_quarto.yml`, this page, and the `contact/` and `terms/` pages the shared footer links to.
+The template installs the `wfrc-brand` extension and adds `_quarto.yml` and this page.
 
 ## 2. Make it yours
 
 1. In `_quarto.yml`, set `website.title`, `description` and `site-url`.
 2. Replace this page. Add pages next to it and list them under `website.navbar.left`.
-3. Edit `contact/index.qmd` and `terms/index.qmd`. The terms wording is a draft that WFRC communications or legal should confirm before you publish.
-4. Add a repository link with `website.repo-url` if you want the GitHub menu to point at your repo.
+3. Add a GitHub menu for your repository: the starter's `_quarto.yml` has a commented example (a `navbar.tools` block, or `repo-url` with `repo-actions`). The shared config does not supply one, because the links differ per site.
+4. Nothing to add for the footer: its Contact and Terms of use links go to single pages kept on wfrcanalytics.github.io.
 
 ## 3. What you get without writing any config
 

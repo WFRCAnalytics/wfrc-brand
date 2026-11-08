@@ -21,14 +21,13 @@ website:
   # repo-url: "https://github.com/WFRCAnalytics/wfrc-brand"
   # repo-actions: [source, issue]
 
-  page-navigation: false
-  back-to-top-navigation: false
+  # page-navigation and back-to-top-navigation are not set here: a value in this file beats the same
+  # key in a project's own _quarto.yml, so a site that wants either would be unable to turn it on.
   # margin-header: subscribe.html
 
-  # Navbar — logo-alt and Follow Us social menu are org-wide.
-  # navbar.tools (GitHub) stays per-project — repo URLs differ per site.
-  # NOTE: if a project defines its own navbar.right, it replaces this list
-  # entirely. Repeat the Follow Us block in that project's _quarto.yml if needed.
+  # Navbar — logo-alt and the Follow Us social menu are org-wide. The GitHub menu is not: its links
+  # differ per site, so a project adds its own `navbar.tools` (or `repo-url` and `repo-actions`).
+  # Lists append, so a project that adds its own `navbar.right` items gets them after Follow Us.
   navbar:
     logo-alt: "Wasatch Front Regional Council"
     right:
@@ -54,24 +53,9 @@ website:
             text: YouTube
             href: https://www.youtube.com/user/wfrcvideo/
             target: _blank
-    tools:
-      - icon: github
-        text: GitHub
-        menu:
-          - text: Source Code
-            href: https://github.com/WFRCAnalytics/wfrcanalytics.github.io
-            target: _blank
-          - text: Report a Bug
-            href: https://github.com/WFRCAnalytics/wfrcanalytics.github.io/issues/new
-            target: _blank
-          - text: Ask a Question
-            href: https://github.com/WFRCAnalytics/wfrcanalytics.github.io/discussions/new/choose
-            target: _blank
 
-  # Footer — all three columns are org-wide defaults.
-  # Right column links are site-relative: every site needs contact/index.qmd and
-  # terms/index.qmd (templates in _extensions/WFRCAnalytics/wfrc-brand/templates/). Local previews
-  # then stay local instead of jumping to the live site.
+  # Footer — all three columns are org-wide defaults. Contact and Terms of use are single pages
+  # maintained on wfrcanalytics.github.io, so no site has to carry (or keep in step) its own copy.
   page-footer:
     left: "© {{< year >}} [Wasatch Front Regional Council](https://wfrc.utah.gov/)"
     center:
@@ -102,10 +86,10 @@ website:
     right:
       - text: Contact
         aria-label: Contact
-        href: contact/index.qmd
+        href: https://wfrcanalytics.github.io/contact/
       - text: Terms of use
         aria-label: Terms of use
-        href: terms/index.qmd
+        href: https://wfrcanalytics.github.io/terms/
 
 # ── HTML format defaults ──────────────────────────────────────────────────────
 # These live here (not only in _extension.yml) because Quarto applies
@@ -135,17 +119,13 @@ format:
     # Accessibility fixes: decorative listing banners, toggle name, Plot/callout ARIA, scroll regions.
     include-after-body: _extensions/WFRCAnalytics/wfrc-brand/assets/js/a11y-fixes.html
     axe: true
-    page-layout: full
-    toc: true
-    toc-expand: 2
-    smooth-scroll: true
-    grid:
-      sidebar-width: 350px
+    # Layout defaults (page-layout, toc, toc-expand, smooth-scroll, grid) are not set here: a value in
+    # this file beats the same key in a project's own _quarto.yml, and sites tune them. The starter's
+    # _quarto.yml sets them under `format: html:`.
 
-# Freeze — org standard: auto freeze outputs (re-execute only if file updated)
-# (see https://quarto.org/docs/projects/code-execution.html#freeze)
-execute:
-  freeze: auto
+# Not set here on purpose: `execute.freeze`, `engine` and `jupyter`. A value in this file beats the same
+# key in a project's own _quarto.yml, and sites choose these themselves (the starter's _quarto.yml sets
+# `execute.freeze: auto`).
 
 
 citation: false
