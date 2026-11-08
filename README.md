@@ -19,6 +19,8 @@ mkdir my-site && cd my-site
 quarto use template WFRCAnalytics/wfrc-brand
 ```
 
+Quarto installs the extension under the owner's folder, `_extensions/WFRCAnalytics/wfrc-brand/`, and every path in this README includes it. The template's `_quarto.yml` already uses it.
+
 **An existing project** (see also the [migration guide](https://wfrcanalytics.github.io/wfrc-brand/migrate.html)):
 
 ```bash
@@ -30,10 +32,10 @@ Then your `_quarto.yml` needs these lines, plus whatever is specific to your sit
 ```yaml
 project:
   type: website
-  brand: _extensions/wfrc-brand/brand.yml      # required; Quarto does not discover brand.yml inside an extension
+  brand: _extensions/WFRCAnalytics/wfrc-brand/brand.yml      # required; Quarto does not discover brand.yml inside an extension
 
 metadata-files:
-  - _extensions/wfrc-brand/wfrc-shared.yml     # theme, highlight style, layout, navbar social menu, footer
+  - _extensions/WFRCAnalytics/wfrc-brand/wfrc-shared.yml     # theme, highlight style, layout, navbar social menu, footer
 
 website:
   title: "Your Site"
@@ -91,7 +93,7 @@ Other formats work the same way:
 
 ```yaml
 project:
-  brand: _extensions/wfrc-brand/brand-offline.yml
+  brand: _extensions/WFRCAnalytics/wfrc-brand/brand-offline.yml
 ```
 
 Quarto 1.11 does not copy bundled fonts for revealjs, so slides always use `brand.yml` (Google Fonts). `brand-offline.yml` is generated: edit `brand.yml`, then run `python scripts/build-brand-variants.py`. `scripts/fetch-fonts.py` re-downloads the font files.
@@ -104,12 +106,12 @@ Quarto 1.11 does not copy bundled fonts for revealjs, so slides always use `bran
 
 ```r
 # Shiny for R
-bslib::bs_theme(brand = "_extensions/wfrc-brand/brand-flat.yml")
+bslib::bs_theme(brand = "_extensions/WFRCAnalytics/wfrc-brand/brand-flat.yml")
 ```
 
 ```python
 # Shiny for Python (pip install "shiny[theme]")
-ui.Theme.from_brand("_extensions/wfrc-brand/brand-flat.yml")
+ui.Theme.from_brand("_extensions/WFRCAnalytics/wfrc-brand/brand-flat.yml")
 ```
 
 Checked with the official `brand-yml` Python package (schema), `shiny` 1.9 and R's `brand.yml` and `bslib`.
@@ -127,7 +129,7 @@ listing:
   contents:
     - title: Reliability atlas
       path: atlas/index.qmd
-      image: _extensions/wfrc-brand/assets/cards/navy.svg
+      image: _extensions/WFRCAnalytics/wfrc-brand/assets/cards/navy.svg
       categories: [Live, App]
 ```
 
@@ -136,10 +138,10 @@ listing:
 ```yaml
 project:
   resources:
-    - _extensions/wfrc-brand/assets/cards/*.svg
+    - _extensions/WFRCAnalytics/wfrc-brand/assets/cards/*.svg
 ```
 
-The `image:` path in a listing is relative to the page. For a page in a subfolder, go up to the project root: `../_extensions/wfrc-brand/assets/cards/navy.svg`.
+The `image:` path in a listing is relative to the page. For a page in a subfolder, go up to the project root: `../_extensions/WFRCAnalytics/wfrc-brand/assets/cards/navy.svg`.
 
 > In a test render with `site-url` set, Quarto 1.10 rewrote listing images to `<site-url>/site_libs/quarto-contrib/...` and copied the files there, so listings worked even without `resources`. That URL points at the live site, which is why images 404 locally or before the first deploy. `resources` is the reliable fix.
 
@@ -165,7 +167,7 @@ Banners are decorative. Quarto drops `image-alt: ""`, so the bundled script (`as
 
 ## Footer links
 
-The shared footer (`wfrc-shared.yml`) links to `contact/index.qmd` (label "Contact") and `terms/index.qmd` (label "Terms of use") with site-relative paths. The pages are expected to exist: copy `_extensions/wfrc-brand/templates/contact.qmd` and `terms.qmd` to `contact/index.qmd` and `terms/index.qmd`. The templates are meant to be edited per site; the terms wording is a draft that WFRC communications or legal should confirm before a site publishes it. A site without these pages gets dead links.
+The shared footer (`wfrc-shared.yml`) links to `contact/index.qmd` (label "Contact") and `terms/index.qmd` (label "Terms of use") with site-relative paths. The pages are expected to exist: copy `_extensions/WFRCAnalytics/wfrc-brand/templates/contact.qmd` and `terms.qmd` to `contact/index.qmd` and `terms/index.qmd`. The templates are meant to be edited per site; the terms wording is a draft that WFRC communications or legal should confirm before a site publishes it. A site without these pages gets dead links.
 
 **License.** Since 0.4.1 the terms template assumes the content is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). CC BY 4.0 already covers what the earlier draft asked for in custom words: it requires credit, requires users to indicate if they modified the material and to keep earlier indications of modification, and forbids implying that the licensor endorses them. CC licenses do not cover trademarks (the WFRC name and logo) and Creative Commons advises against using them for software, so the template excludes both, along with third-party data and models.
 
@@ -231,7 +233,7 @@ All three helpers read colors from `brand.yml` or the theme's CSS variables, so 
 **R** (ggplot2):
 
 ```r
-source("_extensions/wfrc-brand/assets/charts/wfrc-charts.R")
+source("_extensions/WFRCAnalytics/wfrc-brand/assets/charts/wfrc-charts.R")
 ggplot(df, aes(date, value, color = mode)) +
   geom_line() + theme_wfrc() + scale_color_wfrc()      # mode = "dark" for dark pages
 ```
@@ -239,7 +241,7 @@ ggplot(df, aes(date, value, color = mode)) +
 **Python** (matplotlib, plotly):
 
 ```python
-import sys; sys.path.append("_extensions/wfrc-brand/assets/charts")
+import sys; sys.path.append("_extensions/WFRCAnalytics/wfrc-brand/assets/charts")
 import wfrc_charts as wfrc
 wfrc.use_style()                                         # matplotlib
 fig.update_layout(template=wfrc.plotly_template())       # plotly
@@ -249,7 +251,7 @@ fig.update_layout(template=wfrc.plotly_template())       # plotly
 
 ```js
 // inside an OJS code cell
-import {wfrcPlot} from "./_extensions/wfrc-brand/assets/charts/wfrc-charts.js"
+import {wfrcPlot} from "./_extensions/WFRCAnalytics/wfrc-brand/assets/charts/wfrc-charts.js"
 wfrcPlot({Plot, marks: [Plot.lineY(data, {x: "date", y: "value", stroke: "mode"})]})
 ```
 
@@ -260,7 +262,7 @@ The CSS variables `--wfrc-chart-1` to `--wfrc-chart-5` are available to any cust
 ## How it is built
 
 ```
-_extensions/wfrc-brand/
+_extensions/WFRCAnalytics/wfrc-brand/
 ├── _extension.yml        wfrc-brand-html / -dashboard / -revealjs / -typst formats
 ├── brand.yml             the ONLY place hex codes are written (palette, type, logos, light/dark roles)
 ├── brand-offline.yml     generated from brand.yml, with bundled fonts

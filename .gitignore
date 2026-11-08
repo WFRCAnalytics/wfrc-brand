@@ -1,5 +1,5 @@
 *.html
-!_extensions/wfrc-brand/assets/js/*.html
+!_extensions/WFRCAnalytics/wfrc-brand/assets/js/*.html
 *.pdf
 *_files/
 /.quarto/

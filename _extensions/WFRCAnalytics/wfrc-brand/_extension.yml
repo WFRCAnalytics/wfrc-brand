@@ -79,9 +79,12 @@ contributes:
       footer: "Wasatch Front Regional Council"
     typst:
       papersize: us-letter
+      # Quarto draws the brand logo at the top left of every page (0.75 in down, about 0.85 in tall),
+      # so the top margin has to clear it or the body text runs under the logo from page 2 on.
       margin:
         x: 1in
-        y: 1in
+        top: 1.8in
+        bottom: 1in
       fontsize: 10.5pt
       toc: true
       number-sections: true

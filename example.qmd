@@ -13,17 +13,17 @@ listing:
       - title: Reliability atlas
         description: Planning Time Index by corridor and period.
         path: example-dashboard.qmd
-        image: _extensions/wfrc-brand/assets/cards/navy.svg
+        image: _extensions/WFRCAnalytics/wfrc-brand/assets/cards/navy.svg
         categories: [Live, App]
       - title: Gap scoring model
         description: Pedestrian network gaps ranked by people reached.
         path: example-landing.qmd
-        image: _extensions/wfrc-brand/assets/cards/brick.svg
+        image: _extensions/WFRCAnalytics/wfrc-brand/assets/cards/brick.svg
         categories: [Archive, Model]
       - title: Boardings explorer
         description: Weekday boardings by route and mode.
         path: example.qmd
-        image: _extensions/wfrc-brand/assets/cards/teal.svg
+        image: _extensions/WFRCAnalytics/wfrc-brand/assets/cards/teal.svg
         categories: [Live, Data]
   - id: demo-table
     type: table
@@ -162,7 +162,7 @@ FROM speeds GROUP BY segment_id;
 
 ```{ojs}
 //| echo: false
-import {wfrcColors, wfrcPlot} from "./_extensions/wfrc-brand/assets/charts/wfrc-charts.js"
+import {wfrcColors, wfrcPlot} from "./_extensions/WFRCAnalytics/wfrc-brand/assets/charts/wfrc-charts.js"
 data = [
   {county: "Salt Lake", share: 58.4}, {county: "Utah", share: 17.2},
   {county: "Davis", share: 9.1}, {county: "Weber", share: 6.3},

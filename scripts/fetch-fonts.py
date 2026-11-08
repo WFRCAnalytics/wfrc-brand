@@ -1,4 +1,4 @@
-"""Download the WFRC brand fonts into _extensions/wfrc-brand/assets/fonts/.
+"""Download the WFRC brand fonts into _extensions/WFRCAnalytics/wfrc-brand/assets/fonts/.
 
 Fonts are SIL OFL 1.1 licensed (Poppins, Inter, Fira Code), so they can be redistributed.
 Google Fonts serves a different file type depending on the User-Agent:
@@ -16,7 +16,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-OUT = Path(__file__).resolve().parent.parent / "_extensions/wfrc-brand/assets/fonts"
+OUT = Path(__file__).resolve().parent.parent / "_extensions/WFRCAnalytics/wfrc-brand/assets/fonts"
 
 # family -> (weights, styles)
 FAMILIES = {

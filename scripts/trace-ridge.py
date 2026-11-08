@@ -66,7 +66,7 @@ svg = f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 {W} {H}' preserveAs
 line = '$wfrc-ridge-mask: url("data:image/svg+xml,' + svg.replace("<", "%3C").replace(">", "%3E") + '");'
 
 if "--write" in sys.argv:
-    scss = Path(__file__).resolve().parent.parent / "_extensions/wfrc-brand/assets/theme/wfrc-overrides.scss"
+    scss = Path(__file__).resolve().parent.parent / "_extensions/WFRCAnalytics/wfrc-brand/assets/theme/wfrc-overrides.scss"
     s = scss.read_text(encoding="utf8", newline="")
     s, n = re.subn(r"(// ridge:begin[^\n]*\n)[^\n]*\n(// ridge:end)", lambda m: f"{m[1]}{line}\n{m[2]}", s)
     assert n == 1, "ridge markers not found"

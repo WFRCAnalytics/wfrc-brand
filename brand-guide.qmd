@@ -37,7 +37,7 @@ Bright blue (`wfrc-bright-blue`) is 3.5:1 on white: use it for rules, focus ring
 </div>
 ```
 
-Fonts load from Google Fonts by default. To bundle them instead, point `project.brand` at `_extensions/wfrc-brand/brand-offline.yml`.
+Fonts load from Google Fonts by default. To bundle them instead, point `project.brand` at `_extensions/WFRCAnalytics/wfrc-brand/brand-offline.yml`.
 
 ## Logos
 
@@ -45,10 +45,10 @@ Fonts load from Google Fonts by default. To bundle them instead, point `project.
 
 ```{=html}
 <div class="bg-logos">
-  <figure><div class="bg-chip"><img src="_extensions/wfrc-brand/assets/logo/horizontal/WFRC_logo_horizontal_color_transparent.png" alt="Wasatch Front Regional Council"></div><figcaption><code>large</code>: horizontal</figcaption></figure>
-  <figure><div class="bg-chip"><img src="_extensions/wfrc-brand/assets/logo/stacked/WFRC_logo_stacked_color_transparent.png" alt="Wasatch Front Regional Council"></div><figcaption><code>medium</code>: stacked</figcaption></figure>
-  <figure><div class="bg-chip"><img src="_extensions/wfrc-brand/assets/logo/abbreviated/WFRC_logo_abbreviated_color_transparent.png" alt="Wasatch Front Regional Council"></div><figcaption><code>small</code>: abbreviated</figcaption></figure>
-  <figure><div class="bg-chip bg-chip-dark"><img src="_extensions/wfrc-brand/assets/logo/horizontal/WFRC_logo_horizontal_white_transparent.png" alt="Wasatch Front Regional Council"></div><figcaption>white, for dark surfaces</figcaption></figure>
+  <figure><div class="bg-chip"><img src="_extensions/WFRCAnalytics/wfrc-brand/assets/logo/horizontal/WFRC_logo_horizontal_color_transparent.png" alt="Wasatch Front Regional Council"></div><figcaption><code>large</code>: horizontal</figcaption></figure>
+  <figure><div class="bg-chip"><img src="_extensions/WFRCAnalytics/wfrc-brand/assets/logo/stacked/WFRC_logo_stacked_color_transparent.png" alt="Wasatch Front Regional Council"></div><figcaption><code>medium</code>: stacked</figcaption></figure>
+  <figure><div class="bg-chip"><img src="_extensions/WFRCAnalytics/wfrc-brand/assets/logo/abbreviated/WFRC_logo_abbreviated_color_transparent.png" alt="Wasatch Front Regional Council"></div><figcaption><code>small</code>: abbreviated</figcaption></figure>
+  <figure><div class="bg-chip bg-chip-dark"><img src="_extensions/WFRCAnalytics/wfrc-brand/assets/logo/horizontal/WFRC_logo_horizontal_white_transparent.png" alt="Wasatch Front Regional Council"></div><figcaption>white, for dark surfaces</figcaption></figure>
 </div>
 ```
 
@@ -68,10 +68,10 @@ The helpers read these from `brand.yml`: `wfrc-charts.R` (ggplot2), `wfrc_charts
 
 | Where | How |
 |---|---|
-| Quarto site | `project.brand: _extensions/wfrc-brand/brand.yml`, then `$brand-wfrc-navy` in SCSS and `var(--brand-wfrc-navy)` in CSS |
+| Quarto site | `project.brand: _extensions/WFRCAnalytics/wfrc-brand/brand.yml`, then `$brand-wfrc-navy` in SCSS and `var(--brand-wfrc-navy)` in CSS |
 | Slides, PDF | `format: wfrc-brand-revealjs` or `wfrc-brand-typst` |
-| Shiny (R) | `bs_theme(brand = "_extensions/wfrc-brand/brand-flat.yml")` |
-| Shiny (Python) | `ui.Theme.from_brand("_extensions/wfrc-brand/brand-flat.yml")` |
+| Shiny (R) | `bs_theme(brand = "_extensions/WFRCAnalytics/wfrc-brand/brand-flat.yml")` |
+| Shiny (Python) | `ui.Theme.from_brand("_extensions/WFRCAnalytics/wfrc-brand/brand-flat.yml")` |
 | Charts | the helpers above |
 
 ```{=html}

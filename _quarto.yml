@@ -11,13 +11,13 @@ project:
   type: website
   # Quarto does not copy extension files into the output; the card banners must be listed.
   resources:
-    - _extensions/wfrc-brand/assets/cards/*.svg
+    - _extensions/WFRCAnalytics/wfrc-brand/assets/cards/*.svg
   # Required path: Quarto does not discover a brand file inside an extension.
   # For offline builds or no request to Google Fonts, use brand-offline.yml instead.
-  brand: _extensions/wfrc-brand/brand.yml
+  brand: _extensions/WFRCAnalytics/wfrc-brand/brand.yml
 
 metadata-files:
-  - _extensions/wfrc-brand/wfrc-shared.yml
+  - _extensions/WFRCAnalytics/wfrc-brand/wfrc-shared.yml
 
 website:
   title: "My WFRC site"                                   # TODO: your site's name
