@@ -1,41 +1,88 @@
 ---
-title: "WFRC Analytics brand"
-subtitle: "Quarto brand extension: preview site"
-toc: false
+title: "Get started"
+subtitle: "A WFRC Quarto site in five minutes"
+toc: true
 ---
 
-This site renders the `wfrc-brand` extension on three pages. Each one is checked in light and dark mode and at phone width.
+::: {.content-visible when-profile="docs"}
+This repo is the `wfrc-brand` Quarto extension and the **starter template** for WFRC Analytics sites. You are reading the starter's own home page: a new site gets this same page, with the next steps below to work through. The [brand guide](brand-guide.qmd) and the [examples](example.qmd) are documentation only.
+:::
+
+## 1. Make a site from the template
+
+You need [Quarto](https://quarto.org/docs/get-started/) 1.8 or later (tested on 1.11).
+
+```bash
+mkdir my-site && cd my-site
+quarto use template WFRCAnalytics/wfrc-brand
+quarto preview
+```
+
+The template installs the `wfrc-brand` extension and adds `_quarto.yml`, this page, and the `contact/` and `terms/` pages the shared footer links to.
+
+## 2. Make it yours
+
+1. In `_quarto.yml`, set `website.title`, `description` and `site-url`.
+2. Replace this page. Add pages next to it and list them under `website.navbar.left`.
+3. Edit `contact/index.qmd` and `terms/index.qmd`. The terms wording is a draft that WFRC communications or legal should confirm before you publish.
+4. Add a repository link with `website.repo-url` if you want the GitHub menu to point at your repo.
+
+## 3. What you get without writing any config
+
+| | |
+|---|---|
+| **Look** | WFRC colors, Inter headings, Poppins body, light and dark mode that follows the visitor's setting. |
+| **Navbar and footer** | The "Follow Us" menu, social links, copyright, Contact and Terms of use. |
+| **Components** | Callouts, code blocks, tabsets, tables, cards, listings and dashboards, styled in both modes. |
+| **Checks** | Accessibility checking with `axe`, and an accessibility script that fixes what Quarto leaves out. |
+| **Other formats** | Slides (`format: wfrc-brand-revealjs`), PDF reports (`wfrc-brand-typst`) and dashboards (`wfrc-brand-dashboard`). |
+
+## 4. Other formats
+
+Put the format name in a page's front matter:
+
+```yaml
+---
+title: "Transit ridership"
+format: wfrc-brand-dashboard      # or wfrc-brand-revealjs, wfrc-brand-typst
+---
+```
+
+## 5. Publish
+
+Render with `quarto render`, then publish the output folder with GitHub Pages, or run `quarto publish gh-pages`.
+
+## Choices you may want to change
+
+- **Fonts.** The default loads Poppins, Inter and Fira Code from Google Fonts. For offline builds or no third-party requests, set `project.brand` to `_extensions/wfrc-brand/brand-offline.yml`, which uses fonts bundled with the extension (not for slides, because Quarto does not copy bundled fonts for revealjs).
+- **Other brand pieces.** One brand file serves Quarto, Shiny, R and Python. See `_extensions/wfrc-brand/brand.yml`.
+
+::: {.content-visible when-profile="docs"}
+## Documentation
 
 ::: {.wfrc-blocks}
 ::: {.wfrc-block}
-### Components
+### Brand guide
 
-Every element the theme styles: headings, callouts, code, tabsets, tables, charts and inputs.
+Palette, type, logos and chart colors, read live from the theme.
 
-[Open the preview](example.qmd){.btn .btn-sm}
+[Open](brand-guide.qmd){.btn .btn-sm}
 :::
 
 ::: {.wfrc-block .mid}
-### Landing page
+### Examples
 
-The hero, color blocks, key facts and update list, built from `.wfrc-*` classes.
+Components, a landing page, a dashboard, slides and a PDF report.
 
-[Open the preview](example-landing.qmd){.btn .btn-sm}
+[Open](example.qmd){.btn .btn-sm}
 :::
 
 ::: {.wfrc-block .brick}
-### Dashboard
+### Migrating
 
-Value boxes, cards and charts with `format: wfrc-brand-dashboard`.
+Moving a site from 0.x to 1.0, with before and after config.
 
-[Open the preview](example-dashboard.qmd){.btn .btn-sm}
+[Open](migrate.qmd){.btn .btn-sm}
 :::
 :::
-
-## Use it
-
-```bash
-quarto add WFRCAnalytics/wfrc-brand
-```
-
-Setup, design tokens, component classes and the migration checklist are in the [README](https://github.com/WFRCAnalytics/wfrc-brand#readme).
+:::

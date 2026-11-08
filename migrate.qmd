@@ -1,0 +1,76 @@
+---
+title: "Migrating to 1.0"
+subtitle: "From 0.x, and from a site with its own theme"
+toc: true
+---
+
+1.0 keeps the look of 0.5.1: the same colors, classes and CSS variables, so pages do not change appearance. What changes is configuration and a few things that were removed. This page lists both, then shows a step-by-step path.
+
+## What changed
+
+**Added**
+
+- `format: wfrc-brand-revealjs` for slides and a fuller `wfrc-brand-typst` for PDF reports, both from the same `brand.yml`.
+- `brand-offline.yml`: the same brand with bundled font files (Poppins, Inter, Fira Code; OFL), for offline builds. `brand.yml` still loads fonts from Google Fonts.
+- Starter template: `quarto use template WFRCAnalytics/wfrc-brand`.
+- Components promoted from the wfrcanalytics.github.io site: status chips (`.chip-live`, `.chip-internal`, `.chip-archived`), `.wfrc-stat-num`, rounded table listings, `.wfrc-cite` and `.wfrc-shot`.
+- A fix for the repo-actions (GitHub) navbar dropdown running off the screen.
+
+**Removed (breaking)**
+
+| Removed | Use instead |
+|---|---|
+| Palette aliases `wfrc-blue`, `wfrc-secondary-blue`, `wfrc-yellow` (and `$brand-wfrc-blue` etc.) | `wfrc-navy`, `wfrc-bright-blue`, `wfrc-gold` |
+| Legacy classes `#bio`, `#landing-icons`, `.name-highlight`, `.featured-image`, `.description a` | `.wfrc-*` components, or your own CSS |
+| `engine: knitr`, `knitr.opts_chunk.dev: ragg_png` and `jupyter: python3` from `wfrc-shared.yml` | Quarto picks the engine from your code cells. Set `engine:` or `dev:` in your own `_quarto.yml` if you need them. |
+
+Class names, `--wfrc-*` and `--brand-*` variables, the page structure and the footer are unchanged.
+
+## From 0.x
+
+1. Update the extension: `quarto update WFRCAnalytics/wfrc-brand`.
+2. Search your SCSS, CSS and `.qmd` files for the removed names above and replace them.
+3. If your site relied on the R or Python engine defaults, add them to your `_quarto.yml`:
+
+   ```yaml
+   engine: knitr
+   knitr:
+     opts_chunk:
+       dev: ragg_png
+   ```
+
+4. Render, clear `.quarto/` if styles look stale, and check a few pages in light and dark mode.
+5. Delete CSS your site copied from the old extension. The status chips, table listings and card surface now come from the extension.
+
+## From a site with its own theme
+
+1. `quarto add WFRCAnalytics/wfrc-brand`, or start fresh with `quarto use template WFRCAnalytics/wfrc-brand` and move your content in.
+2. Delete your own `_brand.yml`, theme SCSS, `format.html.theme`, `css:` and font links.
+3. Add the two lines that connect the extension in `_quarto.yml`:
+
+   ```yaml
+   project:
+     brand: _extensions/wfrc-brand/brand.yml
+   metadata-files:
+     - _extensions/wfrc-brand/wfrc-shared.yml
+   ```
+
+4. Remove anything `wfrc-shared.yml` already supplies. Quarto lists *append* across config levels, so a site that repeats the "Follow Us" menu, GitHub tools menu or footer links shows them twice.
+5. Keep what is yours: `website.title`, `site-url`, `navbar.left`, sidebars, announcements and per-site GitHub links.
+6. Add `contact/index.qmd` and `terms/index.qmd` (the shared footer links to them). The starter has both.
+7. Add the card banners to `project.resources` if you use grid listings:
+
+   ```yaml
+   project:
+     resources:
+       - _extensions/wfrc-brand/assets/cards/*.svg
+   ```
+
+## Good to know
+
+- **Why `project.brand` is still needed.** Quarto does not discover a brand file inside an extension, and declaring `contributes.brand` does not change that (tested on Quarto 1.11). Without the path, the theme fails with `Undefined variable $brand-wfrc-paper`.
+- **Why dashboards, slides and PDFs use their own format names.** Quarto applies an extension's format settings only to formats named after the extension: `wfrc-brand-dashboard`, `wfrc-brand-revealjs`, `wfrc-brand-typst`. Org defaults for plain `html` live in `wfrc-shared.yml` for that reason.
+- **Slides and bundled fonts.** Quarto 1.11 does not copy bundled font files for revealjs, so slides use `brand.yml` (Google Fonts) even if the site uses `brand-offline.yml`.
+- **Scripts.** Add your own scripts with `include-in-header` or `include-before-body`, not `include-after-body`: Quarto does not merge two `include-after-body` values, and the extension's accessibility script uses it.
+
+See the [changelog](https://github.com/WFRCAnalytics/wfrc-brand/blob/main/CHANGELOG.md) for every release.

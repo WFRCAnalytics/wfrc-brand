@@ -1,0 +1,41 @@
+---
+title: "Regional growth outlook"
+subtitle: "A WFRC PDF report"
+author: "WFRC Analytics"
+date: today
+format: wfrc-brand-typst
+---
+
+## Summary
+
+Population grew **2.1%** last year, and jobs grew faster than housing across the four counties. This page is rendered to PDF with `format: wfrc-brand-typst`: the logo, colors and fonts come from `brand.yml`.
+
+::: {.callout-note}
+## Note
+PTI is unitless. A value of 1.5 means a 20-minute free-flow trip needs 30 minutes of budget.
+:::
+
+## Findings
+
+### Travel modes
+
+| Mode | Share |
+|------|------:|
+| Drive | 78% |
+| Transit | 4% |
+| Walk and bike | 5% |
+
+### Method
+
+The score combines reach and jobs:
+
+$$ \text{score} = 0.6 \cdot \text{reach} + 0.4 \cdot \text{jobs} $$
+
+```r
+gaps |> mutate(score = rescale(reach) * 0.6 + rescale(jobs) * 0.4)
+```
+
+## Next steps
+
+1. Confirm the results with city staff.
+2. Publish the data on the open data portal.

@@ -1,0 +1,36 @@
+# Profile for this repo's own documentation site (GitHub Pages serves docs/).
+#   quarto render --profile docs        quarto preview --profile docs
+# The default config (_quarto.yml) is the starter that `quarto use template` copies, so everything
+# that only documents the extension lives here or in files named in .quartoignore.
+
+project:
+  output-dir: docs
+  resources:
+    - _extensions/wfrc-brand/assets/logo/**/*.png
+    - _extensions/wfrc-brand/assets/fonts/*.woff2
+
+website:
+  title: "WFRC brand"
+  description: "The Quarto brand extension and starter template for WFRC Analytics sites."
+  site-url: "https://wfrcanalytics.github.io/wfrc-brand"
+  navbar:
+    left:
+      - href: brand-guide.qmd
+        text: Brand guide
+      - text: Examples
+        menu:
+          - href: example.qmd
+            text: Components
+          - href: example-landing.qmd
+            text: Landing page
+          - href: example-dashboard.qmd
+            text: Dashboard
+          - href: example-slides.qmd
+            text: Slides
+          - href: example-report.qmd
+            text: Report (PDF)
+      - href: migrate.qmd
+        text: Migrating
+      - href: https://github.com/WFRCAnalytics/wfrc-brand#readme
+        text: README
+        target: _blank

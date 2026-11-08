@@ -1,0 +1,57 @@
+---
+title: "Regional growth outlook"
+subtitle: "A WFRC slide deck"
+author: "WFRC Analytics"
+date: today
+format: wfrc-brand-revealjs
+---
+
+## One idea per slide
+
+- Population grew **2.1%** last year
+- Jobs grew faster than housing
+- Read the [full plan](https://wfrc.utah.gov)
+
+::: {.notes}
+Speaker notes appear in the presenter view (press `S`).
+:::
+
+## Key numbers
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.callout-note}
+## Note
+PTI is unitless: 1.5 means a 20-minute trip needs 30 minutes.
+:::
+:::
+
+::: {.column width="50%"}
+| Mode | Share |
+|------|------:|
+| Drive | 78% |
+| Transit | 4% |
+| Walk and bike | 5% |
+:::
+:::
+
+# A new section
+
+## Code
+
+```r
+gaps |>
+  mutate(score = rescale(reach) * 0.6 + rescale(jobs) * 0.4) |>
+  arrange(desc(score))
+```
+
+## Build slides
+
+```yaml
+---
+title: "My talk"
+format: wfrc-brand-revealjs
+---
+```
+
+Slides are light only. Press `F` for full screen and `O` for the overview.
