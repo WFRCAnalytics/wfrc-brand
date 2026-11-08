@@ -386,6 +386,17 @@ The extension keeps `axe: true` on. In a pass over the preview pages and real si
 
 Run the checks with `pytest tests` (needs `pyyaml`, `matplotlib`, and optionally `plotly`, `brand-yml` and `shiny[theme]`) and `Rscript tests/test-charts.R`; CI also renders the starter. Preview the documentation site with `quarto preview --profile docs`. GitHub Actions builds it with `quarto render --profile docs` and publishes it to GitHub Pages on every push to `main` (`docs/` is build output and is not committed); a pull request builds it without deploying. Check each page in light and dark, and at phone width. Without `--profile docs`, Quarto renders the starter.
 
+**Updating many sites after a release.** Every site keeps its own copy of the extension, so a release has to be reinstalled in each one. `scripts/update-sites.py` does that for all of them in one pass:
+
+```bash
+python scripts/update-sites.py --tag v1.0.6                  # every site found under D:/GitHub
+python scripts/update-sites.py --tag v1.0.6 --dry-run        # show what would happen, change nothing
+python scripts/update-sites.py --tag v1.0.6 SITE1 SITE2      # only these sites
+python scripts/update-sites.py --tag v1.0.6 --no-render SITE # a site whose data is not on this machine
+```
+
+For each site already on the 1.0 layout it creates a `wfrc-brand-<version>` branch (or stays on the current one), reinstalls the extension at the tag and commits it, runs `quarto render` and commits the rebuilt `docs/` and `_freeze/` separately. It skips a site with uncommitted changes, never pushes and never opens a pull request, so each site's change is reviewed and pushed by hand. A site with an older extension needs the full migration instead (`_migration/`).
+
 **Clearing the Sass cache.** Quarto caches compiled SCSS in `.quarto/`. If a style change does not show, delete that folder and render again (`rmdir /s /q .quarto` on Windows, `rm -rf .quarto` elsewhere).
 
 **Versioning.** Bump `version` in `_extension.yml` and add an entry to [`CHANGELOG.md`](CHANGELOG.md) on every meaningful change. Downstream sites update with `quarto update WFRCAnalytics/wfrc-brand`.
