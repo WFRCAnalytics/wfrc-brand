@@ -33,7 +33,7 @@ toc: true
 |---|---|
 | The GitHub navbar menu linked every site to the wfrcanalytics.github.io repository | It points at **each site's own repository automatically** (from `GITHUB_REPOSITORY` or the git remote), so delete any GitHub menu of your own: `navbar.tools` GitHub block, or `repo-url` with `repo-actions`. "Ask a Question" shows only when the repository has Discussions on. |
 | Contact and Terms of use in the footer were site-relative, so every site needed its own `contact/index.qmd` and `terms/index.qmd` | They link to the single pages on wfrcanalytics.github.io. Sites carry no copy; the `templates/` folder is gone. |
-| `page-navigation: false` and `back-to-top-navigation: false` were set in the shared file, so a site could not turn them on | Not set (they are Quarto's defaults). Set them in your own `_quarto.yml`. |
+| `page-navigation: false` and `back-to-top-navigation: false` were set in the shared file, so a site could not turn them on | `page-navigation` is not set (Quarto's default). `back-to-top-navigation` is **on** (1.0.2): long pages get a "Back to top" pill. Turn it off in `_site.yml` if a site does not want it. |
 | No way to differ from the shared defaults, because a value in the shared file beats your `_quarto.yml` | Put your differences in a `_site.yml` listed after the shared file; it beats the shared file. |
 
 Class names, `--wfrc-*` and `--brand-*` variables and the page structure are unchanged.

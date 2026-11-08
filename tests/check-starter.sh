@@ -104,7 +104,8 @@ css="$(ls _site/site_libs/bootstrap/bootstrap-*.min.css | grep -v dark | head -1
 grep -qi "00395b" "$css" || fail "brand navy is not in the compiled CSS"
 grep -q 'href="https://wfrcanalytics.github.io/contact/"' _site/index.html || fail "footer Contact link does not go to the org page"
 grep -q 'href="https://wfrcanalytics.github.io/terms/"' _site/index.html || fail "footer Terms of use link does not go to the org page"
-ok "theme applied, footer links go to the org pages"
+grep -q 'id="quarto-back-to-top"' _site/index.html || fail "the Back to top link is not on by default"
+ok "theme applied, footer links go to the org pages, Back to top is on"
 
 # 3a. The GitHub menu points at this site's own repository, found from the git remote.
 grep -q 'href="https://github.com/WFRCAnalytics/my-site"' _site/index.html || fail "GitHub menu: Source Code does not point at the repository"
@@ -119,7 +120,7 @@ ok "GitHub menu detects the repository (git remote, and GITHUB_REPOSITORY in Act
 cp _quarto.yml _quarto.yml.orig
 cat > _site.yml <<'EOF'
 website:
-  back-to-top-navigation: true
+  back-to-top-navigation: false
 format:
   html:
     page-layout: article
@@ -130,12 +131,12 @@ EOF
 sed -i 's/^  # - _site.yml$/  - _site.yml/' _quarto.yml
 grep -q "^  - _site.yml$" _quarto.yml || fail "could not list _site.yml in the starter config"
 env -u GITHUB_REPOSITORY quarto render index.qmd > render3.log 2>&1 || { cat render3.log; fail "render with _site.yml failed"; }
-grep -q "quarto-back-to-top" _site/index.html || fail "_site.yml did not turn on back-to-top-navigation"
+if grep -q 'id="quarto-back-to-top"' _site/index.html; then fail "_site.yml did not turn off back-to-top-navigation"; fi
 grep -q "page-layout-article" _site/index.html || fail "_site.yml did not override page-layout"
 quarto inspect index.qmd | python -c "import sys,json; d=json.load(sys.stdin); sys.exit(0 if d['formats']['html'].get('execute',{}).get('freeze') is False else 1)"   || fail "_site.yml did not override execute.freeze"
 cp _quarto.yml.orig _quarto.yml
 rm _site.yml
-ok "a site's own _site.yml overrides the shared defaults"
+ok "a site's own _site.yml overrides the shared defaults (page-layout, toc-expand, freeze, back-to-top)"
 
 # 4. Offline brand: render the PDF with only the bundled fonts and check they are embedded.
 sed -i 's#brand: _extensions/WFRCAnalytics/wfrc-brand/brand.yml#brand: _extensions/WFRCAnalytics/wfrc-brand/brand-offline.yml#' _quarto.yml

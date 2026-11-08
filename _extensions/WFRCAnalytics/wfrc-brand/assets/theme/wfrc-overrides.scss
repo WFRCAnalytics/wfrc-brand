@@ -342,7 +342,8 @@ p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode), h1 
   border-radius: 4px;
   padding: 0.08em 0.35em;
 }
-.code-with-filename .code-with-filename-file {
+.code-with-filename .code-with-filename-file,
+.quarto-dark .code-with-filename .code-with-filename-file { // Quarto's dark rule (#555) is this specific
   font-family: $font-family-monospace;
   font-size: 0.75rem;
   color: $wfrc-ink-2;
@@ -352,13 +353,73 @@ p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode), h1 
   border-radius: 6px 6px 0 0;
   pre { background: transparent; }
 }
+// Copy button. Quarto draws the icon only while the code block is hovered, so a bordered button
+// shows as an empty rectangle at rest and the icon pops in. Here the icon is always drawn (an alpha
+// mask, so it takes the text color) and the whole button fades in, as one square control, when the
+// block is hovered or the button has keyboard focus. On touch screens, which cannot hover, it stays
+// visible but quiet.
+$wfrc-icon-copy: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z'/%3E%3Cpath d='M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z'/%3E%3C/svg%3E";
+$wfrc-icon-check: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z' stroke='%23000' stroke-width='.6'/%3E%3C/svg%3E";
 .code-copy-button {
-  border-radius: 999px;
-  border: 1px solid $wfrc-line;
-  background: $wfrc-surface;
-  color: $wfrc-action;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  margin: 6px 6px 0 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: $wfrc-ink-2;
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.16s ease, transform 0.16s ease, background-color 0.16s ease,
+              border-color 0.16s ease, color 0.16s ease;
 
-  &:hover { background: $wfrc-surface-2; color: $wfrc-h1; }
+  > .bi::before {
+    display: block !important;
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    vertical-align: 0;
+    background: currentColor !important;
+    -webkit-mask: url("#{$wfrc-icon-copy}") center / contain no-repeat;
+            mask: url("#{$wfrc-icon-copy}") center / contain no-repeat;
+  }
+  &.code-copy-button-checked > .bi::before {
+    -webkit-mask-image: url("#{$wfrc-icon-check}");
+            mask-image: url("#{$wfrc-icon-check}");
+  }
+
+  &:hover { color: $wfrc-h1; background: $wfrc-surface-2; border-color: $wfrc-line; }
+  &:focus-visible { outline: 2px solid $wfrc-focus; outline-offset: 2px; }
+  &.code-copy-button-checked { color: $wfrc-c-tip; }
+}
+div.code-copy-outer-scaffold:hover > .code-copy-button,
+.code-copy-button:focus-visible,
+.code-copy-button.code-copy-button-checked {
+  opacity: 1;
+  transform: none;
+  background: $wfrc-surface;
+  border-color: $wfrc-line;
+}
+div.code-copy-outer-scaffold:hover > .code-copy-button:hover { background: $wfrc-surface-2; }
+// The "Copied!" tooltip (Bootstrap): same roles as the other controls, readable in both modes.
+.tooltip {
+  --bs-tooltip-opacity: 1;
+  --bs-tooltip-border-radius: 8px;
+  --bs-tooltip-padding-x: 0.65rem;
+  --bs-tooltip-padding-y: 0.35rem;
+  --bs-tooltip-font-size: 0.75rem;
+  font-family: $headings-font-family;
+  font-weight: 600;
+}
+@media (hover: none) {
+  .code-copy-button { opacity: 0.85; transform: none; background: $wfrc-surface; border-color: $wfrc-line; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .code-copy-button { transition: none; transform: none; }
 }
 
 // ── 8  Tabsets, tables, blockquotes, details ─────────────────────────────────
@@ -448,6 +509,34 @@ details > summary { color: $wfrc-h1; font-family: $headings-font-family; font-we
   a { color: $wfrc-footer-link; }
 }
 .quarto-title-meta-heading { font-family: $headings-font-family; font-size: 0.72rem; }
+
+// "Back to top" (website.back-to-top-navigation, on by default in wfrc-shared.yml): Quarto shows it
+// fixed at the bottom center once the page has scrolled. A pill in the card surface with a hairline,
+// like the other controls, instead of Quarto's white box with a heavy grey shadow.
+@keyframes wfrc-rise {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+#quarto-back-to-top {
+  font: 600 0.8rem/1 $headings-font-family;
+  color: $wfrc-link;
+  background: $wfrc-surface;
+  border: 1px solid $wfrc-line;
+  border-radius: 999px;
+  box-shadow: $wfrc-shadow;
+  padding: 0.6rem 1.05rem;
+  cursor: pointer;
+  text-decoration: none;
+  animation: wfrc-rise 0.2s ease-out;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+  .bi { margin-right: 0.35rem; }
+  &:hover { color: $wfrc-h1; background: $wfrc-surface-2; border-color: $wfrc-rule; text-decoration: none; }
+  &:focus-visible { outline: 2px solid $wfrc-focus; outline-offset: 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #quarto-back-to-top { animation: none; transition: none; }
+}
 
 // ── 10  Footer with a ridge line ─────────────────────────────────────────────
 // The ridge is a CSS mask filled with the footer color, so one rule serves both modes.
