@@ -1,1 +1,1 @@
-Sitemap: https://wfrcanalytics.github.io/sitemap.xml
+Sitemap: https://wfrcanalytics.github.io/wfrc-brand/sitemap.xml

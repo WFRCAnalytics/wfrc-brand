@@ -2,6 +2,16 @@
 
 All notable changes to the wfrc-brand extension. Bump `version` in `_extensions/wfrc-brand/_extension.yml` and add an entry here on every meaningful change.
 
+**1.0.0** — Slides, PDF reports, a starter template and a cleaner base. Pages keep their look: classes, `--wfrc-*` and `--brand-*` variables and page structure are unchanged (checked by diffing renders of wfrcanalytics.github.io against 0.5.1). See the [migration guide](https://wfrcanalytics.github.io/wfrc-brand/migrate.html).
+- **Breaking.** Removed the palette aliases `wfrc-blue`, `wfrc-secondary-blue`, `wfrc-yellow`; the legacy classes `#bio`, `#landing-icons`, `.name-highlight`, `.featured-image` and `.description a`; and `engine: knitr`, `knitr.opts_chunk.dev: ragg_png` and `jupyter: python3` from `wfrc-shared.yml` (Quarto picks the engine from your code cells; set it in your own `_quarto.yml` if you need it).
+- **Slides.** New `format: wfrc-brand-revealjs` (`assets/theme/wfrc-revealjs.scss`): brand colors and fonts, brick title-slide bar, bright-blue slide-title rule, brand logo, readable callouts and tables. Light only.
+- **PDF.** `wfrc-brand-typst` now sets US Letter, 1 in margins and 10.5pt text. Logo, colors and fonts come from `brand.yml`.
+- **Bundled fonts.** `brand-offline.yml` is `brand.yml` with Poppins, Inter and Fira Code as files in `assets/fonts/` (OFL; woff2 for the web, ttf for Typst), for offline builds. `brand.yml` still uses Google Fonts, because Quarto 1.11 does not copy bundled fonts for revealjs. Both come from `scripts/fetch-fonts.py` and `scripts/build-brand-offline.py`; edit `brand.yml`, then re-run the second.
+- **Components from wfrcanalytics.github.io.** `.wfrc-chip` states (`.chip-live`, `.chip-internal`, `.chip-archived`), `.wfrc-stat-num`, rounded `type: table` listings, `.wfrc-cite`, `.wfrc-shot`, and a fix for the repo-actions navbar dropdown running off the screen. Status chip colors now come from role variables, so they follow dark mode.
+- **Starter template.** `quarto use template WFRCAnalytics/wfrc-brand` creates a site from this repo's `_quarto.yml`, `index.qmd`, `contact/` and `terms/` and installs the extension; `.quartoignore` keeps the documentation pages out. The documentation site is the same project rendered with `quarto render --profile docs` (`_quarto-docs.yml`), and it gains a **Brand guide** (swatches drawn from the theme's CSS variables), slide and PDF examples, and a **Migrating** page. `index.qmd` is now "Get started".
+- **Housekeeping.** The tracked `_site/` build output and `filetree.txt` are removed.
+- Tested: a Quarto 1.11 `contributes.brand` entry does not make a project discover the brand, so `project.brand` is still required (documented).
+
 **0.5.1** — The footer skyline now follows the wfrc.utah.gov footer silhouette.
 - The ridge outline is traced from a screenshot of the wfrc.utah.gov footer with `scripts/trace-ridge.py` (snow patches are filled in, the edge is smoothed and reduced to about 70 straight facets, so it is a clean geometric silhouette). It is 120px tall (was 84px) at the screenshot's proportions. Still one flat mask in `$wfrc-ridge-mask`, so light and dark mode are unchanged. Tune `SMOOTH` and `EPS` in the script (higher `EPS` = fewer, larger facets), then re-run with `--write`.
 - The generated Wasatch Front ridge of 0.5.0 (`scripts/make-ridge.mjs`) is removed.
