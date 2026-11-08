@@ -1,7 +1,7 @@
 # _quarto.yml: the starter project for a WFRC Quarto site.
 #
-# `quarto use template WFRCAnalytics/wfrc-brand` copies this file with index.qmd, contact/ and
-# terms/, and installs the wfrc-brand extension. Everything org-wide (theme, highlight style, layout,
+# `quarto use template WFRCAnalytics/wfrc-brand` copies this file with index.qmd and installs
+# the wfrc-brand extension. Everything org-wide (theme, highlight style, layout,
 # navbar social menu, footer, freeze) comes from wfrc-shared.yml, so a site only states what is its own.
 #
 # The documentation site for this repo is the same project rendered with `--profile docs`
@@ -18,6 +18,10 @@ project:
 
 metadata-files:
   - _extensions/WFRCAnalytics/wfrc-brand/wfrc-shared.yml
+  # Anything this site does differently from the org defaults goes in a file listed after the shared
+  # one, which beats it (a value in the shared file beats the same key in this file). For example,
+  # a _site.yml containing `execute: {freeze: false}` or `format: {html: {toc-expand: 1}}`:
+  # - _site.yml
 
 website:
   title: "My WFRC site"                                   # TODO: your site's name
@@ -27,43 +31,6 @@ website:
     left:
       - href: index.qmd
         text: Home
-
-# Layout defaults for HTML pages. They live here, not in wfrc-shared.yml, because a value in the shared
-# file beats the same key in this file: so change them here freely. The theme, highlight style, color
-# scheme, external-link behavior and accessibility script come from wfrc-shared.yml.
-format:
-  html:
-    page-layout: full
-    toc: true
-    toc-expand: 2
-    smooth-scroll: true
-    grid:
-      sidebar-width: 350px
-    # Also on by default in 0.x; uncomment what your pages need:
-    # number-sections: true
-    # html-math-method: katex
-    # code-link: true
-    # code-tools: true
-
-# Org default for computational output: re-run a page only when it changes
-# (https://quarto.org/docs/projects/code-execution.html#freeze). Change it here if your pages must
-# always re-run: wfrc-shared.yml does not set it, so this value applies.
-execute:
-  freeze: auto
-
-# Add a GitHub menu for this repository (wfrc-shared.yml does not supply one), for example:
-#   website:
-#     navbar:
-#       tools:
-#         - icon: github
-#           text: GitHub
-#           menu:
-#             - text: Source Code
-#               href: https://github.com/WFRCAnalytics/my-site
-#             - text: Report a Bug
-#               href: https://github.com/WFRCAnalytics/my-site/issues/new
-# or, for Quarto's own menu: `website.repo-url: https://github.com/WFRCAnalytics/my-site` with
-# `website.repo-actions: [source, issue]`.
 
 # Quarto lists (navbar items, footer links) append across config levels instead of replacing.
 # Do not repeat the navbar `right`/`tools` or `page-footer` lists that wfrc-shared.yml already

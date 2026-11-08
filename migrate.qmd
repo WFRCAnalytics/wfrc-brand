@@ -27,13 +27,14 @@ toc: true
 | Legacy classes `#bio`, `#landing-icons`, `.name-highlight`, `.featured-image`, `.description a` | `.wfrc-*` components, or your own CSS |
 | `engine: knitr`, `knitr.opts_chunk.dev: ragg_png` and `jupyter: python3` from `wfrc-shared.yml` | Quarto picks the engine from your code cells. Set `engine:` or `dev:` in your own `_quarto.yml` if you need them. |
 
-**Changed in 1.0.1 (breaking for anyone relying on the old behavior)**
+**Changed in 1.0.1**
 
 | Before | Now |
 |---|---|
-| `wfrc-shared.yml` added a GitHub menu to the navbar that linked to the wfrcanalytics.github.io repository | Not supplied. Add your own `navbar.tools` GitHub menu, or `website.repo-url` with `repo-actions`. |
+| The GitHub navbar menu linked every site to the wfrcanalytics.github.io repository | It points at **each site's own repository automatically** (from `GITHUB_REPOSITORY` or the git remote), so delete any GitHub menu of your own: `navbar.tools` GitHub block, or `repo-url` with `repo-actions`. "Ask a Question" shows only when the repository has Discussions on. |
 | Contact and Terms of use in the footer were site-relative, so every site needed its own `contact/index.qmd` and `terms/index.qmd` | They link to the single pages on wfrcanalytics.github.io. Sites carry no copy; the `templates/` folder is gone. |
-| `wfrc-shared.yml` set `execute.freeze: auto`, `page-navigation: false`, `back-to-top-navigation: false`, and the HTML layout defaults (`page-layout: full`, `toc`, `toc-expand: 2`, `smooth-scroll`, `grid.sidebar-width: 350px`) | Not set there, because a value in the shared file beats your `_quarto.yml` and you could not change them. The starter's `_quarto.yml` sets the layout defaults and `execute.freeze: auto` instead; the two navigation keys are Quarto's own defaults. |
+| `page-navigation: false` and `back-to-top-navigation: false` were set in the shared file, so a site could not turn them on | Not set (they are Quarto's defaults). Set them in your own `_quarto.yml`. |
+| No way to differ from the shared defaults, because a value in the shared file beats your `_quarto.yml` | Put your differences in a `_site.yml` listed after the shared file; it beats the shared file. |
 
 Class names, `--wfrc-*` and `--brand-*` variables and the page structure are unchanged.
 
@@ -68,7 +69,7 @@ Class names, `--wfrc-*` and `--brand-*` variables and the page structure are unc
 
 4. Remove anything `wfrc-shared.yml` already supplies. Quarto lists *append* across config levels, so a site that repeats the "Follow Us" menu or the footer links shows them twice.
 5. Keep what is yours: `website.title`, `site-url`, `navbar.left`, sidebars, announcements and per-site GitHub links.
-6. Add a GitHub menu for your repository (`website.navbar.tools`, or `website.repo-url` with `repo-actions`). The footer's Contact and Terms of use links need nothing: they go to the org pages.
+6. Do not add a GitHub menu: it points at your repository by itself. The footer's Contact and Terms of use links need nothing either: they go to the org pages.
 7. Add the card banners to `project.resources` if you use grid listings:
 
    ```yaml
@@ -79,9 +80,29 @@ Class names, `--wfrc-*` and `--brand-*` variables and the page structure are unc
 
 ## Overriding the shared defaults
 
-A value in `wfrc-shared.yml` **beats the same key in your own `_quarto.yml`** (verified on Quarto 1.11). So the shared file only holds what is the same for every WFRC site and that nobody tunes: the theme, highlight style, color scheme, the "Follow Us" menu, the footer, social cards and the accessibility script.
+A value in `wfrc-shared.yml` **beats the same key in your own `_quarto.yml`** (verified on Quarto 1.11), so editing your own file never changes an org default. Use a second metadata file listed after the shared one, which beats it:
 
-Layout defaults live in the starter's `_quarto.yml` under `format: html:` (`page-layout: full`, `toc`, `toc-expand: 2`, `smooth-scroll`, `grid.sidebar-width: 350px`), and `execute.freeze: auto` sits beside them. Because they are in your own file, you can change them there: `toc-expand: 1`, a wider `grid.sidebar-width`, `execute.freeze: false`, `website.back-to-top-navigation: true` all work. A site that moves from 0.x gets those defaults back by copying that block from the starter's `_quarto.yml`.
+```yaml
+# _quarto.yml
+metadata-files:
+  - _extensions/WFRCAnalytics/wfrc-brand/wfrc-shared.yml
+  - _site.yml
+```
+
+```yaml
+# _site.yml: only what this site does differently
+execute:
+  freeze: false
+format:
+  html:
+    toc-expand: 1
+    grid:
+      sidebar-width: 406px
+website:
+  back-to-top-navigation: true
+```
+
+Any key can be overridden this way, including `website.*`. Lists (navbar items, footer links) still **append** instead of replacing, so a site cannot remove the "Follow Us" menu, the GitHub menu or the footer links; it can only add to them.
 
 Do not set `format: wfrc-brand-html` in a website that loads `wfrc-shared.yml`. The shared file defines `format.html`, so Quarto would render every page twice (as `html` and as `wfrc-brand-html`) and fail on the second write. Keep `wfrc-brand-html` for standalone documents.
 

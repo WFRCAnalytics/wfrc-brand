@@ -83,7 +83,7 @@ Other formats work the same way:
 | **TOC and sidebar** | Active item marked with a bright-blue edge. |
 | **Footer** | Navy with the Wasatch Front skyline. The ridge is a CSS mask, so it follows each mode's color. |
 | **Dashboards** | Flat navy, mid-blue, teal and brick value boxes in both modes; transparent Observable Plot charts. |
-| **Org defaults** | Social menu, footer, external links open in a new tab, `axe` accessibility checking, and an accessibility script (decorative listing banners, toggle name, Plot and collapsed-callout ARIA, keyboard-reachable scroll regions). The starter's `_quarto.yml` adds `page-layout: full`, a TOC, smooth scroll and `freeze: auto`, which a site can change. |
+| **Org defaults** | Social menu, a GitHub menu that points at the site's own repository, footer, external links open in a new tab, `axe` accessibility checking, an accessibility script (decorative listing banners, toggle name, Plot and collapsed-callout ARIA, keyboard-reachable scroll regions), `page-layout: full`, TOC, smooth scroll, and freeze `auto`. |
 
 ---
 
@@ -162,6 +162,42 @@ Banners are decorative. Quarto drops `image-alt: ""`, so the bundled script (`as
 `wfrc-shared.yml` sets `format.html.include-after-body` to the accessibility script. Quarto does not merge two `include-after-body` values here: when a site sets its own in `_quarto.yml`, only one applies (in a test render the extension's script won and the site's was dropped).
 
 **Sites should add their own scripts with `include-in-header` or `include-before-body`, not `include-after-body`.** A site that sets both `include-in-header` and `include-before-body` alongside the shared defaults keeps both, and the accessibility script still loads (verified in a Quarto 1.10 test render).
+
+---
+
+## GitHub menu
+
+Every site gets a GitHub menu in the navbar (Source Code, Report a Bug, and Ask a Question when the repository has Discussions turned on), pointing at **its own repository with no configuration**. `wfrc-shared.yml` writes the links as placeholders, and a post-render script (`scripts/github-repo.ts`, run by Quarto's built-in Deno; nothing to install) replaces them in the built pages. It finds the repository from `GITHUB_REPOSITORY` (set in GitHub Actions) or the git remote `origin`, and asks the GitHub API whether Discussions are on (without a token only public repositories answer, so a private repository shows no question item locally). If it finds no repository the links stay on the organization page.
+
+`quarto preview` does not run post-render scripts, so a preview shows the organization links until the next `quarto render`.
+
+**Do not add your own GitHub menu** (`navbar.tools` or `repo-url` with `repo-actions`): lists append, so it would appear twice.
+
+---
+
+## Site-specific differences
+
+A value in `wfrc-shared.yml` **beats the same key in your `_quarto.yml`** (verified on Quarto 1.11), so a site never fights the org defaults by editing its own file. The pattern is a second metadata file listed after the shared one, which beats it:
+
+```yaml
+metadata-files:
+  - _extensions/WFRCAnalytics/wfrc-brand/wfrc-shared.yml
+  - _site.yml
+```
+
+```yaml
+# _site.yml: only what this site does differently
+execute:
+  freeze: false            # always re-run
+format:
+  html:
+    grid:
+      sidebar-width: 406px
+website:
+  back-to-top-navigation: true
+```
+
+Layout defaults (`page-layout: full`, a table of contents, `toc-expand: 2`, smooth scroll, a 350px sidebar) and `execute.freeze: auto` are org defaults in the shared file; the page-navigation keys are not set (they are Quarto's defaults), so `website.page-navigation` and `back-to-top-navigation` can go straight in `_quarto.yml`. Do not use `format: wfrc-brand-html` in a website that loads the shared file: Quarto would render every page twice.
 
 ---
 
@@ -307,7 +343,7 @@ The two exceptions are the Pandoc syntax themes (`.theme` JSON cannot reference 
 
 ## Migrating an existing site
 
-The [migration guide](https://wfrcanalytics.github.io/wfrc-brand/migrate.html) covers moving from 0.x (what 1.0 removed) and from a site with its own theme. In short: `quarto add WFRCAnalytics/wfrc-brand` (or start from the template), add the `project.brand` and `metadata-files` lines from **Install**, delete your own theme, CSS and font links, remove config that `wfrc-shared.yml` already supplies (Quarto lists append), keep your title, navbar and sidebars, add your own GitHub menu, then render and check light and dark.
+The [migration guide](https://wfrcanalytics.github.io/wfrc-brand/migrate.html) covers moving from 0.x (what 1.0 removed) and from a site with its own theme. In short: `quarto add WFRCAnalytics/wfrc-brand` (or start from the template), add the `project.brand` and `metadata-files` lines from **Install**, delete your own theme, CSS and font links, remove config that `wfrc-shared.yml` already supplies (Quarto lists append), keep your title, navbar and sidebars (do not add a GitHub menu: it is automatic), put differences from the org defaults in a `_site.yml`, then render and check light and dark.
 
 ### Accessibility checklist
 
@@ -326,7 +362,7 @@ The extension keeps `axe: true` on. In a pass over the preview pages and real si
 - **Dashboards** need `format: wfrc-brand-dashboard`; setting `format: dashboard` gives Quarto's default look.
 - **Slides are light only** (Reveal.js has no color-scheme toggle) and use Google Fonts even with `brand-offline.yml`. **Word** picks up brand colors and fonts through `brand.yml` only. The bundled fonts are checked in Typst with system fonts ignored.
 - **R helpers.** The palette lookup is tested; the ggplot2 theme was written but not run in the environment used to build this release (ggplot2 was not installed).
-- **No numbered sections by default** in websites. Set `number-sections: true` under `format: html:` (the starter's `_quarto.yml` has it commented out). Do not use `wfrc-brand-html` in a website that loads `wfrc-shared.yml`: Quarto would render each page twice.
+- **No numbered sections by default** in websites. Set `number-sections: true` in your `_site.yml` under `format: html:` (see **Site-specific differences**). Do not use `wfrc-brand-html` in a website that loads `wfrc-shared.yml`: Quarto would render each page twice.
 
 ---
 
@@ -340,6 +376,7 @@ The extension keeps `axe: true` on. In a pass over the preview pages and real si
 | How slides look | `wfrc-revealjs.scss` |
 | Layout or sizing that is the same in both modes | `wfrc.scss` |
 | Org-wide site defaults | `wfrc-shared.yml` (and keep `_extension.yml`'s theme list in step) |
+| The automatic GitHub menu | `scripts/github-repo.ts` (placeholders are in `wfrc-shared.yml`) |
 | What a new site starts with | `_quarto.yml`, `index.qmd` |
 | Documentation pages | `brand-guide.qmd`, `migrate.qmd`, `example*.qmd`, `_quarto-docs.yml` (add new docs-only files to `.quartoignore`) |
 
