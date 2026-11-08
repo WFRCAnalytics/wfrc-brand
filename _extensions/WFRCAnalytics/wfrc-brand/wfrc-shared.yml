@@ -32,6 +32,8 @@ website:
   # repo-url: "https://github.com/WFRCAnalytics/wfrc-brand"
   # repo-actions: [source, issue]
 
+  # "Back to top" link on long pages (a site can turn it off in its _site.yml).
+  back-to-top-navigation: true
   # margin-header: subscribe.html
 
   # Navbar — logo-alt, the Follow Us social menu and the GitHub menu are org-wide. The GitHub links
