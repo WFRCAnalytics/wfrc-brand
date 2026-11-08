@@ -25,7 +25,7 @@ The template installs the `wfrc-brand` extension and adds `_quarto.yml` and this
 1. In `_quarto.yml`, set `website.title`, `description` and `site-url`.
 2. Replace this page. Add pages next to it and list them under `website.navbar.left`.
 3. Nothing to add for the navbar GitHub menu or the footer. The menu points at your repository by itself (it reads the git remote, or `GITHUB_REPOSITORY` in GitHub Actions), and the footer's Contact and Terms of use links go to single pages kept on wfrcanalytics.github.io.
-4. If this site must differ from the org defaults (for example `execute: {freeze: false}` or a wider sidebar), put only those differences in a `_site.yml` and list it after the shared file in `_quarto.yml`: the starter has the line, commented out.
+4. If this site must differ from the org defaults (for example always re-run code with `execute: {freeze: false}`, or a different sidebar width), put only those differences in the `_site.yml` that came with the starter (it is already listed after the shared file). The [customizing guide](customize.qmd) has tested recipes.
 
 ## 3. What you get without writing any config
 

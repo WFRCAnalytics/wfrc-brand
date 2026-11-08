@@ -18,10 +18,10 @@ project:
 
 metadata-files:
   - _extensions/WFRCAnalytics/wfrc-brand/wfrc-shared.yml
-  # Anything this site does differently from the org defaults goes in a file listed after the shared
-  # one, which beats it (a value in the shared file beats the same key in this file). For example,
-  # a _site.yml containing `execute: {freeze: false}` or `format: {html: {toc-expand: 1}}`:
-  # - _site.yml
+  # Anything this site does differently from the org defaults goes in _site.yml, listed after the
+  # shared file so it wins (a value in the shared file beats the same key in this file). See _site.yml
+  # and https://wfrcanalytics.github.io/wfrc-brand/customize.html
+  - _site.yml
 
 website:
   title: "My WFRC site"                                   # TODO: your site's name

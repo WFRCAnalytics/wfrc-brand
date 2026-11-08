@@ -80,7 +80,7 @@ Class names, `--wfrc-*` and `--brand-*` variables and the page structure are unc
 
 ## Overriding the shared defaults
 
-A value in `wfrc-shared.yml` **beats the same key in your own `_quarto.yml`** (verified on Quarto 1.11), so editing your own file never changes an org default. Use a second metadata file listed after the shared one, which beats it:
+A value in `wfrc-shared.yml` **beats the same key in your own `_quarto.yml`** (verified on Quarto 1.11), so editing your own file never changes an org default. Use a second metadata file listed after the shared one, which beats it. The [customizing guide](customize.qmd) has tested recipes and troubleshooting:
 
 ```yaml
 # _quarto.yml
