@@ -22,7 +22,7 @@
 //  11  Dashboard (value boxes, sidebar layout, nav)
 //  12  Inputs (panel-input, OJS, WebR)
 //  13  Landing-page utility classes (.wfrc-*)
-//  14  Legacy classes and responsive rules
+//  14  Responsive rules
 // =============================================================================
 
 // ── 1  Role tokens as CSS variables ──────────────────────────────────────────
@@ -629,12 +629,65 @@ $wfrc-inner: max(20px, calc((100vw - 1100px) / 2));
 .wfrc-chip { display: inline-block; font: 600 0.75rem/1.4 $headings-font-family; padding: 2px 10px; border-radius: 999px; border: 1px solid $wfrc-line; background: $wfrc-surface-2; color: $wfrc-h1; }
 .wfrc-hero .wfrc-chip { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.3); color: #fff; }
 
-// ── 14  Legacy classes (used by existing WFRC pages) and responsive rules ────
-#bio { font-size: 1.1rem; }
-#landing-icons { font-size: 1.4rem; }
-.name-highlight { font-weight: 600; color: $wfrc-h1 !important; }
-.featured-image { background-size: cover; background-position: center; color: #fff; box-shadow: inset 0 0 0 1000px rgba(0, 57, 91, 0.75); }
-.description a { text-decoration: underline !important; &:hover { text-decoration: none !important; } }
+// Status chips, promoted from the wfrcanalytics.github.io site: add a state to .wfrc-chip.
+//   [Live]{.wfrc-chip .chip-live}  [Internal]{.wfrc-chip .chip-internal}  [Archived]{.wfrc-chip .chip-archived}
+.wfrc-chip.chip-live { background: mix($wfrc-action, $wfrc-bg, 16%); border-color: $wfrc-action; }
+.wfrc-chip.chip-internal { background: mix($wfrc-gold, $wfrc-bg, 30%); border-color: $wfrc-c-warning; }
+.wfrc-chip.chip-archived { font-style: italic; background: transparent; border-style: dashed; }
+
+// A large number inside a color block: <span class="wfrc-stat-num">19</span> in a .wfrc-block.
+.wfrc-stat-num {
+  display: block;
+  font-family: $headings-font-family;
+  font-weight: 700;
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  line-height: 1.05;
+  color: #fff;
+}
+
+// Table listings (type: table) as one rounded card with a tinted header row.
+.quarto-listing-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid $wfrc-line;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 0.92rem;
+
+  thead th {
+    background: $wfrc-bg-alt;
+    border-bottom: 2px solid $wfrc-rule;
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  tbody td { padding: 0.8rem 1rem; vertical-align: top; border-top: 1px solid $wfrc-line; }
+  tbody tr:first-child td { border-top: 0; }
+  tbody tr:hover td { background: $wfrc-bg-alt; }
+  .listing-title { font-weight: 600; }
+  .listing-categories { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+}
+
+// "How to cite" or any callout-like aside: ::: {.wfrc-cite}
+.wfrc-cite {
+  background: $wfrc-bg-alt;
+  border-left: 4px solid $wfrc-rule;
+  border-radius: 0 8px 8px 0;
+  padding: 0.7rem 1rem;
+  p { margin: 0; }
+}
+
+// Screenshots on cards and detail pages: crop to the top of the page, with a hairline border.
+.wfrc-shot { display: block; width: 100%; max-width: 900px; border: 1px solid $wfrc-line; border-radius: 10px; margin-bottom: 1rem; }
+.quarto-grid-item .card-img-top.wfrc-shot-top, .wfrc-shot-top .card-img-top { object-position: top center; }
+
+// The repo-actions dropdown is the last navbar item; open it right-aligned or it runs off the screen.
+.quarto-navbar-tools .dropdown-menu { --bs-position: end; right: 0; left: auto; }
+
+// ── 14  Responsive rules ─────────────────────────────────────────────────────
 .aa-DetachedOverlay { position: absolute; }
 
 // Phones: markdown tables and plots scroll inside their own box instead of widening the page.
