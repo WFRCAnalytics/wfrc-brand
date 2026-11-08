@@ -842,5 +842,21 @@ $wfrc-inner: max(20px, calc((100vw - 1100px) / 2));
     &-left { order: 3 !important; flex-basis: 100%; text-align: center; }
   }
   .navbar-title { font-size: 0.85rem; }
-  .navbar .quarto-navbar-tools { font-size: 1.2rem; text-align: left; }
+
+  // The collapsed navbar is ONE row: menu button, logo and title, then the tools. Quarto lets the row
+  // wrap, so with the GitHub menu, the mode toggle and search the tools dropped to a second row and
+  // the logo's link shrank until the logo was clipped ("WFR"). The logo and the tools never shrink;
+  // only the title does, and it ends in an ellipsis.
+  .navbar > .navbar-container { flex-wrap: nowrap; }
+  .navbar-brand-container { min-width: 0; }
+  .navbar-brand-container > a.navbar-brand-logo { flex: none; overflow: visible; }
+  .navbar-brand-container .navbar-logo { max-height: 30px; width: auto; }
+  .navbar-brand-container > a.navbar-brand:not(.navbar-brand-logo) { min-width: 0; margin-right: 0; overflow: hidden; }
+  .navbar-brand-container .navbar-title { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .navbar .quarto-navbar-tools { flex: none; white-space: nowrap; font-size: 1.2rem; text-align: left; }
+  .navbar #quarto-search { flex: none; }
+}
+// Phones: a little tighter type so more of a long site title fits.
+@media screen and (max-width: 480px) {
+  .navbar-title { font-size: 0.78rem; letter-spacing: 0.04em; }
 }

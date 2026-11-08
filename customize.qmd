@@ -67,6 +67,17 @@ format:
       sidebar-width: 406px   # a different sidebar width (the default is 350px)
 ```
 
+### A long menu wraps onto two rows on laptops
+
+The navbar switches to its menu button below 992px. Between about 992px and 1050px, a menu with long labels (for example "Center Buildout Capacity") can wrap onto a second row. This setting is not set by the shared file, so it goes in your own `_quarto.yml`: collapse to the menu button sooner.
+
+```yaml
+# _quarto.yml
+website:
+  navbar:
+    collapse-below: xl    # the menu button appears below 1200px instead of 992px
+```
+
 ### Turn off social-card tags
 
 ```yaml

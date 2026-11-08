@@ -2,6 +2,10 @@
 
 All notable changes to the wfrc-brand extension. Bump `version` in `_extensions/wfrc-brand/_extension.yml` and add an entry here on every meaningful change.
 
+**1.0.5** — The collapsed navbar fits on a phone.
+- **Phone navbar.** Below 992px Quarto lets the navbar row wrap. With the GitHub menu, the mode toggle and search, the tools dropped to a second row (a 98px bar), and the logo's link shrank until the logo was clipped ("WFR") and overlapped the title. The collapsed navbar is now one row at every width from 320px to 991px: the logo (30px tall) and the tools never shrink, and only the site title shrinks, ending in an ellipsis. On phones (480px and under) the title uses a slightly smaller size and tighter letter spacing so more of it shows. Checked in light and dark mode with a banner present; axe is clean.
+- **Guide.** A new recipe in the customizing guide: a menu with long labels can wrap between 992px and about 1050px; `website.navbar.collapse-below: xl` collapses to the menu button sooner (tested: 85px wrapped becomes one 66px row). The navbar is unchanged from 992px up.
+
 **1.0.4** — The announcement banner's dismiss control is accessible.
 - **Dismiss control.** Quarto renders the announcement's close button as a bare `<i>` icon with a click handler: about 11px wide (below the WCAG 2.2 24px minimum target size), unreachable by keyboard, and without a name. It is now a 28px button-sized target with a hover surface and a focus ring (`wfrc-overrides.scss`), and `a11y-fixes.html` gives it `role="button"`, `tabindex="0"`, the name "Dismiss announcement" and Enter/Space. The banner keeps its height. Found while checking a migrated site; axe (WCAG 2.2 AA) is clean for all eight banner types in both modes at 1300px and 390px.
 
