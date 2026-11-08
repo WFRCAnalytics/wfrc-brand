@@ -77,7 +77,7 @@ Other formats work the same way:
 | **Buttons** | Pill shaped. `.btn-primary` is the AA-safe action blue. |
 | **Cards** | Listings, dashboards and bslib cards: 10px radius, hairline border, soft shadow, Inter header row. All cards share one light-blue (dark: raised-navy) surface, set apart from the page and from `.wfrc-band-alt`. Grid listing cards add a banner image and a hover lift (see **Card banners**). |
 | **Callouts** | Five types: a 4px bar in the type color, a 9% tinted body, a 16% title strip, 8px radius on the right, and a filled-circle icon with the glyph cut out in the page color. Text stays in the ink color. |
-| **Code** | Cool-tinted blocks, no ligatures, custom syntax palette (`wfrc-light.theme`, `wfrc-dark.theme`) that holds AA contrast. |
+| **Code** | Cool-tinted blocks in Fira Code with ligatures on (`!=`, `>=`, `->`, `|>` render as single glyphs), custom syntax palette (`wfrc-light.theme`, `wfrc-dark.theme`) that holds AA contrast. |
 | **Tabsets** | The active tab and its pane share one surface. |
 | **Tables** | No vertical rules, bright-blue header rule, tabular numerals, scroll inside their own box on phones. |
 | **TOC and sidebar** | Active item marked with a bright-blue edge. |

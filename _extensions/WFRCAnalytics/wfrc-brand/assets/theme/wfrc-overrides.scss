@@ -322,8 +322,10 @@ $wfrc-callout-glyphs: (
 }
 
 // ── 7  Code ──────────────────────────────────────────────────────────────────
-// Keep code reading as typed: no Fira Code ligatures (<- stays <-, |> stays |>).
-code, pre, kbd, samp { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+// Fira Code ligatures on: != >= <= == => -> <- |> render as single glyphs. They are explicit here so a
+// site rule or Bootstrap default cannot switch them off. To read code strictly as typed, add
+// `code, pre { font-variant-ligatures: none; font-feature-settings: "calt" 0; }` to your site CSS.
+code, pre, kbd, samp { font-variant-ligatures: normal; font-feature-settings: "calt" 1, "liga" 1; }
 div.sourceCode, pre.sourceCode, div.cell-output pre, pre:not(.sourceCode) {
   background-color: $wfrc-code-bg;
   color: $wfrc-code-ink;
