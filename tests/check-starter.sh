@@ -118,6 +118,7 @@ css="$(ls _site/site_libs/bootstrap/bootstrap-*.min.css | grep -v dark | head -1
 grep -qi "00395b" "$css" || fail "brand navy is not in the compiled CSS"
 grep -q 'href="https://wfrcanalytics.github.io/contact/"' _site/index.html || fail "footer Contact link does not go to the org page"
 grep -q 'href="https://wfrcanalytics.github.io/terms/"' _site/index.html || fail "footer Terms of use link does not go to the org page"
+grep -qF 'svg[class^=plot-]{color:inherit !important}' "$css" || fail "Observable Plot text no longer follows the theme (a chart with its own style.color is unreadable in dark mode)"
 grep -q 'id="quarto-back-to-top"' _site/index.html || fail "the Back to top link is not on by default"
 ok "theme applied, footer links go to the org pages, Back to top is on"
 
