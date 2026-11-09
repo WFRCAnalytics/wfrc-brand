@@ -79,6 +79,15 @@ Some text with `inline code`.
 x <- 1
 ```
 EOF
+# A figure whose alt text contains a percent sign: with Quarto's automatic social-card image this warns
+# "Invalid URI ... in attribute 'alt'", so the shared config names a fixed card image instead.
+cat > percent.qmd <<'EOF'
+---
+title: "Percent in alt text"
+---
+
+![Caption](_extensions/WFRCAnalytics/wfrc-brand/assets/logo/stacked/WFRC_logo_stacked_color_transparent.png){fig-alt="Two panels: 62% of residents live near a facility, up from 48%."}
+EOF
 cat > dashboard.qmd <<'EOF'
 ---
 title: "Dashboard"
@@ -98,6 +107,11 @@ for out in index.html slides.html report.pdf dashboard.html; do
   test -f "_site/$out" || fail "missing _site/$out"
 done
 ok "starter, slides, PDF and dashboard render"
+if grep -qi "invalid uri" render.log; then fail "an Invalid URI warning came back (percent sign in alt text)"; fi
+test -f _site/_extensions/WFRCAnalytics/wfrc-brand/assets/social/wfrc-card.png || fail "the social card image is not in the output"
+grep -q 'property="og:image" content="[^"]*wfrc-card.png"' _site/index.html || fail "og:image is not the WFRC card"
+if [ -e _site/site_libs/quarto-html/zenscroll-min.js ]; then fail "zenscroll is shipped again (smooth-scroll was turned on): it breaks pages with RequireJS"; fi
+ok "no Invalid URI warning, the social card is the WFRC image, and no zenscroll is shipped"
 
 # 3. The theme is applied: brand colors reach the compiled CSS and the footer links resolve.
 css="$(ls _site/site_libs/bootstrap/bootstrap-*.min.css | grep -v dark | head -1)"
