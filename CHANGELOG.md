@@ -7,6 +7,7 @@ All notable changes to the wfrc-brand extension. Bump `version` in `_extensions/
 - **Example.** `example.qmd` gains a line chart using `wfrcPointerTip` and `tipFormat`. Checked in a browser in light and dark mode: the tooltip reads "2023 / 44,700 trips", a white box with dark text in light mode and the page colour with near-white text in dark mode.
 - **Tests.** `tests/check-starter.sh` checks the starter ships the helpers.
 - **Sites with their own tooltip CSS.** A rule such as `[aria-label="tip"] text { fill: #374151 !important }` (dark text for the old white box) now gives dark text on a dark box in dark mode: delete it. A tip `fill` option set on a mark is overridden by the theme and can be deleted too.
+- **`scripts/update-sites.py`.** It no longer fails on a site whose `docs/` or `_freeze/` is in `.gitignore` (CI builds the site, or the cache is local): it commits only the output folders the site tracks.
 - **Fix to the 1.0.8 entry.** Its heading had a stray non-UTF-8 character in place of the dash.
 
 **1.0.8** — Observable Plot tooltips are readable in dark mode.

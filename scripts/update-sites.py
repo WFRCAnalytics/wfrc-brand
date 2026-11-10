@@ -85,7 +85,10 @@ def update(site, tag, dry, render):
         errs = [l for l in (r.stdout + r.stderr).splitlines() if l.startswith("ERROR")]
         if r.returncode != 0 or errs:
             return "RENDER FAILED", plan + "\n      " + "\n      ".join(errs[:3] or ["see `quarto render` in the site"])
-        outs = [d for d in OUTPUT_DIRS if (site / d).exists()]
+        # Only folders the site tracks: a folder in .gitignore (docs/ when CI builds the site, _freeze when
+        # it is local cache) cannot be added, and trying to makes the whole update fail.
+        outs = [d for d in OUTPUT_DIRS
+                if (site / d).exists() and git(site, "check-ignore", "-q", d, check=False).returncode != 0]
         if outs:
             git(site, "add", "-A", "--", *outs)
             if git(site, "diff", "--cached", "--quiet", check=False).returncode != 0:
