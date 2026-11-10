@@ -120,6 +120,7 @@ grep -q 'href="https://wfrcanalytics.github.io/contact/"' _site/index.html || fa
 grep -q 'href="https://wfrcanalytics.github.io/terms/"' _site/index.html || fail "footer Terms of use link does not go to the org page"
 grep -qF 'svg[class^=plot-]{color:inherit !important}' "$css" || fail "Observable Plot text no longer follows the theme (a chart with its own style.color is unreadable in dark mode)"
 grep -qF 'svg[class^=plot-] g[pointer-events=none] path{fill:var(--wfrc-bg) !important}' "$css" || fail "Observable Plot tooltips are no longer painted in the page colour (Plot's white box is unreadable in dark mode)"
+for fn in wfrcTip tipFormat wfrcPointerTip wfrcStackTip; do grep -Eq "export (const|function) $fn\b" _extensions/WFRCAnalytics/wfrc-brand/assets/charts/wfrc-charts.js || fail "wfrc-charts.js no longer exports $fn"; done
 grep -q 'id="quarto-back-to-top"' _site/index.html || fail "the Back to top link is not on by default"
 ok "theme applied, footer links go to the org pages, Back to top is on"
 
