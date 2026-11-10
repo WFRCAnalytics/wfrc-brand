@@ -389,10 +389,10 @@ Run the checks with `pytest tests` (needs `pyyaml`, `matplotlib`, and optionally
 **Updating many sites after a release.** Every site keeps its own copy of the extension, so a release has to be reinstalled in each one. `scripts/update-sites.py` does that for all of them in one pass:
 
 ```bash
-python scripts/update-sites.py --tag v1.0.7                  # every site found under D:/GitHub
-python scripts/update-sites.py --tag v1.0.7 --dry-run        # show what would happen, change nothing
-python scripts/update-sites.py --tag v1.0.7 SITE1 SITE2      # only these sites
-python scripts/update-sites.py --tag v1.0.7 --no-render SITE # a site whose data is not on this machine
+python scripts/update-sites.py --tag v1.0.8                  # every site found under D:/GitHub
+python scripts/update-sites.py --tag v1.0.8 --dry-run        # show what would happen, change nothing
+python scripts/update-sites.py --tag v1.0.8 SITE1 SITE2      # only these sites
+python scripts/update-sites.py --tag v1.0.8 --no-render SITE # a site whose data is not on this machine
 ```
 
 For each site already on the 1.0 layout it creates a `wfrc-brand-<version>` branch (or stays on the current one), reinstalls the extension at the tag and commits it, runs `quarto render` and commits the rebuilt `docs/` and `_freeze/` separately. It skips a site with uncommitted changes, never pushes and never opens a pull request, so each site's change is reviewed and pushed by hand. A site with an older extension needs the full migration instead (`_migration/`).

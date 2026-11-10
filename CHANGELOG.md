@@ -2,6 +2,11 @@
 
 All notable changes to the wfrc-brand extension. Bump `version` in `_extensions/wfrc-brand/_extension.yml` and add an entry here on every meaningful change.
 
+**1.0.8** — Observable Plot tooltips are readable in dark mode.
+- **Tooltips in dark mode.** A chart mark with `tip: true` (or a `Plot.tip` mark) draws its tooltip as a white box, whatever the page. Since 1.0.7 the tooltip text follows the page's ink, which is near-white in dark mode, so the tooltip read as light text on white. The box is now filled with the page colour (`svg[class^="plot-"] g[pointer-events="none"] path { fill: var(--wfrc-bg) !important }`); its text and outline already followed the theme. Checked in a browser by hovering a bar: light mode is a white box with dark text, dark mode a navy box with near-white text. Charts without tooltips are unchanged.
+- **Example.** The bar chart in `example.qmd` now has `tip: true`, so the tooltip can be seen.
+- **Test.** `tests/check-starter.sh` checks the rule is in the compiled CSS.
+
 **1.0.7** â€” Observable Plot charts follow the theme's text colour.
 - **Charts in dark mode.** A chart that sets its own text colour, for example `Plot.plot({style: {color: "#023c5b"}})`, drew navy axis labels, tick numbers and end labels on the dark page, where they could not be read. The theme already makes the chart background transparent, so it now also makes the chart's text colour follow the page (`svg[class^="plot-"] { color: inherit !important }`). Charts that set no colour are unchanged. Checked with a Plot that sets `style.color`: the text was `rgb(2, 60, 91)` in both modes before, and is the page's ink in light mode and near-white in dark mode now. Lines and dots keep their own `stroke` and `fill`, so series colours do not change; text marks (axis labels, end labels) already took the page colour and still do.
 - **Test.** `tests/check-starter.sh` checks the rule is in the compiled CSS.
