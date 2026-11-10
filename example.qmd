@@ -174,7 +174,7 @@ wfrcPlot({
   x: {label: "Share of boardings (%)", grid: true},
   y: {label: null},
   marks: [
-    Plot.barX(data, {x: "share", y: "county", sort: {y: "-x"}, fill: wfrcColors()[0], rx: 4}),
+    Plot.barX(data, {x: "share", y: "county", sort: {y: "-x"}, fill: wfrcColors()[0], rx: 4, tip: true}),
     Plot.text(data, {x: "share", y: "county", text: d => d.share.toFixed(1) + "%", dx: 6, textAnchor: "start", fill: "currentColor"})
   ]
 })
