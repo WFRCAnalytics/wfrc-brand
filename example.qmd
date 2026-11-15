@@ -180,6 +180,25 @@ wfrcPlot({
 })
 ```
 
+A line has no tooltip of its own, and a tooltip ignores the axis format, so `wfrcPointerTip` and `tipFormat` supply both.
+
+```{ojs}
+//| echo: false
+import {wfrcTip, tipFormat, wfrcPointerTip} from "./_extensions/WFRCAnalytics/wfrc-brand/assets/charts/wfrc-charts.js"
+trend = [2019, 2020, 2021, 2022, 2023, 2024].map((year, i) => ({year, trips: [41200, 23800, 31500, 38900, 44700, 47250][i]}))
+wfrcPlot({
+  Plot,
+  width: 640,
+  x: {label: null, tickFormat: "d"},
+  y: {label: "Weekday trips", tickFormat: tipFormat.compact, grid: true},
+  marks: [
+    Plot.lineY(trend, {x: "year", y: "trips", stroke: wfrcColors()[0], strokeWidth: 2}),
+    Plot.dot(trend, {x: "year", y: "trips", fill: wfrcColors()[0]}),
+    wfrcPointerTip(Plot, trend, {x: "year", y: "trips", title: d => `${d.year}\n${tipFormat.number()(d.trips)} trips`})
+  ]
+})
+```
+
 # Inputs
 
 ```{ojs}

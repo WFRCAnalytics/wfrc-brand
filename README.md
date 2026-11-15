@@ -291,6 +291,14 @@ import {wfrcPlot} from "./_extensions/WFRCAnalytics/wfrc-brand/assets/charts/wfr
 wfrcPlot({Plot, marks: [Plot.lineY(data, {x: "date", y: "value", stroke: "mode"})]})
 ```
 
+Tooltips: `tip: true` is themed (a white box in light mode, the page colour in dark). A tooltip ignores the axis format, so format its numbers with `tipFormat`; for a line, area or bar with no tip of its own use `wfrcPointerTip`, and `wfrcStackTip` for stacked bars:
+
+```js
+import {wfrcPlot, wfrcTip, tipFormat, wfrcPointerTip} from "./_extensions/WFRCAnalytics/wfrc-brand/assets/charts/wfrc-charts.js"
+Plot.dot(data, {x: "year", y: "trips", tip: wfrcTip.with({format: {y: tipFormat.compact}})})
+wfrcPointerTip(Plot, data, {x: "year", y: "trips", title: d => `${d.year}: ${tipFormat.number()(d.trips)}`})
+```
+
 The CSS variables `--wfrc-chart-1` to `--wfrc-chart-5` are available to any custom JavaScript.
 
 ---
@@ -389,10 +397,10 @@ Run the checks with `pytest tests` (needs `pyyaml`, `matplotlib`, and optionally
 **Updating many sites after a release.** Every site keeps its own copy of the extension, so a release has to be reinstalled in each one. `scripts/update-sites.py` does that for all of them in one pass:
 
 ```bash
-python scripts/update-sites.py --tag v1.0.8                  # every site found under D:/GitHub
-python scripts/update-sites.py --tag v1.0.8 --dry-run        # show what would happen, change nothing
-python scripts/update-sites.py --tag v1.0.8 SITE1 SITE2      # only these sites
-python scripts/update-sites.py --tag v1.0.8 --no-render SITE # a site whose data is not on this machine
+python scripts/update-sites.py --tag v1.0.9                  # every site found under D:/GitHub
+python scripts/update-sites.py --tag v1.0.9 --dry-run        # show what would happen, change nothing
+python scripts/update-sites.py --tag v1.0.9 SITE1 SITE2      # only these sites
+python scripts/update-sites.py --tag v1.0.9 --no-render SITE # a site whose data is not on this machine
 ```
 
 For each site already on the 1.0 layout it creates a `wfrc-brand-<version>` branch (or stays on the current one), reinstalls the extension at the tag and commits it, runs `quarto render` and commits the rebuilt `docs/` and `_freeze/` separately. It skips a site with uncommitted changes, never pushes and never opens a pull request, so each site's change is reviewed and pushed by hand. A site with an older extension needs the full migration instead (`_migration/`).

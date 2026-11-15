@@ -2,7 +2,15 @@
 
 All notable changes to the wfrc-brand extension. Bump `version` in `_extensions/wfrc-brand/_extension.yml` and add an entry here on every meaningful change.
 
-**1.0.8** � Observable Plot tooltips are readable in dark mode.
+**1.0.9** — Tooltip helpers for Observable Plot, so a site no longer needs its own.
+- **`wfrc-charts.js` exports.** `wfrcTip` (the themed tip options; `wfrcTip.with({format: ...})` adds to them), `tipFormat` (`number(digits)`, `percent(digits)`, `dollars`, `compact`, for a tip's `format` and `title`, since a tooltip ignores the axis tickFormat), `wfrcPointerTip(Plot, data, {x, y, mode: "x"|"y"|"xy", title, format})` (a tooltip that follows the pointer, for lines, areas and bars with no tip of their own) and `wfrcStackTip(Plot, data, {x, y, group, order, title})` (the same for stacked bars and areas, placing each tip at its segment's midpoint). They are the tooltip helpers APP-Benefit-Cost-Analysis had written for itself. Nothing existing changes: `tip: true` and `wfrcPlot` behave as in 1.0.8.
+- **Example.** `example.qmd` gains a line chart using `wfrcPointerTip` and `tipFormat`. Checked in a browser in light and dark mode: the tooltip reads "2023 / 44,700 trips", a white box with dark text in light mode and the page colour with near-white text in dark mode.
+- **Tests.** `tests/check-starter.sh` checks the starter ships the helpers.
+- **Sites with their own tooltip CSS.** A rule such as `[aria-label="tip"] text { fill: #374151 !important }` (dark text for the old white box) now gives dark text on a dark box in dark mode: delete it. A tip `fill` option set on a mark is overridden by the theme and can be deleted too.
+- **`scripts/update-sites.py`.** It no longer fails on a site whose `docs/` or `_freeze/` is in `.gitignore` (CI builds the site, or the cache is local): it commits only the output folders the site tracks.
+- **Fix to the 1.0.8 entry.** Its heading had a stray non-UTF-8 character in place of the dash.
+
+**1.0.8** — Observable Plot tooltips are readable in dark mode.
 - **Tooltips in dark mode.** A chart mark with `tip: true` (or a `Plot.tip` mark) draws its tooltip as a white box, whatever the page. Since 1.0.7 the tooltip text follows the page's ink, which is near-white in dark mode, so the tooltip read as light text on white. The box is now filled with the page colour (`svg[class^="plot-"] g[pointer-events="none"] path { fill: var(--wfrc-bg) !important }`); its text and outline already followed the theme. Checked in a browser by hovering a bar: light mode is a white box with dark text, dark mode a navy box with near-white text. Charts without tooltips are unchanged.
 - **Example.** The bar chart in `example.qmd` now has `tip: true`, so the tooltip can be seen.
 - **Test.** `tests/check-starter.sh` checks the rule is in the compiled CSS.
