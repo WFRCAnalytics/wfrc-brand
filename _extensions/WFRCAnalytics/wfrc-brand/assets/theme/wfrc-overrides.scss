@@ -546,9 +546,8 @@ details > summary { color: $wfrc-h1; font-family: $headings-font-family; font-we
     border-left: 1px solid $wfrc-line;
   }
 }
-// The "medium" (stacked) brand logo is far too large in a docked sidebar, and the header already
-// carries the logo, so keep it small.
-#quarto-sidebar .sidebar-logo { max-height: 36px; width: auto; margin-bottom: 0.75rem; }
+// The header already carries the logo, so don't repeat it at the top of a docked sidebar.
+#quarto-sidebar .sidebar-logo-link { display: none; }
 .breadcrumb .breadcrumb-item a, .quarto-title-breadcrumbs .breadcrumb-item a, .quarto-title-breadcrumbs .breadcrumb li:last-of-type a { color: $wfrc-ink-2; &:hover { color: $wfrc-h1; } }
 .breadcrumb-item.active, .breadcrumb-item + .breadcrumb-item::before { color: $wfrc-ink-2; }
 .page-link {

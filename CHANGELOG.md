@@ -2,6 +2,12 @@
 
 All notable changes to the wfrc-brand extension. Bump `version` in `_extensions/wfrc-brand/_extension.yml` and add an entry here on every meaningful change.
 
+**1.0.11** — Two corrections to the 1.0.10 sidebar styling.
+- **Sidebar width restored.** `grid: sidebar-width` is back to 350px in `wfrc-shared.yml` and `_extension.yml`. 1.0.10 had set it to 260px, which squeezed the left column and wrapped long titles such as "Center Buildout Capacity". `body-width`, `margin-width` and `$grid-sidebar-width` were not changed.
+- **No logo in the docked sidebar.** The header already shows the logo, so the sidebar's logo link is hidden (`#quarto-sidebar .sidebar-logo-link { display: none; }`), instead of shrunk to 36px.
+- **Kept from 1.0.10:** the link padding, the bold section heading and the indent line.
+- **Checked** in a docked-sidebar site at 1400px in light and dark mode: no logo is visible in the sidebar, the sidebar, body and margin widths match 1.0.9 exactly (305.5, 818 and 200px), and "Center Buildout Capacity" fits on one line.
+
 **1.0.10** — The docked left sidebar looks right.
 - **Padding.** Sidebar links had almost no padding, so the hover/active highlight hugged the first letter. Every link now has `0.35rem 0.75rem`, making the highlight a comfortable pill; Home, headings and items stay aligned.
 - **Section headings.** A `section:` heading (for example a year group) was dimmed like an ordinary link. It is now bold and in the page ink colour.
