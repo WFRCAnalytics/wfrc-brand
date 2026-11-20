@@ -2,6 +2,14 @@
 
 All notable changes to the wfrc-brand extension. Bump `version` in `_extensions/wfrc-brand/_extension.yml` and add an entry here on every meaningful change.
 
+**1.0.10** — The docked left sidebar looks right.
+- **Padding.** Sidebar links had almost no padding, so the hover/active highlight hugged the first letter. Every link now has `0.35rem 0.75rem`, making the highlight a comfortable pill; Home, headings and items stay aligned.
+- **Section headings.** A `section:` heading (for example a year group) was dimmed like an ordinary link. It is now bold and in the page ink colour.
+- **Grouped children.** Links under a section sit indented on a thin rule.
+- **Logo.** The brand's medium (stacked) logo showed at full width in a docked sidebar, where the header already carries the logo. It is now capped at 36px tall.
+- **Sidebar width.** `grid: sidebar-width` was 350px in `wfrc-shared.yml` and `_extension.yml`, overriding the 250px default in `wfrc.scss`, and was too wide for the left sidebar. It is now 260px.
+- **Checked** in a docked-sidebar test site at 1200px wide in light and dark mode: the active pill has about 13px of padding each side, the heading is weight 600 in the ink colour, children are indented on a 1px rule, the logo is 36px tall, and the left accent bar on the active item is unchanged. The rules are scoped to the sidebar, so a navbar-only site renders no sidebar markup and is unaffected. A site that sets its own `grid: sidebar-width` is unaffected too.
+
 **1.0.9** — Tooltip helpers for Observable Plot, so a site no longer needs its own.
 - **`wfrc-charts.js` exports.** `wfrcTip` (the themed tip options; `wfrcTip.with({format: ...})` adds to them), `tipFormat` (`number(digits)`, `percent(digits)`, `dollars`, `compact`, for a tip's `format` and `title`, since a tooltip ignores the axis tickFormat), `wfrcPointerTip(Plot, data, {x, y, mode: "x"|"y"|"xy", title, format})` (a tooltip that follows the pointer, for lines, areas and bars with no tip of their own) and `wfrcStackTip(Plot, data, {x, y, group, order, title})` (the same for stacked bars and areas, placing each tip at its segment's midpoint). They are the tooltip helpers APP-Benefit-Cost-Analysis had written for itself. Nothing existing changes: `tip: true` and `wfrcPlot` behave as in 1.0.8.
 - **Example.** `example.qmd` gains a line chart using `wfrcPointerTip` and `tipFormat`. Checked in a browser in light and dark mode: the tooltip reads "2023 / 44,700 trips", a white box with dark text in light mode and the page colour with near-white text in dark mode.
