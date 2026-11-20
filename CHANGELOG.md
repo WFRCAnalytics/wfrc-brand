@@ -2,6 +2,11 @@
 
 All notable changes to the wfrc-brand extension. Bump `version` in `_extensions/wfrc-brand/_extension.yml` and add an entry here on every meaningful change.
 
+**1.0.12** — Breadcrumbs are readable on the title banner, and hover the same everywhere.
+- **Banner breadcrumbs.** On a page with `title-block-banner: true` the breadcrumbs were drawn in the body-text grey on the navy banner, which is nearly unreadable in light mode. They are now white on the banner (the separators too), and ice blue on hover. Pages without a banner are unchanged.
+- **Hover.** A breadcrumb link now underlines on hover as well as changing colour, on the page background (grey to navy) and on the banner (white to ice blue) alike. Ice blue is too close to white to notice by colour alone.
+- **Checked** on a docked-sidebar demo site in light and dark mode, with and without a banner, by screenshot and by measuring the computed colour and text decoration before and during hover.
+
 **1.0.11** — Two corrections to the 1.0.10 sidebar styling.
 - **Sidebar width restored.** `grid: sidebar-width` is back to 350px in `wfrc-shared.yml` and `_extension.yml`. 1.0.10 had set it to 260px, which squeezed the left column and wrapped long titles such as "Center Buildout Capacity". `body-width`, `margin-width` and `$grid-sidebar-width` were not changed.
 - **No logo in the docked sidebar.** The header already shows the logo, so the sidebar's logo link is hidden (`#quarto-sidebar .sidebar-logo-link { display: none; }`), instead of shrunk to 36px.
